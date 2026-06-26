@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Travel Planner — Chongqing · The 8D Magical City</title>
+<style>
+  :root {
+    --red: #C0392B; --gold: #D4A017; --dark: #1A1A2E; --river: #2C3E50;
+    --bg: #f8f9fa; --card: #ffffff; --text: #1a1a2e; --muted: #6b7280;
+    --border: #e5e7eb;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); }
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }
+
+  .hero {
+    background: linear-gradient(135deg, var(--dark), var(--river));
+    min-height: 50vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 60px 20px; position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ""; position: absolute; inset: 0; opacity: 0.15;
+    background: radial-gradient(circle at 20% 80%, var(--gold) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, var(--red) 0%, transparent 50%);
+  }
+  .hero h1 { font-size: 3.2rem; font-weight: 800; color: #fff; position: relative; z-index: 1; text-align: center; }
+  .hero h1 span { background: linear-gradient(135deg, var(--red), var(--gold), #f97316); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .hero p { color: rgba(255,255,255,0.65); font-size: 1.15rem; max-width: 600px; text-align: center; margin-top: 12px; position: relative; z-index: 1; }
+  .badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 16px; border-radius: 20px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.8); font-size: 0.85rem; margin-bottom: 20px; position: relative; z-index: 1; }
+
+  .container { max-width: 960px; margin: 0 auto; padding: 0 20px; }
+  .tabs { display: flex; gap: 4px; background: var(--card); border-radius: 14px; padding: 4px; margin: -20px auto 30px; max-width: 400px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); }
+  .tab { flex: 1; padding: 10px 20px; border-radius: 10px; border: none; background: transparent; cursor: pointer; font-size: 0.9rem; font-weight: 600; color: var(--muted); transition: all 0.2s; }
+  .tab.active { background: var(--dark); color: #fff; }
+
+  .card { background: var(--card); border-radius: 16px; border: 1px solid var(--border); padding: 24px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+  .card h2 { font-size: 1.25rem; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+  .card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 8px; }
+
+  .poi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 16px; }
+  .poi-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; transition: all 0.2s; cursor: pointer; }
+  .poi-card:hover { border-color: var(--gold); box-shadow: 0 4px 16px rgba(212,160,23,0.12); transform: translateY(-2px); }
+  .poi-card .type-badge { display: inline-block; padding: 2px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 500; }
+  .type-attraction { background: #e8f5e9; color: #2e7d32; }
+  .type-restaurant { background: #fff3e0; color: #e65100; }
+  .type-hotel { background: #e3f2fd; color: #1565c0; }
+  .type-experience { background: #f3e5f5; color: #7b1fa2; }
+  .poi-card .name-zh { font-size: 1.05rem; font-weight: 700; margin: 8px 0 4px; }
+  .poi-card .name-en { font-size: 0.8rem; color: var(--muted); }
+  .poi-card .tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
+  .poi-card .tag { padding: 2px 8px; border-radius: 4px; background: #f3f4f6; font-size: 0.7rem; color: var(--muted); }
+  .poi-card .price { font-weight: 600; color: var(--red); font-size: 0.85rem; margin-top: 8px; }
+  .poi-card .rating { color: var(--gold); font-size: 0.85rem; }
+
+  .day-card { border: 1px solid var(--border); border-radius: 12px; margin-bottom: 12px; overflow: hidden; }
+  .day-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; background: #f9fafb; cursor: pointer; }
+  .day-header:hover { background: #f3f4f6; }
+  .day-num { width: 32px; height: 32px; border-radius: 50%; background: var(--dark); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9rem; }
+  .day-items { padding: 18px; display: none; }
+  .day-items.open { display: block; }
+  .day-item { display: flex; gap: 14px; padding: 12px; border: 1px solid #f3f4f6; border-radius: 10px; margin-bottom: 8px; }
+  .day-item .time { width: 90px; flex-shrink: 0; text-align: right; font-size: 0.8rem; font-weight: 600; color: var(--red); }
+  .day-item .time .dur { font-weight: 400; color: var(--muted); font-size: 0.7rem; margin-top: 2px; }
+  .day-item .info { flex: 1; }
+  .day-item .info h4 { font-size: 0.95rem; font-weight: 600; }
+  .day-item .info .sub { font-size: 0.8rem; color: var(--muted); }
+  .day-item .meta { flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-end; gap: 4px; font-size: 0.75rem; color: var(--muted); }
+  .day-item .meta .cost { font-weight: 600; color: #059669; }
+
+  .budget-box { background: #f9fafb; border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
+  .budget-row { display: flex; justify-content: space-between; padding: 4px 0; font-size: 0.9rem; }
+  .budget-row.total { border-top: 2px solid var(--border); margin-top: 8px; padding-top: 10px; font-weight: 700; font-size: 1.05rem; }
+  .budget-row.total .amt { color: var(--red); }
+
+  .btn { padding: 10px 24px; border-radius: 10px; border: none; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: all 0.2s; }
+  .btn-primary { background: linear-gradient(135deg, var(--red), #ea580c); color: #fff; box-shadow: 0 4px 16px rgba(192,57,43,0.3); }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(192,57,43,0.4); }
+  .btn-secondary { background: #fff; color: var(--text); border: 1px solid var(--border); }
+  .btn-secondary:hover { background: #f9fafb; }
+  .btn-sm { padding: 6px 14px; font-size: 0.8rem; }
+
+  .controls { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 16px; }
+  select { padding: 8px 14px; border-radius: 8px; border: 1px solid var(--border); background: #fff; font-size: 0.9rem; }
+  .spinner { display: inline-block; width: 20px; height: 20px; border: 2px solid var(--border); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 40px; color: var(--muted); }
+
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 30px; }
+  .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 20px; text-align: center; }
+  .stat-card .num { font-size: 2rem; font-weight: 800; color: var(--gold); }
+  .stat-card .label { font-size: 0.85rem; color: var(--muted); margin-top: 4px; }
+
+  footer { text-align: center; padding: 30px; color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--border); margin-top: 40px; }
+
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 2rem; }
+    .day-item { flex-direction: column; gap: 6px; }
+    .day-item .time { text-align: left; width: auto; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="badge">✨ AI-Powered · Chongqing MVP</div>
+  <h1>Discover <span>Chongqing</span><br><span style="font-size:1.6rem;font-weight:500;">The 8D Magical City</span></h1>
+  <p>AI understands your travel style. From Michelin-star hotpot to hidden alleyway noodles — get a personalized Chongqing itinerary in seconds.</p>
+</section>
+
+<div class="container">
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('explore')">🔍 Explore</button>
+    <button class="tab" onclick="switchTab('plan')">🗺️ Plan Trip</button>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats" id="stats"></div>
+
+  <!-- Explore Tab -->
+  <div id="tab-explore">
+    <div class="card">
+      <h2>🏙️ Chongqing Points of Interest</h2>
+      <div class="controls">
+        <select id="poi-type-filter" onchange="loadPOIs()">
+          <option value="">All Types</option>
+          <option value="attraction">Attractions</option>
+          <option value="restaurant">Restaurants</option>
+          <option value="hotel">Hotels</option>
+          <option value="experience">Experiences</option>
+        </select>
+        <select id="poi-track-filter" onchange="loadPOIs()">
+          <option value="both">All Tracks</option>
+          <option value="premium">✨ Premium</option>
+          <option value="budget">💰 Budget</option>
+        </select>
+      </div>
+      <div class="poi-grid" id="poi-grid"><div class="loading"><span class="spinner"></span> Loading POIs...</div></div>
+    </div>
+  </div>
+
+  <!-- Plan Tab -->
+  <div id="tab-plan" style="display:none;">
+    <div class="card">
+      <h2>🗺️ Generate Your Itinerary</h2>
+      <div class="controls">
+        <select id="plan-days">
+          <option value="2">2 Days</option>
+          <option value="3" selected>3 Days</option>
+          <option value="4">4 Days</option>
+          <option value="5">5 Days</option>
+        </select>
+        <button class="btn btn-primary" id="btn-premium" onclick="generatePlan('premium')">✨ Premium Plan</button>
+        <button class="btn btn-secondary" id="btn-budget" onclick="generatePlan('budget')">💰 Budget Plan</button>
+      </div>
+      <div id="plan-loading" class="loading" style="display:none;"><span class="spinner"></span> Crafting your perfect itinerary...</div>
+      <div id="plan-result"></div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  AI Travel Platform · Chongqing MVP v0.1.0 · Built with FastAPI + Next.js<br>
+  API: <a href="http://localhost:8001/docs" target="_blank" style="color:var(--gold)">localhost:8001/docs</a>
+</footer>
+
+<script>
+const API = 'http://localhost:8001';
+let currentTab = 'explore';
+
+function switchTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', (i === 0 && tab === 'explore') || (i === 1 && tab === 'plan')));
+  document.getElementById('tab-explore').style.display = tab === 'explore' ? 'block' : 'none';
+  document.getElementById('tab-plan').style.display = tab === 'plan' ? 'block' : 'none';
+}
+
+const typeLabels = { attraction: 'Attraction', restaurant: 'Restaurant', hotel: 'Hotel', experience: 'Experience' };
+const typeIcons = { attraction: '🏛️', restaurant: '🍜', hotel: '🏨', experience: '🎭' };
+
+async function loadStats() {
+  const r = await fetch(API + '/api/planner/pois?limit=100');
+  const d = await r.json();
+  const byType = {};
+  d.results.forEach(p => { byType[p.type] = (byType[p.type] || 0) + 1; });
+  const total = d.count;
+  document.getElementById('stats').innerHTML = `
+    <div class="stat-card"><div class="num">${total}</div><div class="label">Total POIs</div></div>
+    ${Object.entries(byType).map(([k,v]) => `<div class="stat-card"><div class="num">${v}</div><div class="label">${typeIcons[k] || ''} ${typeLabels[k] || k}</div></div>`).join('')}
+  `;
+}
+
+async function loadPOIs() {
+  const type = document.getElementById('poi-type-filter').value;
+  const track = document.getElementById('poi-track-filter').value;
+  const params = new URLSearchParams({ limit: '50' });
+  if (type) params.set('type', type);
+  if (track !== 'both') params.set('track', track);
+  const r = await fetch(API + '/api/planner/pois?' + params);
+  const d = await r.json();
+  const grid = document.getElementById('poi-grid');
+  if (!d.results || d.results.length === 0) {
+    grid.innerHTML = '<p style="color:var(--muted);padding:20px;">No POIs found.</p>';
+    return;
+  }
+  grid.innerHTML = d.results.map(p => `
+    <div class="poi-card" onclick="viewPOI('${p.id}')">
+      <span class="type-badge type-${p.type}">${typeIcons[p.type] || ''} ${typeLabels[p.type] || p.type}</span>
+      <div class="name-zh">${p.name_zh}</div>
+      <div class="name-en">${p.name_en}</div>
+      <div class="tags">${(p.tags || []).slice(0, 3).map(t => `<span class="tag">${t}</span>`).join('')}</div>
+      ${p.price_range ? `<div class="price">${p.price_range}</div>` : ''}
+      ${p.rating ? `<div class="rating">★ ${p.rating}</div>` : ''}
+    </div>
+  `).join('');
+}
+
+async function viewPOI(id) {
+  const r = await fetch(API + '/api/planner/pois/' + id);
+  const p = await r.json();
+  const grid = document.getElementById('poi-grid');
+  grid.innerHTML = `
+    <div style="grid-column:1/-1;">
+      <button class="btn btn-sm btn-secondary" onclick="loadPOIs()" style="margin-bottom:12px;">← Back</button>
+      <div class="card">
+        <h2>${typeIcons[p.type] || ''} ${p.name_en} <span style="color:var(--muted);font-size:0.9rem;">${p.name_zh}</span></h2>
+        <p style="color:var(--muted);margin-bottom:8px;">${p.description_en || p.description_zh}</p>
+        <p style="margin-bottom:4px;">📍 <strong>Price:</strong> ${p.price_range}</p>
+        <p style="margin-bottom:4px;">🕐 <strong>Hours:</strong> ${p.opening_hours || 'N/A'}</p>
+        ${p.best_photo_spot ? `<p style="margin-bottom:4px;">📸 <strong>Photo Spot:</strong> ${p.best_photo_spot}</p>` : ''}
+        ${p.rating ? `<p style="margin-bottom:8px;">⭐ <strong>Rating:</strong> ${p.rating}/5</p>` : ''}
+        ${(p.tips || []).length ? `<div style="margin-top:8px;"><strong>💡 Tips:</strong><ul style="margin:4px 0 0 16px;">${p.tips.map(t => `<li style="font-size:0.85rem;color:var(--muted);">${t}</li>`).join('')}</ul></div>` : ''}
+        <div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:4px;">${(p.tags || []).map(t => `<span class="tag" style="padding:3px 10px;">${t}</span>`).join('')}</div>
+      </div>
+    </div>
+  `;
+}
+
+async function generatePlan(track) {
+  const days = document.getElementById('plan-days').value;
+  document.getElementById('plan-result').innerHTML = '';
+  document.getElementById('plan-loading').style.display = 'flex';
+  try {
+    const r = await fetch(API + `/api/planner/itinerary/generate?track=${track}&days=${days}`);
+    const d = await r.json();
+    document.getElementById('plan-loading').style.display = 'none';
+    renderPlan(d);
+  } catch (e) {
+    document.getElementById('plan-loading').style.display = 'none';
+    document.getElementById('plan-result').innerHTML = `<div class="card" style="color:var(--red);">Error: ${e.message}</div>`;
+  }
+}
+
+function renderPlan(d) {
+  const label = d.track === 'premium' ? '✨ Premium' : '💰 Budget';
+  const cityName = d.city === 'chongqing' ? 'Chongqing 重庆' : d.city;
+  document.getElementById('plan-result').innerHTML = `
+    <div class="card" style="animation: fadeIn 0.4s ease-out;">
+      <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:20px;">
+        <div>
+          <h2 style="margin-bottom:4px;">${label} Itinerary</h2>
+          <p style="color:var(--muted);font-size:0.9rem;">${d.days} Days in ${cityName}</p>
+        </div>
+        ${d.budget ? `<div style="text-align:right;"><div style="font-size:1.5rem;font-weight:800;color:var(--red);">${d.budget.total}</div><div style="font-size:0.8rem;color:var(--muted);">${d.budget.total_usd}</div></div>` : ''}
+      </div>
+      ${d.plan.map(day => `
+        <div class="day-card">
+          <div class="day-header" onclick="this.nextElementSibling.classList.toggle('open')">
+            <div style="display:flex;align-items:center;gap:12px;">
+              <div class="day-num">${day.day}</div>
+              <div><strong>${day.title_en}</strong><div style="font-size:0.8rem;color:var(--muted);">${day.title_zh}</div></div>
+            </div>
+            <span style="color:var(--muted);">${day.items.length} stops</span>
+          </div>
+          <div class="day-items ${day.day === 1 ? 'open' : ''}">
+            ${day.items.map(item => `
+              <div class="day-item">
+                <div class="time">${item.time}<div class="dur">${item.duration}</div></div>
+                <div class="info">
+                  <h4>${item.poi_name_en}</h4>
+                  <div class="sub">${item.poi_name_zh} · ${item.activity}</div>
+                  ${item.tips && item.tips.length ? `<div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:4px;">${item.tips.slice(0,2).map(t => `<span style="padding:2px 8px;border-radius:4px;background:#fef3c7;color:#92400e;font-size:0.7rem;">💡 ${t}</span>`).join('')}</div>` : ''}
+                </div>
+                <div class="meta">
+                  <span>🚇 ${item.transport}</span>
+                  ${item.cost_estimate ? `<span class="cost">${item.cost_estimate}</span>` : ''}
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `).join('')}
+      ${d.budget && d.budget.breakdown ? `
+        <div class="budget-box" style="margin-top:16px;">
+          <h3 style="margin-bottom:8px;">💵 Budget Breakdown</h3>
+          ${Object.entries(d.budget.breakdown).map(([k,v]) => `<div class="budget-row"><span style="color:var(--muted);text-transform:capitalize;">${k.replace(/_/g,' ')}</span><span>${v}</span></div>`).join('')}
+          <div class="budget-row"><span style="color:var(--muted);">Service Fee</span><span>${d.budget.service_fee}</span></div>
+          <div class="budget-row total"><span>Total</span><span class="amt">${d.budget.total}</span></div>
+        </div>
+      ` : ''}
+    </div>
+  `;
+}
+
+// Init
+loadStats();
+loadPOIs();
+</script>
+</body>
+</html>

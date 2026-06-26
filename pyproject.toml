@@ -1,0 +1,12 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "ai-travel-platform"
+version = "0.1.0"
+description = "AI-driven inbound travel one-stop customization platform"
+requires-python = ">=3.11"
+
+[tool.hatch.build.targets.wheel]
+packages = ["services/planner-api"]
