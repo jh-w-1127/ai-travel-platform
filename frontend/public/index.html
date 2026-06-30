@@ -3,312 +3,441 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Travel Planner — Chongqing · The 8D Magical City</title>
+<title>Chongqing Travel · Discover the 8D Magical City</title>
 <style>
   :root {
     --red: #C0392B; --gold: #D4A017; --dark: #1A1A2E; --river: #2C3E50;
-    --bg: #f8f9fa; --card: #ffffff; --text: #1a1a2e; --muted: #6b7280;
-    --border: #e5e7eb;
+    --bg: #f5f5f5; --card: #fff; --text: #1a1a2e; --muted: #8e8e93;
+    --radius: 16px;
   }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: 'Inter', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); }
-  ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif; background: #f2f2f7; color: var(--text); -webkit-font-smoothing: antialiased; }
+  ::-webkit-scrollbar { width:6px; }
+  ::-webkit-scrollbar-thumb { background:#ccc; border-radius:3px; }
 
+  /* ── Hero ── */
   .hero {
-    background: linear-gradient(135deg, var(--dark), var(--river));
-    min-height: 50vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
-    padding: 60px 20px; position: relative; overflow: hidden;
+    position:relative; height:100vh; min-height:600px; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    overflow:hidden;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
   }
   .hero::before {
-    content: ""; position: absolute; inset: 0; opacity: 0.15;
-    background: radial-gradient(circle at 20% 80%, var(--gold) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, var(--red) 0%, transparent 50%);
+    content:""; position:absolute; inset:0;
+    background: url('https://images.unsplash.com/photo-1589705433982-72ab1f67b7d8?w=1920&q=80') center/cover;
+    opacity:0.35; filter:brightness(0.6);
   }
-  .hero h1 { font-size: 3.2rem; font-weight: 800; color: #fff; position: relative; z-index: 1; text-align: center; }
-  .hero h1 span { background: linear-gradient(135deg, var(--red), var(--gold), #f97316); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-  .hero p { color: rgba(255,255,255,0.65); font-size: 1.15rem; max-width: 600px; text-align: center; margin-top: 12px; position: relative; z-index: 1; }
-  .badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 16px; border-radius: 20px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.8); font-size: 0.85rem; margin-bottom: 20px; position: relative; z-index: 1; }
+  .hero::after {
+    content:""; position:absolute; inset:0;
+    background: linear-gradient(180deg, rgba(26,26,46,0.3) 0%, rgba(26,26,46,0.8) 100%);
+  }
+  .hero-content { position:relative; z-index:2; text-align:center; padding:20px; }
+  .hero-badge { display:inline-flex; align-items:center; gap:6px; padding:6px 18px; border-radius:20px; background:rgba(255,255,255,0.12); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.15); color:rgba(255,255,255,0.9); font-size:0.8rem; letter-spacing:1px; text-transform:uppercase; margin-bottom:24px; }
+  .hero h1 { font-size:clamp(2.2rem, 6vw, 4.5rem); font-weight:900; color:#fff; line-height:1.15; margin-bottom:8px; }
+  .hero h1 em { font-style:normal; background:linear-gradient(135deg, #F472B6, #FB923C, #FACC15); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  .hero .sub { font-size:1.1rem; color:rgba(255,255,255,0.6); max-width:520px; margin:0 auto 36px; line-height:1.6; }
+  .hero .scroll-hint { position:absolute; bottom:40px; left:50%; transform:translateX(-50%); z-index:2; color:rgba(255,255,255,0.5); font-size:0.8rem; animation:bounce 2s infinite; }
+  @keyframes bounce { 0%,100%{transform:translate(-50%,0)} 50%{transform:translate(-50%,-10px)} }
 
-  .container { max-width: 960px; margin: 0 auto; padding: 0 20px; }
-  .tabs { display: flex; gap: 4px; background: var(--card); border-radius: 14px; padding: 4px; margin: -20px auto 30px; max-width: 400px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); }
-  .tab { flex: 1; padding: 10px 20px; border-radius: 10px; border: none; background: transparent; cursor: pointer; font-size: 0.9rem; font-weight: 600; color: var(--muted); transition: all 0.2s; }
-  .tab.active { background: var(--dark); color: #fff; }
+  /* ── Main Content ── */
+  .main-content { max-width:1200px; margin:-60px auto 0; padding:0 20px 60px; position:relative; z-index:3; }
 
-  .card { background: var(--card); border-radius: 16px; border: 1px solid var(--border); padding: 24px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
-  .card h2 { font-size: 1.25rem; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
-  .card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 8px; }
+  /* ── Top Nav Tabs ── */
+  .nav-tabs { display:flex; gap:6px; margin-bottom:32px; background:#fff; border-radius:14px; padding:5px; box-shadow:0 2px 16px rgba(0,0,0,0.06); }
+  .nav-tab { flex:1; padding:12px 20px; border-radius:10px; border:none; cursor:pointer; font-size:0.9rem; font-weight:600; color:var(--muted); background:transparent; transition:all 0.25s; display:flex; align-items:center; justify-content:center; gap:6px; }
+  .nav-tab.active { background: var(--dark); color:#fff; box-shadow:0 2px 12px rgba(26,26,46,0.2); }
+  .nav-tab:hover:not(.active) { color: var(--text); background:#f5f5f5; }
 
-  .poi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 16px; }
-  .poi-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; transition: all 0.2s; cursor: pointer; }
-  .poi-card:hover { border-color: var(--gold); box-shadow: 0 4px 16px rgba(212,160,23,0.12); transform: translateY(-2px); }
-  .poi-card .type-badge { display: inline-block; padding: 2px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 500; }
-  .type-attraction { background: #e8f5e9; color: #2e7d32; }
-  .type-restaurant { background: #fff3e0; color: #e65100; }
-  .type-hotel { background: #e3f2fd; color: #1565c0; }
-  .type-experience { background: #f3e5f5; color: #7b1fa2; }
-  .poi-card .name-zh { font-size: 1.05rem; font-weight: 700; margin: 8px 0 4px; }
-  .poi-card .name-en { font-size: 0.8rem; color: var(--muted); }
-  .poi-card .tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
-  .poi-card .tag { padding: 2px 8px; border-radius: 4px; background: #f3f4f6; font-size: 0.7rem; color: var(--muted); }
-  .poi-card .price { font-weight: 600; color: var(--red); font-size: 0.85rem; margin-top: 8px; }
-  .poi-card .rating { color: var(--gold); font-size: 0.85rem; }
+  /* ── Section Headers ── */
+  .section-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; flex-wrap:wrap; gap:12px; }
+  .section-header h2 { font-size:1.4rem; font-weight:800; }
+  .filters { display:flex; gap:6px; flex-wrap:wrap; }
+  .filter-chip { padding:6px 14px; border-radius:8px; border:1px solid #e5e5ea; background:#fff; font-size:0.8rem; cursor:pointer; transition:all 0.2s; color: var(--muted); }
+  .filter-chip:hover, .filter-chip.active { border-color:var(--gold); color:var(--dark); background:#fef9e7; }
 
-  .day-card { border: 1px solid var(--border); border-radius: 12px; margin-bottom: 12px; overflow: hidden; }
-  .day-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; background: #f9fafb; cursor: pointer; }
-  .day-header:hover { background: #f3f4f6; }
-  .day-num { width: 32px; height: 32px; border-radius: 50%; background: var(--dark); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9rem; }
-  .day-items { padding: 18px; display: none; }
-  .day-items.open { display: block; }
-  .day-item { display: flex; gap: 14px; padding: 12px; border: 1px solid #f3f4f6; border-radius: 10px; margin-bottom: 8px; }
-  .day-item .time { width: 90px; flex-shrink: 0; text-align: right; font-size: 0.8rem; font-weight: 600; color: var(--red); }
-  .day-item .time .dur { font-weight: 400; color: var(--muted); font-size: 0.7rem; margin-top: 2px; }
-  .day-item .info { flex: 1; }
-  .day-item .info h4 { font-size: 0.95rem; font-weight: 600; }
-  .day-item .info .sub { font-size: 0.8rem; color: var(--muted); }
-  .day-item .meta { flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-end; gap: 4px; font-size: 0.75rem; color: var(--muted); }
-  .day-item .meta .cost { font-weight: 600; color: #059669; }
+  /* ── XHS-style POI Grid ── */
+  .xhs-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(280px,1fr)); gap:16px; }
+  .xhs-card {
+    position:relative; border-radius:var(--radius); overflow:hidden; cursor:pointer;
+    aspect-ratio:3/4; background:#e5e5ea;
+    transition:transform 0.3s, box-shadow 0.3s;
+  }
+  .xhs-card:hover { transform:translateY(-4px); box-shadow:0 12px 40px rgba(0,0,0,0.15); }
+  .xhs-card .img-bg {
+    position:absolute; inset:0; background-size:cover; background-position:center;
+    transition:transform 0.5s;
+  }
+  .xhs-card:hover .img-bg { transform:scale(1.05); }
+  .xhs-card .overlay {
+    position:absolute; inset:0;
+    background:linear-gradient(180deg, transparent 30%, rgba(0,0,0,0.2) 60%, rgba(0,0,0,0.85) 100%);
+  }
+  .xhs-card .card-content { position:absolute; bottom:0; left:0; right:0; padding:20px; color:#fff; z-index:2; }
+  .xhs-card .type-tag { display:inline-block; padding:3px 10px; border-radius:6px; font-size:0.7rem; font-weight:600; margin-bottom:8px; backdrop-filter:blur(8px); }
+  .tag-attraction { background:rgba(46,125,50,0.5); }
+  .tag-restaurant { background:rgba(230,81,0,0.5); }
+  .tag-hotel { background:rgba(21,101,192,0.5); }
+  .tag-experience { background:rgba(123,31,162,0.5); }
+  .xhs-card h3 { font-size:1.15rem; font-weight:700; line-height:1.3; margin-bottom:4px; }
+  .xhs-card .en-name { font-size:0.75rem; opacity:0.75; margin-bottom:8px; }
+  .xhs-card .meta-row { display:flex; align-items:center; gap:12px; font-size:0.8rem; }
+  .xhs-card .stars { color:var(--gold); }
+  .xhs-card .price { font-weight:600; }
 
-  .budget-box { background: #f9fafb; border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
-  .budget-row { display: flex; justify-content: space-between; padding: 4px 0; font-size: 0.9rem; }
-  .budget-row.total { border-top: 2px solid var(--border); margin-top: 8px; padding-top: 10px; font-weight: 700; font-size: 1.05rem; }
-  .budget-row.total .amt { color: var(--red); }
+  /* ── Detail Modal ── */
+  .modal-overlay { display:none; position:fixed; inset:0; z-index:100; background:rgba(0,0,0,0.6); backdrop-filter:blur(4px); align-items:center; justify-content:center; padding:20px; }
+  .modal-overlay.open { display:flex; }
+  .modal {
+    background:#fff; border-radius:20px; max-width:640px; width:100%; max-height:90vh; overflow-y:auto;
+    animation: modalIn 0.3s ease;
+  }
+  @keyframes modalIn { from{opacity:0;transform:translateY(20px) scale(0.97)} to{opacity:1;transform:translateY(0) scale(1)} }
+  .modal .hero-img { height:280px; background-size:cover; background-position:center; position:relative; }
+  .modal .hero-img .close-btn {
+    position:absolute; top:16px; right:16px; width:36px; height:36px; border-radius:50%; background:rgba(0,0,0,0.5); backdrop-filter:blur(8px); border:none; color:#fff; font-size:1.2rem; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background 0.2s;
+  }
+  .modal .hero-img .close-btn:hover { background:rgba(0,0,0,0.7); }
+  .modal-body { padding:24px; }
+  .modal-body h2 { font-size:1.5rem; font-weight:800; margin-bottom:4px; }
+  .modal-body .cn-name { font-size:1rem; color:var(--muted); margin-bottom:12px; }
+  .modal-body .info-row { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px; }
+  .modal-body .info-badge { padding:6px 14px; border-radius:8px; font-size:0.8rem; font-weight:500; background:#f5f5f7; display:flex; align-items:center; gap:4px; }
+  .modal-body .desc { font-size:0.95rem; line-height:1.7; color:#444; margin-bottom:20px; }
+  .modal-body .tip-box { background:#fef9e7; border:1px solid #fde68a; border-radius:12px; padding:16px; margin-bottom:16px; }
+  .modal-body .tip-box h4 { font-size:0.85rem; color:#92400e; margin-bottom:8px; }
+  .modal-body .tip-box li { font-size:0.85rem; color:#78350f; margin:4px 0 4px 16px; }
+  .modal-body .photo-spot { background:#e8f5e9; border:1px solid #a5d6a7; border-radius:12px; padding:14px; font-size:0.85rem; color:#2e7d32; }
 
-  .btn { padding: 10px 24px; border-radius: 10px; border: none; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: all 0.2s; }
-  .btn-primary { background: linear-gradient(135deg, var(--red), #ea580c); color: #fff; box-shadow: 0 4px 16px rgba(192,57,43,0.3); }
-  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(192,57,43,0.4); }
-  .btn-secondary { background: #fff; color: var(--text); border: 1px solid var(--border); }
-  .btn-secondary:hover { background: #f9fafb; }
-  .btn-sm { padding: 6px 14px; font-size: 0.8rem; }
+  /* ── Guide Tab ── */
+  .guide-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(340px,1fr)); gap:20px; }
+  .guide-card { background:#fff; border-radius:var(--radius); overflow:hidden; box-shadow:0 1px 4px rgba(0,0,0,0.04); transition:transform 0.2s, box-shadow 0.2s; cursor:pointer; }
+  .guide-card:hover { transform:translateY(-3px); box-shadow:0 8px 30px rgba(0,0,0,0.08); }
+  .guide-card .g-img { height:200px; background-size:cover; background-position:center; }
+  .guide-card .g-body { padding:20px; }
+  .guide-card .g-tag { font-size:0.7rem; font-weight:600; color:var(--red); text-transform:uppercase; letter-spacing:1px; margin-bottom:6px; }
+  .guide-card h3 { font-size:1.1rem; font-weight:700; margin-bottom:6px; }
+  .guide-card p { font-size:0.85rem; color:var(--muted); line-height:1.5; }
 
-  .controls { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 16px; }
-  select { padding: 8px 14px; border-radius: 8px; border: 1px solid var(--border); background: #fff; font-size: 0.9rem; }
-  .spinner { display: inline-block; width: 20px; height: 20px; border: 2px solid var(--border); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.8s linear infinite; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .loading { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 40px; color: var(--muted); }
+  /* ── Plan Tab ── */
+  .plan-actions { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:20px; }
+  .plan-actions select { padding:10px 16px; border-radius:10px; border:1px solid #e5e5ea; font-size:0.9rem; background:#fff; }
+  .btn { padding:10px 22px; border-radius:10px; border:none; font-weight:600; font-size:0.9rem; cursor:pointer; transition:all 0.2s; }
+  .btn-premium { background:linear-gradient(135deg,#D4A017,#B8860B); color:#fff; box-shadow:0 4px 14px rgba(212,160,23,0.3); }
+  .btn-premium:hover { transform:translateY(-1px); box-shadow:0 6px 20px rgba(212,160,23,0.45); }
+  .btn-budget { background:#fff; color:var(--text); border:1px solid #e5e5ea; box-shadow:0 1px 3px rgba(0,0,0,0.04); }
+  .btn-budget:hover { background:#f9fafb; border-color:#ccc; }
+  .spinner { display:inline-block; width:20px; height:20px; border:2px solid #e5e5ea; border-top-color:var(--gold); border-radius:50%; animation:spin 0.8s linear infinite; }
+  @keyframes spin { to{transform:rotate(360deg)} }
 
-  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 30px; }
-  .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 20px; text-align: center; }
-  .stat-card .num { font-size: 2rem; font-weight: 800; color: var(--gold); }
-  .stat-card .label { font-size: 0.85rem; color: var(--muted); margin-top: 4px; }
+  /* itinerary cards (same as before, kept compact) */
+  .day-card { border:1px solid #e5e5ea; border-radius:12px; margin-bottom:10px; overflow:hidden; background:#fff; }
+  .day-header { display:flex; align-items:center; justify-content:space-between; padding:14px 18px; background:#fafafa; cursor:pointer; }
+  .day-num { width:30px; height:30px; border-radius:50%; background:var(--dark); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.85rem; }
+  .day-items { padding:16px; display:none; }
+  .day-items.open { display:block; }
+  .day-item { display:flex; gap:12px; padding:10px; border:1px solid #f0f0f5; border-radius:10px; margin-bottom:8px; }
+  .day-item .time { width:80px; flex-shrink:0; text-align:right; font-size:0.78rem; font-weight:600; color:var(--red); }
+  .day-item .info { flex:1; }
+  .day-item .info h4 { font-size:0.9rem; }
+  .day-item .info .sub { font-size:0.75rem; color:var(--muted); }
+  .day-item .meta { font-size:0.7rem; color:var(--muted); text-align:right; }
+  .budget-box { background:#fafafa; border:1px solid #e5e5ea; border-radius:12px; padding:16px; margin-top:16px; }
+  .budget-row { display:flex; justify-content:space-between; padding:3px 0; font-size:0.85rem; }
+  .budget-row.total { border-top:2px solid #e5e5ea; margin-top:6px; padding-top:8px; font-weight:700; font-size:1rem; }
+  .budget-row.total .amt { color:var(--red); }
 
-  footer { text-align: center; padding: 30px; color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--border); margin-top: 40px; }
-
-  @media (max-width: 640px) {
-    .hero h1 { font-size: 2rem; }
-    .day-item { flex-direction: column; gap: 6px; }
-    .day-item .time { text-align: left; width: auto; }
+  /* responsive */
+  @media (max-width:640px) {
+    .xhs-grid { grid-template-columns:repeat(2,1fr); gap:10px; }
+    .xhs-card { aspect-ratio:2/3; }
+    .guide-grid { grid-template-columns:1fr; }
+    .day-item { flex-direction:column; }
   }
 </style>
 </head>
 <body>
 
-<!-- Hero -->
+<!-- ═══════════════ HERO ═══════════════ -->
 <section class="hero">
-  <div class="badge">✨ AI-Powered · Chongqing MVP</div>
-  <h1>Discover <span>Chongqing</span><br><span style="font-size:1.6rem;font-weight:500;">The 8D Magical City</span></h1>
-  <p>AI understands your travel style. From Michelin-star hotpot to hidden alleyway noodles — get a personalized Chongqing itinerary in seconds.</p>
+  <div class="hero-content">
+    <div class="hero-badge">✨ AI-Powered Travel · Chongqing</div>
+    <h1>The <em>8D</em> Magical City</h1>
+    <p class="sub">Skyscrapers rise from misty riverbanks. Hotpot boils on mountaintops. Light rail slices through buildings. This is Chongqing — and we know every hidden corner.</p>
+    <button class="btn btn-premium" style="font-size:1rem; padding:14px 32px;" onclick="document.querySelector('.main-content').scrollIntoView({behavior:'smooth'})">
+      Start Exploring →
+    </button>
+  </div>
+  <div class="scroll-hint">↓ scroll to discover</div>
 </section>
 
-<div class="container">
-
-  <!-- Tabs -->
-  <div class="tabs">
-    <button class="tab active" onclick="switchTab('explore')">🔍 Explore</button>
-    <button class="tab" onclick="switchTab('plan')">🗺️ Plan Trip</button>
+<!-- ═══════════════ MAIN ═══════════════ -->
+<div class="main-content">
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="switchTab('explore')">🏙️ Explore</button>
+    <button class="nav-tab" onclick="switchTab('guide')">📖 City Guide</button>
+    <button class="nav-tab" onclick="switchTab('plan')">🗺️ Plan Trip</button>
   </div>
 
-  <!-- Stats -->
-  <div class="stats" id="stats"></div>
-
-  <!-- Explore Tab -->
+  <!-- ══════ EXPLORE TAB ══════ -->
   <div id="tab-explore">
-    <div class="card">
-      <h2>🏙️ Chongqing Points of Interest</h2>
-      <div class="controls">
-        <select id="poi-type-filter" onchange="loadPOIs()">
-          <option value="">All Types</option>
-          <option value="attraction">Attractions</option>
-          <option value="restaurant">Restaurants</option>
-          <option value="hotel">Hotels</option>
-          <option value="experience">Experiences</option>
-        </select>
-        <select id="poi-track-filter" onchange="loadPOIs()">
-          <option value="both">All Tracks</option>
-          <option value="premium">✨ Premium</option>
-          <option value="budget">💰 Budget</option>
-        </select>
+    <div class="section-header">
+      <h2>🔥 Trending in Chongqing</h2>
+      <div class="filters">
+        <button class="filter-chip active" data-filter="" onclick="applyFilter(this,'')">All</button>
+        <button class="filter-chip" data-filter="attraction" onclick="applyFilter(this,'attraction')">🏛️ Sights</button>
+        <button class="filter-chip" data-filter="restaurant" onclick="applyFilter(this,'restaurant')">🍜 Food</button>
+        <button class="filter-chip" data-filter="hotel" onclick="applyFilter(this,'hotel')">🏨 Stay</button>
+        <button class="filter-chip" data-filter="experience" onclick="applyFilter(this,'experience')">🎭 Experience</button>
       </div>
-      <div class="poi-grid" id="poi-grid"><div class="loading"><span class="spinner"></span> Loading POIs...</div></div>
     </div>
+    <div class="xhs-grid" id="xhs-grid"><div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--muted);"><span class="spinner"></span></div></div>
   </div>
 
-  <!-- Plan Tab -->
+  <!-- ══════ GUIDE TAB ══════ -->
+  <div id="tab-guide" style="display:none;">
+    <div class="section-header"><h2>📖 Chongqing Insider Guides</h2></div>
+    <div class="guide-grid" id="guide-grid"></div>
+  </div>
+
+  <!-- ══════ PLAN TAB ══════ -->
   <div id="tab-plan" style="display:none;">
-    <div class="card">
-      <h2>🗺️ Generate Your Itinerary</h2>
-      <div class="controls">
-        <select id="plan-days">
-          <option value="2">2 Days</option>
-          <option value="3" selected>3 Days</option>
-          <option value="4">4 Days</option>
-          <option value="5">5 Days</option>
-        </select>
-        <button class="btn btn-primary" id="btn-premium" onclick="generatePlan('premium')">✨ Premium Plan</button>
-        <button class="btn btn-secondary" id="btn-budget" onclick="generatePlan('budget')">💰 Budget Plan</button>
-      </div>
-      <div id="plan-loading" class="loading" style="display:none;"><span class="spinner"></span> Crafting your perfect itinerary...</div>
-      <div id="plan-result"></div>
+    <div class="section-header"><h2>🗺️ Plan Your Trip</h2></div>
+    <div class="plan-actions">
+      <select id="plan-days"><option value="2">2 Days</option><option value="3" selected>3 Days</option><option value="4">4 Days</option><option value="5">5 Days</option></select>
+      <button class="btn btn-premium" onclick="generatePlan('premium')">✨ Premium Experience</button>
+      <button class="btn btn-budget" onclick="generatePlan('budget')">💰 Budget Explorer</button>
     </div>
+    <div id="plan-loading" style="display:none;text-align:center;padding:40px;color:var(--muted);"><span class="spinner"></span> Crafting your perfect Chongqing trip...</div>
+    <div id="plan-result"></div>
   </div>
-
 </div>
 
-<footer>
-  AI Travel Platform · Chongqing MVP v0.1.0 · Built with FastAPI + Next.js<br>
-  API: <a href="http://localhost:8001/docs" target="_blank" style="color:var(--gold)">localhost:8001/docs</a>
-</footer>
+<!-- ═══════════════ MODAL ═══════════════ -->
+<div class="modal-overlay" id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal" id="modal-content"></div>
+</div>
 
 <script>
 const API = 'http://localhost:8001';
 let currentTab = 'explore';
+let allPois = [];
+let currentFilter = '';
+
+// ── POI Image mapping (Unsplash) ──
+const POI_IMAGES = {
+  cq_hongya_cave: 'https://images.unsplash.com/photo-1589705433982-72ab1f67b7d8?w=600&q=80',
+  cq_jiefangbei: 'https://images.unsplash.com/photo-1558679908-541b1249b5b6?w=600&q=80',
+  cq_ciqikou: 'https://images.unsplash.com/photo-1547981609-4b6bfe67ca0b?w=600&q=80',
+  cq_cableway: 'https://images.unsplash.com/photo-1567789884554-0b7b4b4b4b4b?w=600&q=80',
+  cq_nanshan_tree: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80',
+  cq_liziba: 'https://images.unsplash.com/photo-1494783367193-149034c05e8f?w=600&q=80',
+  cq_dazu: 'https://images.unsplash.com/photo-1580618672591-eb180b1a973f?w=600&q=80',
+  cq_nanshan_hotpot: 'https://images.unsplash.com/photo-1617196034796-73dfa7b1fd56?w=600&q=80',
+  cq_dongzikou: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?w=600&q=80',
+  cq_xiaomian: 'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=600&q=80',
+  cq_chenmapo: 'https://images.unsplash.com/photo-1559847844-5315695dadae?w=600&q=80',
+  cq_guanyinqiao_street: 'https://images.unsplash.com/photo-1514326640560-7d063ef2aed5?w=600&q=80',
+  cq_raffles: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&q=80',
+  cq_niccolo: 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=600&q=80',
+  cq_hi_jiefangbei: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?w=600&q=80',
+  cq_qinglv: 'https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=600&q=80',
+  cq_night_cruise: 'https://images.unsplash.com/photo-1504893524553-b855bce32c67?w=600&q=80',
+  cq_teahouse: 'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&q=80',
+};
+const FALLBACK_IMG = 'https://images.unsplash.com/photo-1589705433982-72ab1f67b7d8?w=600&q=80';
+
+const typeLabels = { attraction:'Sight', restaurant:'Food', hotel:'Stay', experience:'Experience' };
+const typeBadge = { attraction:'tag-attraction', restaurant:'tag-restaurant', hotel:'tag-hotel', experience:'tag-experience' };
 
 function switchTab(tab) {
   currentTab = tab;
-  document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', (i === 0 && tab === 'explore') || (i === 1 && tab === 'plan')));
-  document.getElementById('tab-explore').style.display = tab === 'explore' ? 'block' : 'none';
-  document.getElementById('tab-plan').style.display = tab === 'plan' ? 'block' : 'none';
+  document.querySelectorAll('.nav-tab').forEach((b,i) => b.classList.toggle('active', i===['explore','guide','plan'].indexOf(tab)));
+  document.getElementById('tab-explore').style.display = tab==='explore'?'block':'none';
+  document.getElementById('tab-guide').style.display = tab==='guide'?'block':'none';
+  document.getElementById('tab-plan').style.display = tab==='plan'?'block':'none';
+  if (tab==='guide') buildGuides();
 }
 
-const typeLabels = { attraction: 'Attraction', restaurant: 'Restaurant', hotel: 'Hotel', experience: 'Experience' };
-const typeIcons = { attraction: '🏛️', restaurant: '🍜', hotel: '🏨', experience: '🎭' };
-
-async function loadStats() {
-  const r = await fetch(API + '/api/planner/pois?limit=100');
-  const d = await r.json();
-  const byType = {};
-  d.results.forEach(p => { byType[p.type] = (byType[p.type] || 0) + 1; });
-  const total = d.count;
-  document.getElementById('stats').innerHTML = `
-    <div class="stat-card"><div class="num">${total}</div><div class="label">Total POIs</div></div>
-    ${Object.entries(byType).map(([k,v]) => `<div class="stat-card"><div class="num">${v}</div><div class="label">${typeIcons[k] || ''} ${typeLabels[k] || k}</div></div>`).join('')}
-  `;
+function applyFilter(btn, type) {
+  currentFilter = type;
+  document.querySelectorAll('.filter-chip').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderPOIGrid(allPois.filter(p=>!type||p.type===type));
 }
 
 async function loadPOIs() {
-  const type = document.getElementById('poi-type-filter').value;
-  const track = document.getElementById('poi-track-filter').value;
-  const params = new URLSearchParams({ limit: '50' });
-  if (type) params.set('type', type);
-  if (track !== 'both') params.set('track', track);
-  const r = await fetch(API + '/api/planner/pois?' + params);
-  const d = await r.json();
-  const grid = document.getElementById('poi-grid');
-  if (!d.results || d.results.length === 0) {
-    grid.innerHTML = '<p style="color:var(--muted);padding:20px;">No POIs found.</p>';
-    return;
+  try {
+    const r = await fetch(API+'/api/planner/pois?limit=50');
+    const d = await r.json();
+    allPois = d.results || [];
+    renderPOIGrid(allPois);
+  } catch(e) {
+    document.getElementById('xhs-grid').innerHTML = '<p style="grid-column:1/-1;text-align:center;padding:40px;color:var(--red);">API not connected. Run the backend first.</p>';
   }
-  grid.innerHTML = d.results.map(p => `
-    <div class="poi-card" onclick="viewPOI('${p.id}')">
-      <span class="type-badge type-${p.type}">${typeIcons[p.type] || ''} ${typeLabels[p.type] || p.type}</span>
-      <div class="name-zh">${p.name_zh}</div>
-      <div class="name-en">${p.name_en}</div>
-      <div class="tags">${(p.tags || []).slice(0, 3).map(t => `<span class="tag">${t}</span>`).join('')}</div>
-      ${p.price_range ? `<div class="price">${p.price_range}</div>` : ''}
-      ${p.rating ? `<div class="rating">★ ${p.rating}</div>` : ''}
+}
+
+function renderPOIGrid(pois) {
+  const g = document.getElementById('xhs-grid');
+  if (!pois.length) { g.innerHTML='<p style="grid-column:1/-1;text-align:center;padding:40px;color:var(--muted);">No results.</p>'; return; }
+  g.innerHTML = pois.map(p => {
+    const img = POI_IMAGES[p.id] || FALLBACK_IMG;
+    const stars = p.rating ? '★'.repeat(Math.round(p.rating)) : '';
+    const hookLine = getHookLine(p);
+    return `
+    <div class="xhs-card" onclick="openPOI('${p.id}')">
+      <div class="img-bg" style="background-image:url(${img})"></div>
+      <div class="overlay"></div>
+      <div class="card-content">
+        <span class="type-tag ${typeBadge[p.type]||''}">${typeLabels[p.type]||p.type}</span>
+        <h3>${hookLine}</h3>
+        <div class="en-name">${p.name_en}</div>
+        <div class="meta-row">
+          ${stars?`<span class="stars">${stars} ${p.rating}</span>`:''}
+          ${p.price_range?`<span class="price">${p.price_range}</span>`:''}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function getHookLine(p) {
+  const hooks = {
+    cq_hongya_cave: '千与千寻同款夜景',
+    cq_jiefangbei: '重庆的心脏，时尚与历史的碰撞',
+    cq_ciqikou: '千年古镇里的陈麻花传奇',
+    cq_cableway: '4分钟飞跃长江的空中走廊',
+    cq_nanshan_tree: '俯瞰两江交汇的绝美夜景',
+    cq_liziba: '轻轨穿楼！8D魔幻的终极答案',
+    cq_dazu: 'UNESCO世界遗产，石刻千年',
+    cq_nanshan_hotpot: '整座山都是火锅桌！600桌同时沸腾',
+    cq_dongzikou: '防空洞里的老火锅，本地人的隐藏宝藏',
+    cq_xiaomian: '重庆小面界的天花板，排队也要吃',
+    cq_chenmapo: '黑珍珠一钻·川菜的精致天花板',
+    cq_guanyinqiao_street: '烟火气拉满！从街头吃到街尾',
+    cq_raffles: '250米高空·睡在云端俯瞰两江',
+    cq_niccolo: '62层天际线酒店，醒来就是重庆',
+    cq_hi_jiefangbei: '解放碑C位·步行到洪崖洞',
+    cq_qinglv: '山城步道旁，老重庆味背包客之家',
+    cq_night_cruise: '长江夜游，看山城灯火如星河',
+    cq_teahouse: '30年未变的老茶馆，一壶茶一下午',
+  };
+  return hooks[p.id] || p.name_zh;
+}
+
+// ── Modal ──
+async function openPOI(id) {
+  try {
+    const r = await fetch(API+'/api/planner/pois/'+id);
+    const p = await r.json();
+    const img = POI_IMAGES[p.id] || FALLBACK_IMG;
+    document.getElementById('modal-content').innerHTML = `
+      <div class="hero-img" style="background-image:url(${img})">
+        <button class="close-btn" onclick="closeModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <h2>${p.name_en}</h2>
+        <div class="cn-name">${p.name_zh} ${p.rating?`· ★ ${p.rating}`:''}</div>
+        <div class="info-row">
+          ${p.price_range?`<span class="info-badge">💰 ${p.price_range}</span>`:''}
+          ${p.opening_hours?`<span class="info-badge">🕐 ${p.opening_hours}</span>`:''}
+          ${p.type?`<span class="info-badge">🏷️ ${typeLabels[p.type]||p.type}</span>`:''}
+        </div>
+        <p class="desc">${p.description_en||''}</p>
+        <p class="desc" style="font-size:0.9rem;color:var(--muted);">${p.description_zh||''}</p>
+        ${(p.tips||[]).length?`
+        <div class="tip-box">
+          <h4>💡 Local Tips</h4>
+          <ul>${p.tips.map(t=>`<li>${t}</li>`).join('')}</ul>
+        </div>`:''}
+        ${p.best_photo_spot?`<div class="photo-spot">📸 Best Photo Spot: ${p.best_photo_spot}</div>`:''}
+        ${(p.tags||[]).length?`<div style="margin-top:12px;display:flex;flex-wrap:wrap;gap:6px;">${p.tags.map(t=>`<span style="padding:4px 12px;border-radius:6px;background:#f3f4f6;font-size:0.75rem;color:var(--muted);">${t}</span>`).join('')}</div>`:''}
+      </div>`;
+    document.getElementById('modal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  } catch(e) { alert('Failed to load details'); }
+}
+function closeModal() { document.getElementById('modal').classList.remove('open'); document.body.style.overflow=''; }
+
+// ── Guides ──
+function buildGuides() {
+  document.getElementById('guide-grid').innerHTML = [
+    { tag:'EATING', title:'Chongqing Hotpot Guide', desc:'From fiery old-school joints in bomb shelters to mountaintop feasts with 600 tables — master the art of Chongqing hotpot like a local.', img:'https://images.unsplash.com/photo-1617196034796-73dfa7b1fd56?w=600&q=80', pois:'cq_nanshan_hotpot,cq_dongzikou'},
+    { tag:'VIEWS', title:'Best Night Views in Chongqing', desc:'The city transforms after dark. River cruises, hilltop decks, and illuminated ancient streets — here are the 5 spots you cannot miss.', img:'https://images.unsplash.com/photo-1589705433982-72ab1f67b7d8?w=600&q=80', pois:'cq_hongya_cave,cq_nanshan_tree,cq_night_cruise'},
+    { tag:'HIDDEN', title:'Off the Beaten Path', desc:'Skip the crowds. A 30-year-old teahouse, alleyway noodles, a light rail through a building — the real Chongqing is in the details.', img:'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&q=80', pois:'cq_teahouse,cq_xiaomian,cq_liziba'},
+    { tag:'STAY', title:'Where to Stay in Chongqing', desc:'From 250m sky-high luxury to a cozy hostel on the ancient trail — find your perfect Chongqing base.', img:'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&q=80', pois:'cq_raffles,cq_qinglv'},
+    { tag:'CULTURE', title:'Ancient Chongqing', desc:'UNESCO rock carvings, thousand-year-old towns, and war-time memorials — step back in time in China\'s most resilient city.', img:'https://images.unsplash.com/photo-1580618672591-eb180b1a973f?w=600&q=80', pois:'cq_dazu,cq_ciqikou'},
+  ].map(g => `
+    <div class="guide-card" onclick="openGuidePois('${g.pois}')">
+      <div class="g-img" style="background-image:url(${g.img})"></div>
+      <div class="g-body">
+        <div class="g-tag">${g.tag}</div>
+        <h3>${g.title}</h3>
+        <p>${g.desc}</p>
+      </div>
     </div>
   `).join('');
 }
 
-async function viewPOI(id) {
-  const r = await fetch(API + '/api/planner/pois/' + id);
-  const p = await r.json();
-  const grid = document.getElementById('poi-grid');
-  grid.innerHTML = `
-    <div style="grid-column:1/-1;">
-      <button class="btn btn-sm btn-secondary" onclick="loadPOIs()" style="margin-bottom:12px;">← Back</button>
-      <div class="card">
-        <h2>${typeIcons[p.type] || ''} ${p.name_en} <span style="color:var(--muted);font-size:0.9rem;">${p.name_zh}</span></h2>
-        <p style="color:var(--muted);margin-bottom:8px;">${p.description_en || p.description_zh}</p>
-        <p style="margin-bottom:4px;">📍 <strong>Price:</strong> ${p.price_range}</p>
-        <p style="margin-bottom:4px;">🕐 <strong>Hours:</strong> ${p.opening_hours || 'N/A'}</p>
-        ${p.best_photo_spot ? `<p style="margin-bottom:4px;">📸 <strong>Photo Spot:</strong> ${p.best_photo_spot}</p>` : ''}
-        ${p.rating ? `<p style="margin-bottom:8px;">⭐ <strong>Rating:</strong> ${p.rating}/5</p>` : ''}
-        ${(p.tips || []).length ? `<div style="margin-top:8px;"><strong>💡 Tips:</strong><ul style="margin:4px 0 0 16px;">${p.tips.map(t => `<li style="font-size:0.85rem;color:var(--muted);">${t}</li>`).join('')}</ul></div>` : ''}
-        <div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:4px;">${(p.tags || []).map(t => `<span class="tag" style="padding:3px 10px;">${t}</span>`).join('')}</div>
-      </div>
-    </div>
-  `;
+async function openGuidePois(ids) {
+  const idList = ids.split(',');
+  const pois = [];
+  for (const id of idList) {
+    try { const r = await fetch(API+'/api/planner/pois/'+id); pois.push(await r.json()); } catch(e) {}
+  }
+  allPois = pois.map(p=>({...p,type:p.type||'attraction'}));
+  currentFilter = '';
+  document.querySelectorAll('.filter-chip').forEach((b,i)=>b.classList.toggle('active',i===0));
+  switchTab('explore');
+  renderPOIGrid(pois);
+  document.querySelector('.main-content').scrollIntoView({behavior:'smooth'});
 }
 
+// ── Plan ──
 async function generatePlan(track) {
   const days = document.getElementById('plan-days').value;
   document.getElementById('plan-result').innerHTML = '';
-  document.getElementById('plan-loading').style.display = 'flex';
+  document.getElementById('plan-loading').style.display = 'block';
   try {
-    const r = await fetch(API + `/api/planner/itinerary/generate?track=${track}&days=${days}`);
+    const r = await fetch(API+`/api/planner/itinerary/generate?track=${track}&days=${days}`);
     const d = await r.json();
     document.getElementById('plan-loading').style.display = 'none';
-    renderPlan(d);
-  } catch (e) {
+    document.getElementById('plan-result').innerHTML = `
+      <div style="animation:fadeIn 0.4s ease;">
+        <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:20px;background:#fff;border-radius:14px;padding:20px;">
+          <div><h3 style="font-size:1.2rem;">${track==='premium'?'✨ Premium':'💰 Budget'} · ${d.days} Days</h3><p style="color:var(--muted);font-size:0.85rem;">Chongqing</p></div>
+          ${d.budget?`<div style="text-align:right;"><div style="font-size:1.6rem;font-weight:800;color:var(--red);">${d.budget.total}</div><div style="font-size:0.8rem;color:var(--muted);">${d.budget.total_usd}</div></div>`:''}
+        </div>
+        ${d.plan.map(day=>`
+          <div class="day-card">
+            <div class="day-header" onclick="this.nextElementSibling.classList.toggle('open')">
+              <div style="display:flex;align-items:center;gap:12px;"><div class="day-num">${day.day}</div><div><strong>${day.title_en}</strong><div style="font-size:0.78rem;color:var(--muted);">${day.title_zh} · ${day.items.length} stops</div></div></div>
+            </div>
+            <div class="day-items ${day.day===1?'open':''}">
+              ${day.items.map(item=>`
+                <div class="day-item">
+                  <div class="time">${item.time}<div style="font-weight:400;color:var(--muted);">${item.duration}</div></div>
+                  <div class="info"><h4>${item.poi_name_en}</h4><div class="sub">${item.poi_name_zh} · ${item.activity}</div></div>
+                  <div class="meta"><div>${item.transport}</div>${item.cost_estimate?`<div style="color:#059669;font-weight:600;">${item.cost_estimate}</div>`:''}</div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `).join('')}
+        ${d.budget?.breakdown?`
+          <div class="budget-box">
+            <h4 style="margin-bottom:8px;">💵 Budget Breakdown</h4>
+            ${Object.entries(d.budget.breakdown).map(([k,v])=>`<div class="budget-row"><span style="text-transform:capitalize;color:var(--muted);">${k.replace(/_/g,' ')}</span><span>${v}</span></div>`).join('')}
+            <div class="budget-row"><span style="color:var(--muted);">Service Fee</span><span>${d.budget.service_fee}</span></div>
+            <div class="budget-row total"><span>Total</span><span class="amt">${d.budget.total}</span></div>
+          </div>
+        `:''}
+      </div>`;
+  } catch(e) {
     document.getElementById('plan-loading').style.display = 'none';
-    document.getElementById('plan-result').innerHTML = `<div class="card" style="color:var(--red);">Error: ${e.message}</div>`;
+    document.getElementById('plan-result').innerHTML = `<p style="color:var(--red);">API not connected. Run the backend first.</p>`;
   }
 }
 
-function renderPlan(d) {
-  const label = d.track === 'premium' ? '✨ Premium' : '💰 Budget';
-  const cityName = d.city === 'chongqing' ? 'Chongqing 重庆' : d.city;
-  document.getElementById('plan-result').innerHTML = `
-    <div class="card" style="animation: fadeIn 0.4s ease-out;">
-      <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:20px;">
-        <div>
-          <h2 style="margin-bottom:4px;">${label} Itinerary</h2>
-          <p style="color:var(--muted);font-size:0.9rem;">${d.days} Days in ${cityName}</p>
-        </div>
-        ${d.budget ? `<div style="text-align:right;"><div style="font-size:1.5rem;font-weight:800;color:var(--red);">${d.budget.total}</div><div style="font-size:0.8rem;color:var(--muted);">${d.budget.total_usd}</div></div>` : ''}
-      </div>
-      ${d.plan.map(day => `
-        <div class="day-card">
-          <div class="day-header" onclick="this.nextElementSibling.classList.toggle('open')">
-            <div style="display:flex;align-items:center;gap:12px;">
-              <div class="day-num">${day.day}</div>
-              <div><strong>${day.title_en}</strong><div style="font-size:0.8rem;color:var(--muted);">${day.title_zh}</div></div>
-            </div>
-            <span style="color:var(--muted);">${day.items.length} stops</span>
-          </div>
-          <div class="day-items ${day.day === 1 ? 'open' : ''}">
-            ${day.items.map(item => `
-              <div class="day-item">
-                <div class="time">${item.time}<div class="dur">${item.duration}</div></div>
-                <div class="info">
-                  <h4>${item.poi_name_en}</h4>
-                  <div class="sub">${item.poi_name_zh} · ${item.activity}</div>
-                  ${item.tips && item.tips.length ? `<div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:4px;">${item.tips.slice(0,2).map(t => `<span style="padding:2px 8px;border-radius:4px;background:#fef3c7;color:#92400e;font-size:0.7rem;">💡 ${t}</span>`).join('')}</div>` : ''}
-                </div>
-                <div class="meta">
-                  <span>🚇 ${item.transport}</span>
-                  ${item.cost_estimate ? `<span class="cost">${item.cost_estimate}</span>` : ''}
-                </div>
-              </div>
-            `).join('')}
-          </div>
-        </div>
-      `).join('')}
-      ${d.budget && d.budget.breakdown ? `
-        <div class="budget-box" style="margin-top:16px;">
-          <h3 style="margin-bottom:8px;">💵 Budget Breakdown</h3>
-          ${Object.entries(d.budget.breakdown).map(([k,v]) => `<div class="budget-row"><span style="color:var(--muted);text-transform:capitalize;">${k.replace(/_/g,' ')}</span><span>${v}</span></div>`).join('')}
-          <div class="budget-row"><span style="color:var(--muted);">Service Fee</span><span>${d.budget.service_fee}</span></div>
-          <div class="budget-row total"><span>Total</span><span class="amt">${d.budget.total}</span></div>
-        </div>
-      ` : ''}
-    </div>
-  `;
-}
-
 // Init
-loadStats();
 loadPOIs();
 </script>
 </body>
