@@ -1079,4 +1079,197 @@
 
 ---
 
+---
+
+# 第六部分：外国游客专属生存指南 🌏
+
+> 以下内容专门为外国游客编写。中国游客不需要看的，恰恰是老外最需要的。
+
+---
+
+## 指南六：Chongqing Survival Kit — Everything Chinese Guides Won't Tell You
+
+### 🎯 Who this is for
+
+You're planning to visit Chongqing. You've read the travel blogs. You know about Hongya Cave and hotpot. But you're quietly panicking about the real stuff: How do I pay for things? What if I can't read the menu? How do I get online? Will people stare at me?
+
+This guide is for exactly those questions. No fluff. All practical.
+
+---
+
+### 💳 Payment: The #1 Anxiety for Foreign Travelers
+
+**The TL;DR:** Cash still works. Alipay now accepts foreign cards. You don't need WeChat Pay to survive in Chongqing.
+
+**What actually works in 2026:**
+
+| Method | Where it works | How to set up |
+|--------|---------------|---------------|
+| **Cash (RMB)** | Everywhere. It's legal tender. | Exchange at airport, banks, or ATMs (Bank of China ATMs accept foreign cards) |
+| **Alipay TourPass** | 90% of places including street vendors | Download Alipay app → sign up with foreign number → add Visa/Mastercard → verify with passport photo |
+| **WeChat Pay** | 95% of places | Same process as Alipay but slightly more complicated for foreigners |
+| **UnionPay card** | Hotels, large restaurants, malls | Get one from your bank before departure |
+| **Visa/Mastercard** | 4 and 5-star hotels, large malls only | Don't rely on this for daily use |
+
+**The real talk:**
+- Small noodle shops and street food stalls are often cash-only or QR-code-only
+- Always carry ¥200-300 in cash as backup
+- The lady at the breakfast noodle shop CANNOT accept your Visa card, no matter how much you wave it
+- If you only set up one thing, make it **Alipay with TourPass**. It takes 15 minutes and covers 90% of scenarios
+
+**Pro tip:** Take a photo of the QR code on your Alipay/WeChat "payment code" page. Some offline-only shops can scan YOUR code if you show it to them.
+
+---
+
+### 📱 SIM Card & Internet: Getting Online in China
+
+**The TL;DR:** Get a China SIM at the airport. Install your VPN before you leave home.
+
+**Three options:**
+
+| Option | Cost | Reliability | Recommendation |
+|--------|------|-------------|----------------|
+| **China Mobile/Unicom SIM** | ~¥100 for 20GB | Best signal, works everywhere | Buy at airport arrival hall (bring passport) |
+| **eSIM (Airalo/Holafly)** | $15-30/week | Good in cities, spotty in rural areas | Easy but pricier |
+| **International roaming** | $$$ | Works but painfully slow in China | Emergency backup only |
+
+**The firewall reality:**
+- Google, Gmail, Instagram, WhatsApp, Facebook, Twitter, YouTube — all blocked without VPN
+- **Install and TEST your VPN before leaving your home country** (most VPN websites are blocked in China so you can't download after arrival)
+- VPNs that consistently work in China (as of 2026): LetsVPN, Astrill, Mullvad (check r/chinalife for latest)
+- Free VPNs: don't bother, they don't work
+
+**What works without VPN:** Apple Maps (yes, really), Outlook.com, Amazon, Tripadvisor, Booking.com. So you can survive without VPN if you're just doing basic travel stuff.
+
+---
+
+### 🚆 Transport: Getting Around Without Chinese Apps
+
+**The TL;DR:** Chongqing's metro system is excellent and English-friendly. For taxis, show the Chinese address. For everything else, there's a workaround.
+
+**Metro (Light Rail):**
+- All stations have English signs and announcements
+- Ticket machines have an English option
+- Single trip: ¥2-7 depending on distance
+- Get a "Chongqing Tong" transport card: ¥25 deposit, works on metro + bus + Yangtze Cableway
+- **Best app:** "MetroMan" (English, works offline, covers all Chinese cities)
+
+**Taxi/Didi:**
+- Didi is the Chinese Uber. The app has an English version, but the map sometimes glitches for foreign phones
+- Workaround: Use Didi mini-program inside Alipay (more stable than the standalone app)
+- Street taxis: yellow cars, ¥10 flag fall. **Always have your destination written in Chinese characters** (hotel business card works perfectly)
+- Taxi drivers in Chongqing rarely speak English. Show them the Chinese text. That's it.
+
+**Walking:**
+- Chongqing is a nightmare for Google Maps (offset by 500m in China)
+- **Use Apple Maps** — it has the most accurate walking directions in China for English interfaces
+- Amap (高德地图) is the local gold standard but Chinese-only
+- When lost: ask young people (under 30). They learned English in school and LOVE practicing with foreigners. Elderly locals are incredibly helpful but may only speak Chongqing dialect.
+
+---
+
+### 🍜 Ordering Food: Surviving Chinese-Only Menus
+
+**The TL;DR:** You don't need to read Chinese to eat well. Point, gesture, use your phone camera.
+
+**Five strategies, ranked by effectiveness:**
+
+1. **The Photo Menu** — Most restaurants in tourist areas have picture menus. Point at what looks good. Most reliable method.
+
+2. **Google Translate Camera** — Point your phone at the menu, it translates in real-time. Requires VPN. Works surprisingly well for Chinese → English.
+
+3. **The "Follow the Queue" Method** — At noodle shops and street stalls, watch what locals are ordering and say "一样" (yí yàng = "same as that"). Works every time.
+
+4. **The Hotpot Survival Card** — Print or screenshot a list of hotpot ingredients in Chinese + English. Hand it to the waiter and point. Trust me, you don't want to accidentally order duck blood thinking it's tofu.
+   ```
+   毛肚 (máo dǔ) = tripe         鸭肠 (yā cháng) = duck intestine
+   嫩牛肉 (nèn niú ròu) = tender beef   贡菜 (gòng cài) = crunchy vegetable
+   脑花 (nǎo huā) = brain         鸭血 (yā xuè) = duck blood
+   ```
+
+5. **The Universal Backup** — Learn three phrases: "这个" (zhè ge = this one) while pointing, "不要辣" (bú yào là = no spicy), and "谢谢" (xiè xie = thank you). That's honestly enough for 80% of meals.
+
+**Spice levels reality check:**
+- Chongqing "微辣" (mild) = Other cities' "extra spicy"
+- If you can't handle heat: say "微微辣" (wēi wēi là = very very mild) or "不辣" (bù là = not spicy)
+- Hotpot restaurants will judge you for ordering non-spicy. Accept it. The food is still delicious.
+
+---
+
+### 🚻 Practical Stuff Nobody Mentions
+
+**Bathrooms:**
+- Many public toilets are squat toilets, even in nice restaurants. Mentally prepare.
+- Carry your own toilet paper and hand sanitizer. Most public toilets don't provide either.
+- Western-style toilets: available in 4+ star hotels, Starbucks, upscale malls, and international chain restaurants. Know your safe zones.
+
+**Drinking water:**
+- Tap water is NOT drinkable. Buy bottled water (¥2-3 for 550ml at any convenience store).
+- Most hotels provide 2 free bottles per day in your room.
+- Restaurants serve hot water or tea by default (the boiling makes it safe). Asking for cold water may get you a confused look.
+
+**Being stared at:**
+- In areas outside the main tourist zones, people WILL stare. It's curiosity, not hostility.
+- Chongqing receives far fewer foreign tourists than Beijing or Shanghai. You are genuinely unusual here.
+- How to handle it: smile and say "你好" (nǐ hǎo). 90% of the time they'll smile back, possibly try to practice their English, and might even offer to help you with directions. It's almost never malicious.
+
+**Medical emergencies:**
+- Emergency number: 120 (ambulance) or 110 (police). Operators may not speak English.
+- Better option: ask your hotel front desk for help. They can translate and coordinate.
+- International hospitals in Chongqing: Chongqing United Family Hospital (重庆和睦家医院) — English-speaking staff, accepts international insurance. Avenue JCI-accredited hospital (重庆佑佑宝贝妇儿医院) — also has international department.
+
+---
+
+### 🗣️ Essential Chongqing Survival Phrases
+
+Not Mandarin. Not polite. Just stuff that works.
+
+| Scenario | Say This | Pronunciation | When |
+|----------|---------|---------------|------|
+| Ordering food | 这个 | zhè ge (juh-guh) | Point at menu item |
+| No spicy | 不辣 | bù là (boo lah) | Before ordering anything |
+| Very very mild spicy | 微微辣 | wēi wēi là (way-way lah) | When you want to try but fear death |
+| The bill please | 买单 | mǎi dān (my dahn) | Catch waiter's eye |
+| Thank you | 谢谢 | xiè xie (shyeah shyeah) | Always |
+| How much? | 多少钱 | duō shǎo qián (dwor shao chyen) | Markets, street stalls |
+| Too expensive! | 太贵了 | tài guì le (tie gway luh) | Then negotiate |
+| Where is the toilet? | 洗手间在哪 | xǐ shǒu jiān zài nǎ (she show jyen zai nah) | Self-explanatory |
+| I don't understand | 听不懂 | tīng bù dǒng (ting boo dong) | When they speak to you in rapid Chongqing dialect |
+| It's delicious! | 好吃 | hǎo chī (how chir) | After every meal. They'll love you. |
+
+---
+
+### 📋 Pre-Trip Checklist
+
+**One month before:**
+- [ ] Check visa requirements (many nationalities now get 144-hour transit visa-free through Chongqing Jiangbei Airport)
+- [ ] Install and TEST your VPN
+- [ ] Download Alipay, add foreign card, complete verification
+- [ ] Download MetroMan app
+- [ ] Download offline Google Maps / Apple Maps of Chongqing
+- [ ] Book hotels (they fill up fast on weekends)
+
+**One week before:**
+- [ ] Screenshot the hotpot ingredient cheat sheet
+- [ ] Save hotel address in Chinese characters on your phone
+- [ ] Withdraw some cash in RMB (or plan to use airport ATM)
+- [ ] Register with your embassy's travel notification system
+
+**Upon arrival:**
+- [ ] Buy China SIM at airport (or activate eSIM)
+- [ ] Connect to VPN immediately
+- [ ] Exchange/withdraw ¥500 cash
+- [ ] Take photo of your passport and visa page (keep on phone)
+- [ ] Save hotel's WeChat or phone number
+
+---
+
+### 💡 The One Thing to Remember
+
+Chongqing will overwhelm you. The heat, the spice, the stairs, the noise, the sheer impossibility of its geography. That's not a bug — it's the point. This city was not designed to be convenient. It was designed by necessity, carved into mountains and rivers over centuries, and it expects you to meet it on its own terms.
+
+When you're lost on the 8th floor which is actually street level, when your mouth is on fire from "mild" hotpot, when an elderly man is trying to give you directions in a dialect you cannot possibly understand — **smile. This is the real Chongqing. And you're experiencing it exactly right.**
+
+---
+
 > 下阶段：为每个景点匹配 3-5 张高质量图片（Unsplash/自摄）+ 1 段 15-30 秒视频素材建议。
