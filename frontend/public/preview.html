@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>重庆旅行 · 多卡片杂志预览</title>
+<style>
+:root{--red:#C0392B;--gold:#D4A017;--dark:#1A1A2E;--river:#2C3E50;--bg:#f2f0eb;--card:#fff;--ink:#1a1a2e;--muted:#7a7a7a;--border:#e3e0d8}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'PingFang SC','Microsoft YaHei','Hiragino Sans GB',sans-serif;background:var(--bg);color:var(--ink);line-height:1.75;-webkit-font-smoothing:antialiased}
+
+.mag-hero{background:var(--dark);padding:100px 32px 80px;text-align:center;position:relative;overflow:hidden}
+.mag-hero::before{content:"";position:absolute;inset:0;opacity:.12;background:radial-gradient(circle at 25% 70%,var(--gold),transparent 55%),radial-gradient(circle at 75% 25%,var(--red),transparent 55%)}
+.mag-hero .kicker{color:rgba(255,255,255,.5);font-size:.75rem;letter-spacing:4px;position:relative;z-index:1;margin-bottom:12px}
+.mag-hero h1{font-size:clamp(2.2rem,6vw,4.5rem);font-weight:900;color:#fff;letter-spacing:-1px;position:relative;z-index:1}
+.mag-hero h1 em{font-style:normal;background:linear-gradient(135deg,#F472B6,#FB923C,#FACC15);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.mag-hero .dek{color:rgba(255,255,255,.5);max-width:560px;margin:10px auto 0;font-size:1.05rem;position:relative;z-index:1}
+
+.container{max-width:1200px;margin:0 auto;padding:0 20px 60px}
+
+.nav-row{display:flex;gap:6px;background:var(--card);border-radius:14px;padding:5px;margin:-24px auto 32px;max-width:600px;box-shadow:0 2px 14px rgba(0,0,0,.05);position:relative;z-index:2}
+.nav-row button{flex:1;padding:11px 18px;border-radius:10px;border:none;cursor:pointer;font-weight:600;font-size:.85rem;color:var(--muted);background:transparent;transition:all .25s}
+.nav-row button.active{background:var(--dark);color:#fff}
+.nav-row button:hover:not(.active){color:var(--ink);background:#f5f5f5}
+
+.filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px}
+.filter-row button{padding:7px 16px;border-radius:20px;border:1px solid var(--border);background:var(--card);font-size:.78rem;cursor:pointer;color:var(--muted);transition:all .2s}
+.filter-row button.active,.filter-row button:hover{border-color:var(--gold);color:var(--ink);background:var(--card)}
+
+.sec-hed{margin:36px 0 20px}
+.sec-hed .label{font-size:.7rem;letter-spacing:3px;color:var(--red);margin-bottom:4px}
+.sec-hed h2{font-size:1.7rem;font-weight:900;letter-spacing:-.5px}
+
+/* Masonry */
+.masonry{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px}
+@media(min-width:800px){.masonry{grid-template-columns:repeat(4,1fr)}}
+@media(min-width:1000px){.masonry{grid-template-columns:repeat(6,1fr)}}
+
+.card{background:var(--card);border-radius:6px;overflow:hidden;cursor:pointer;transition:transform .25s,box-shadow .25s;border:1px solid var(--border);position:relative}
+.card:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(0,0,0,.08)}
+.card .card-inner{padding:18px;display:flex;flex-direction:column;height:100%}
+.card .img-placeholder{background:linear-gradient(135deg,#d8d4cc,#c8c4bb,#dbd7cf);display:flex;align-items:center;justify-content:center;color:#aaa;font-size:.7rem;text-align:center;flex-shrink:0}
+.badge-type{display:inline-block;padding:3px 10px;border-radius:3px;font-size:.65rem;font-weight:700;color:#fff;letter-spacing:1px;margin-bottom:10px}
+.badge-city{background:rgba(46,125,50,.8)}.badge-district{background:rgba(212,160,23,.8)}.badge-culture{background:rgba(123,31,162,.8)}
+
+/* Hero card */
+.card-hero{grid-column:span 3;grid-row:span 2}
+.card-hero .img-placeholder{height:320px;font-size:.85rem}
+.card-hero .card-inner{padding:0}
+.card-hero .overlay{position:absolute;bottom:0;left:0;right:0;padding:24px;background:linear-gradient(transparent,rgba(0,0,0,.7))}
+.card-hero h3{font-size:1.5rem;font-weight:800;color:#fff;line-height:1.25}
+.card-hero .sub{font-size:.85rem;color:rgba(255,255,255,.7);margin-top:4px}
+.card-hero .meta{display:flex;gap:12px;margin-top:8px;font-size:.75rem;color:rgba(255,255,255,.6)}
+.card-hero .rating{position:absolute;top:14px;right:14px;color:#fff;font-size:.85rem;font-weight:700;text-shadow:0 1px 3px rgba(0,0,0,.4)}
+.card-hero .type-badge{position:absolute;top:14px;left:14px}
+
+/* Story card */
+.card-story{grid-column:span 3}
+.card-story .img-placeholder{height:180px}
+.card-story h3{font-size:1.1rem;font-weight:800;line-height:1.3;margin:12px 0 6px}
+.card-story .excerpt{font-size:.88rem;color:#555;line-height:1.6;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;flex:1}
+.card-story .byline{font-size:.72rem;color:var(--muted);margin-top:10px}
+
+/* Tips card */
+.card-tips{grid-column:span 2;background:linear-gradient(135deg,#fef9e7,#fdf5d6);border-color:#fde68a}
+.card-tips h3{font-size:.9rem;font-weight:700;color:#92400e;margin-bottom:10px}
+.card-tips .tip-item{font-size:.8rem;color:#78350f;padding:4px 0;display:flex;gap:6px;line-height:1.5}
+
+/* Insider card */
+.card-insider{grid-column:span 2;background:linear-gradient(135deg,#e8f5e9,#c8e6c9);border-color:#a5d6a7}
+.card-insider .quote{font-size:1rem;color:#2e7d32;line-height:1.5;flex:1;display:flex;align-items:center}
+.card-insider .attr{font-size:.72rem;color:#66bb6a;margin-top:8px;text-align:right}
+
+/* Photo card */
+.card-photo{grid-column:span 2;background:linear-gradient(135deg,#e3f2fd,#bbdefb);border-color:#90caf9}
+.card-photo h3{font-size:.85rem;font-weight:700;color:#1565c0;margin-bottom:8px}
+.card-photo p{font-size:.8rem;color:#0d47a1;line-height:1.5}
+
+/* Foreign card */
+.card-foreign{grid-column:span 2;background:linear-gradient(135deg,#f3e5f5,#e1bee7);border-color:#ce93d8}
+.card-foreign h3{font-size:.82rem;font-weight:700;color:#6a1b9a;margin-bottom:8px}
+.card-foreign .f-item{font-size:.75rem;color:#4a148c;padding:2px 0;line-height:1.4}
+
+/* Modal */
+.modal-overlay{display:none;position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.55);backdrop-filter:blur(6px)}
+.modal-overlay.open{display:flex;align-items:center;justify-content:center;padding:20px}
+.modal-article{background:var(--card);border-radius:8px;max-width:780px;width:100%;max-height:90vh;overflow-y:auto;animation:aIn .3s ease}
+@keyframes aIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.modal-article .ma-hero{height:280px;background:linear-gradient(135deg,#d0ccc5,#c0bdb5);display:flex;align-items:center;justify-content:center;color:#999;font-size:.85rem;position:relative}
+.modal-article .ma-close{position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:50%;background:rgba(0,0,0,.4);backdrop-filter:blur(8px);border:none;color:#fff;font-size:1.1rem;cursor:pointer}
+.modal-article .ma-body{padding:32px 36px}
+.modal-article .ma-body .ma-cat{font-size:.7rem;letter-spacing:3px;color:var(--red);margin-bottom:8px}
+.modal-article .ma-body h2{font-size:1.8rem;font-weight:900;line-height:1.2;margin-bottom:4px}
+.modal-article .ma-body .subtitle{font-size:.9rem;color:var(--muted);margin-bottom:14px}
+.modal-article .ma-body .ma-meta{display:flex;gap:14px;font-size:.8rem;color:var(--muted);padding-bottom:14px;border-bottom:1px solid var(--border);margin-bottom:18px}
+.modal-article .ma-body .ma-body-text{font-size:.95rem;line-height:1.8;color:#333;margin-bottom:16px}
+.modal-article .ma-body .pull-quote{font-size:1.2rem;font-weight:700;color:var(--red);line-height:1.4;padding:14px 0;border-top:2px solid var(--border);border-bottom:2px solid var(--border);margin:18px 0}
+.modal-article .ma-body .tip-callout{background:#fef9e7;border-left:3px solid var(--gold);padding:12px 16px;margin:14px 0}
+.modal-article .ma-body .tip-callout h4{font-size:.8rem;color:#92400e;margin-bottom:5px}
+.modal-article .ma-body .tip-callout li{font-size:.78rem;color:#78350f;margin:2px 0 2px 15px}
+.modal-article .ma-body .foreign-box{background:#e3f2fd;border-left:3px solid #1565c0;padding:12px 16px;margin:14px 0}
+.modal-article .ma-body .foreign-box h4{font-size:.8rem;color:#1565c0;margin-bottom:5px}
+.modal-article .ma-body .foreign-box p{font-size:.76rem;color:#0d47a1;line-height:1.5;margin:2px 0}
+
+/* Route cards */
+.route-full{background:var(--card);border-radius:6px;overflow:hidden;margin-bottom:18px;border:1px solid var(--border);cursor:pointer;transition:transform .2s}
+.route-full:hover{transform:translateY(-2px)}
+.route-full .rf-header{display:flex;align-items:stretch}
+.route-full .rf-img{width:240px;flex-shrink:0;background:linear-gradient(135deg,#d8d4cc,#c8c4bb);display:flex;align-items:center;justify-content:center;color:#aaa;font-size:.72rem}
+.route-full .rf-intro{flex:1;padding:22px 26px}
+.route-full .rf-intro .rf-label{font-size:.68rem;letter-spacing:3px;color:var(--red);margin-bottom:4px}
+.route-full .rf-intro h3{font-size:1.15rem;font-weight:800;margin-bottom:4px}
+.route-full .rf-intro .hook{font-size:.88rem;color:var(--muted);line-height:1.5;margin-bottom:10px}
+.route-full .rf-intro .rf-meta{display:flex;gap:14px;font-size:.76rem;color:var(--muted)}
+.route-full .rf-body{display:none;padding:0 26px 22px;border-top:1px solid var(--border)}
+.route-full.open .rf-body{display:block}
+.route-full .rf-body .rf-day{margin-top:18px}
+.route-full .rf-body .rf-day h4{font-size:.85rem;font-weight:700;color:var(--red);margin-bottom:6px}
+.route-full .rf-body .rf-day pre{font-size:.8rem;color:#555;line-height:1.6;white-space:pre-wrap}
+.route-full .rf-body .rf-note{margin-top:14px;background:#e3f2fd;border-radius:6px;padding:12px 14px;font-size:.78rem;color:#0d47a1}
+
+/* Timeline */
+.timeline-strip{display:flex;gap:0;overflow-x:auto;padding:8px 0 20px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
+.timeline-strip::-webkit-scrollbar{height:3px}
+.timeline-strip::-webkit-scrollbar-thumb{background:#ccc;border-radius:2px}
+.tl-item{flex:0 0 130px;scroll-snap-align:start;text-align:center;cursor:pointer;transition:transform .2s;padding:8px}
+.tl-item:hover{transform:translateY(-2px)}
+.tl-item .tl-dot{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#d8d4cc,#c8c4bb);margin:0 auto 6px;display:flex;align-items:center;justify-content:center;font-size:1rem}
+.tl-item .tl-name{font-size:.74rem;font-weight:700}
+.tl-item .tl-type{font-size:.62rem;color:var(--muted)}
+@media(max-width:800px){
+  .masonry{grid-template-columns:repeat(2,1fr)}
+  .card-hero{grid-column:span 2;grid-row:span 1}.card-hero .img-placeholder{height:220px}
+  .card-story{grid-column:span 2}.card-tips,.card-insider,.card-photo,.card-foreign{grid-column:span 1}
+  .route-full .rf-header{flex-direction:column}.route-full .rf-img{width:100%;height:160px}
+}
+</style>
+</head>
+<body>
+
+<div class="mag-hero">
+  <div class="kicker">CHONGQING · 旅行杂志</div>
+  <h1>8D魔幻城市 <em>深度卡片</em></h1>
+  <p class="dek">每个目的地都是一本杂志，每张卡片一个故事。</p>
+</div>
+
+<div class="container">
+  <div class="nav-row">
+    <button class="active" onclick="switchTab('points')">📍 目的地</button>
+    <button onclick="switchTab('routes')">🗺️ 精选路线</button>
+  </div>
+
+  <div id="tab-points">
+    <div class="sec-hed"><div class="label">多卡片杂志</div><h2>每个景点，多个视角</h2></div>
+    <div class="filter-row">
+      <button class="active" onclick="filterAll('all',this)">全部</button>
+      <button onclick="filterAll('city',this)">🏙️ 主城地标</button>
+      <button onclick="filterAll('district',this)">⛰️ 区县5A</button>
+      <button onclick="filterAll('heritage',this)">🎭 非遗文化</button>
+    </div>
+    <div class="timeline-strip" id="timeline"></div>
+    <div class="masonry" id="masonry"></div>
+  </div>
+
+  <div id="tab-routes" style="display:none">
+    <div class="sec-hed"><div class="label">精选路线</div><h2>8条路线玩转重庆</h2></div>
+    <div id="routes-container"></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal" onclick="if(event.target===this)closeModal()"><div class="modal-article" id="modal-content"></div></div>
+
+<script>
+// ── POI 数据（中文版）──
+const D=[
+  {id:'cq_hongya_cave',group:'city',zh:'洪崖洞',en:'Hongya Cave',hook:'千与千寻同款夜景，悬崖上的吊脚楼群',hook_en:'A glowing stilted village clinging to a cliff, straight out of a Miyazaki film',rating:4.5,price:'免费',hours:'全天可看 / 亮灯 19:30-23:00',desc:'站在千厮门大桥上，面前就是一整面悬崖。悬崖上层层叠叠挂着十几栋木质吊脚楼，金色的灯光从每一扇窗户里泻出来，倒映在嘉陵江面，整座山像被点燃了一样。这就是洪崖洞——一个让宫崎骏粉丝集体恍惚的地方。\n\n但洪崖洞不只是"好看"。它的根扎在重庆作为"山城"的生存智慧里。吊脚楼不是装饰，几百年前，码头工人和商贩开始在悬崖边用木桩撑起房屋——一半悬空一半嵌进山体，在"不可能"的地形上创造出了"可能"。洪崖洞当年是重庆城门之一，悬崖下就是嘉陵江码头，船工号子声与火锅的香气在这里交织了几个世纪。',tips:['周末人极多，建议工作日去','最佳拍照点：千厮门大桥正中间，晚上8点','晚上10点后灯会逐步熄灭'],photo_spot:'千厮门大桥中段，拍侧面全景最经典',insider:'洪崖洞旁边有块"洪崖滴翠"石碑，这四字来自清代"巴渝十二景"——当年文人来这里看的是瀑布飞流，不是灯火辉煌。同一个地方，古人看水，今人看光。',foreign:{payment:'外面观看免费。内部店铺支持支付宝/现金',english:'有英文标识，店员很少说英语——指指点点就行',best_time:'工作日傍晚。夏季19:30亮灯，冬季18:30',toilets:'附近来福士商场有坐便器（步行5分钟）'}},
+  {id:'cq_dazu',group:'district',zh:'大足石刻',en:'Dazu Rock Carvings',hook:'比米开朗基罗早了400年的"东方西斯廷"',hook_en:'50,000 Buddhist figures — the Sistine Chapel of the East',rating:4.8,price:'¥135',hours:'08:30-17:30',desc:'如果只给外国游客一个离开重庆主城的理由，大足石刻应该是第一个。这不是一座寺庙，也不是一座石窟。这是一个持续了400年、跨越三个朝代的艺术工程。从公元9世纪的晚唐开始，工匠们在重庆大足的山崖上一锤一锤凿出了五万多尊佛像。\n\n最震撼的不是数量，是表情。大足的佛像不再是高高在上的神，他们有喜怒哀乐——吹笛女嘴角微扬，养鸡女俯身撒米，地狱变相里的审判官眉头紧锁。这是世界上最早的"现实主义佛教艺术"。宝顶山的千手观音是镇山之宝：1007只手从一尊观音像背后放射状展开，每只手心有一只眼睛。1999年被列入UNESCO世界文化遗产。',tips:['一定要请讲解员或租讲解器！没人讲解，魅力打三折','宝顶山是核心精华区，全程约3小时','高铁票提前一天买，现场可能没票'],photo_spot:'千手观音正面居中广角拍摄',insider:'大足石刻里有中国最早的健康科普壁画——"戒酒图"画了醉汉出丑的12种姿态，"养鸡图"被学者认为是世界上最早的"动物福利"主题艺术。',foreign:{payment:'¥135门票。支持支付宝/现金，刷卡不稳定',english:'有英文语音导览。英文人工讲解可通过酒店预订（约¥150）',best_time:'上午——圆觉洞10点自然光透入时最美',toilets:'游客中心有坐便器。景区内为蹲便'}},
+  {id:'cq_ciqikou',group:'city',zh:'磁器口古镇',en:'Ciqikou Ancient Town',hook:'千年古镇里的陈麻花传奇，石板路上的烟火气',hook_en:'A thousand-year-old town — the aroma of fried dough since the Song Dynasty',rating:4.4,price:'免费',hours:'全天（店铺 10:00-21:00）',desc:'磁器口的名字来自瓷器——宋代这里就是重庆最重要的瓷器码头，重庆的瓷器从这里装船，沿嘉陵江下长江，最远卖到了东南亚和波斯。但现在的磁器口，是一个被时光腌入味的地方。青石板路被几百年的脚步磨得光滑发亮，空气里混杂着陈麻花的焦香、毛血旺的辣味、茶馆里的茉莉花香。\n\n真正的磁器口不在主街。主街是给游客走的。真正的磁器口在岔出去的小巷子里——有一家开了40年的茶馆，老板是个80多岁的老太太，只用盖碗泡茶；有一个做糖画的老人，一勺糖浆能画出凤凰；有一面墙上密密麻麻刻着民国时期船工的名字。',tips:['早上10点前到——11点后主街变人河','必尝：陈麻花（排队最长那家就是对的）','小巷子里有隐藏茶馆'],photo_spot:'主街尽头江边观景台',insider:'磁器口有句老话："上半城下雨，下半城撑船"——形容重庆两江交汇地貌。它之所以成为千年码头，是因为嘉陵江在这里拐了一个大弯，天然形成深水良港。',foreign:{payment:'街边小吃大多现金/支付宝',english:'很少英文。大部分餐厅有图片菜单，指着点就行',best_time:'工作日上午10点前',toilets:'入口附近有公厕（蹲便）。自带纸巾'}},
+  {id:'cq_jiefangbei',group:'city',zh:'解放碑',en:'Jiefangbei',hook:'抗战胜利纪念碑，站在21世纪的玻璃幕墙森林里',hook_en:'A WWII victory monument among futuristic skyscrapers',rating:4.3,price:'免费',hours:'全天',desc:'1941年，抗战最艰难的时期，重庆作为战时陪都，承受了日军长达5年半的无差别大轰炸。这座碑原名"抗战胜利纪功碑"，1947年落成，是全中国唯一一座纪念中华民族抗日战争胜利的国家纪念碑。碑上刻着四个字："愈炸愈强"。\n\n七十多年后，解放碑被LV、Gucci包围，但每到整点，碑上的钟声依然响起。碑底基座里藏着一个时空胶囊——抗战时期的报纸、货币和书信，计划在2047年（建碑100周年）开启。这是重庆老灵魂披上新皮肤。',tips:['旁边八一好吃街步行3分钟','各大奢侈品牌和快时尚品牌齐全'],photo_spot:'解放碑正面广场',insider:'碑底埋着1947年封存的时空胶囊——内有抗战时期的报纸、货币和书信。计划2047年建碑100周年时开启。',foreign:{payment:'周边商场支持Visa/Mastercard',english:'商场员工和年轻人基本都会说一点英语',best_time:'白天购物，傍晚氛围最好',toilets:'周边所有商场均有坐便器'}},
+  {id:'cq_cableway',group:'city',zh:'长江索道',en:'Yangtze Cableway',hook:'万里长江第一条空中走廊，4分钟飞渡长江',hook_en:'The first urban aerial tramway across a major river',rating:4.6,price:'单程¥20 / 往返¥30',hours:'07:30-22:30',desc:'1987年建成时，长江索道是重庆人的"公交车"。南岸的居民坐索道过江去渝中上班，车厢里挤满挑着菜篮子的农民和夹着公文包的上班族，单程票只要2块钱。设计图纸来自列宁格勒（现在的圣彼得堡），是苏联援助项目。\n\n30多年后，地铁通车、大桥架起，索道失去了交通功能，却意外获得了新的生命——封闭的橙色车厢悬在江面上空缓缓滑行，脚下是滚滚长江，两岸是层层叠叠的高楼。电影《疯狂的石头》里黄渤那段著名的"我顶你个肺"就在这里拍的。4分钟，¥20，最值的一段旅程。',tips:['南站（上新街）排队时间远短于北站（新华路）','傍晚光线最好，金色阳光打在两岸','重庆交通卡半价'],photo_spot:'靠窗右侧座位（北行方向），相机准备',insider:'索道最早是苏联援助项目，设计图纸来自列宁格勒。苏联工程师不会想到，他们设计的交通工具，30多年后成了中国的Instagram打卡圣地。',foreign:{payment:'现金或支付宝。交通卡半价',english:'售票机有英文选项。车内广播为中文',best_time:'傍晚。避开8-9点和17-18点通勤高峰',toilets:'两站均有公厕（蹲便）'}},
+  {id:'cq_nanshan_tree',group:'city',zh:'南山一棵树',en:'Nanshan Tree Deck',hook:'杜甫看过的同一片夜色，现在加上了霓虹灯',hook_en:'The same night panorama that inspired Tang Dynasty poets',rating:4.7,price:'¥30',hours:'09:00-22:30',desc:'南山一棵树观景台的"树"，是一棵真实的黄桷树——重庆的市树。这棵树站在南山半山腰上，俯瞰渝中半岛和两江交汇，已经站了上百年。唐代大诗人杜甫流寓四川时，多次写到"巴山"，他的《登高》里"无边落木萧萧下，不尽长江滚滚来"，很可能就是在类似南山这样的高点上写的。\n\n一千多年后，你站在同一片山脊上，看到的不是杜甫的孤舟渔火，而是两江四岸的LED灯光秀和来福士的水晶连廊。对于本地人来说，南山是"城市绿肺"——夏天比市区凉快5度，傍晚带着茶壶上山，找一棵树坐下，从日落喝到万家灯火。',tips:['18:00前到达占位置，晚了挤不进去','带三脚架拍夜景长曝光','山上比市区凉快3-5度'],photo_spot:'观景台最高层，长曝光拍城市灯光',insider:'南山上有条"黄桷古道"，是宋代茶马古道支线。当年马帮驮着云南普洱茶翻过南山进重庆城，路边石头上现在还有马蹄印。',foreign:{payment:'¥30门票。现金或支付宝',english:'很少英文。但这片景色不需要翻译',best_time:'18:00前到，等日落→全黑过渡',toilets:'入口附近（蹲便）。附近餐厅有坐便器'}},
+  {id:'cq_liziba',group:'city',zh:'李子坝',en:'Liziba Station',hook:'轻轨穿楼！一列地铁穿过居民楼的8层',hook_en:'A train through the 8th floor of a building',rating:4.5,price:'免费（轻轨 ¥2-7）',hours:'全天',desc:'1998年，重庆要修轻轨2号线。线路经过李子坝时遇到一个难题：山太陡，没法绕。唯一的平地已经盖了一栋19层的居民楼。工程师做了中国人最擅长的事——"那就在楼里过吧"。于是轻轨站台被放在居民楼的6-8层，轨道从楼体中间穿过。上面住人，中间跑列车，下面是商铺。\n\n最神奇的是：住在楼上的居民说，几乎听不到列车的声音——中国的隔音减震技术在这里被做到了极致。这不是刻意设计的旅游项目，是重庆在极限地形条件下用工程智慧解决真实问题的结果。这种"硬核浪漫"才是重庆最迷人的地方。',tips:['顺便坐一趟2号线（较场口→李子坝段）沿江风景极好','列车每3-5分钟一班','上午光线方向更适合拍照'],photo_spot:'李子坝站正下方观景平台',insider:'"轻轨穿楼最佳观测点"的指示牌是附近居民自己立的。他们说"游客老问在哪儿看"，干脆自己做了个牌子。重庆人的热情，就这么直接。',foreign:{payment:'轻轨¥2-7。观景台免费',english:'轻轨有英文标识和语音报站',best_time:'上午（光线方向更适合拍列车穿楼）',toilets:'附近咖啡馆有坐便器'}},
+  {id:'cq_wulong',group:'district',zh:'武隆天生三桥',en:'Wulong Three Bridges',hook:'变形金刚取景地！擎天柱站下面都显渺小',hook_en:'Three natural bridges so massive Optimus Prime looked small',rating:4.7,price:'¥125 套票',hours:'08:00-17:00',desc:'联合国世界自然遗产。三座天然形成的石拱桥——最高的天龙桥拱高235米（相当于77层楼），桥面厚度150米。你站在桥下时，连呼吸都会放轻——那种尺度感超出了人类日常经验。\n\n张艺谋的《满城尽带黄金甲》在这里搭建了一座唐代驿站。迈克尔·贝把《变形金刚4》的决战场景放在了天龙桥——擎天柱骑着机器恐龙从天龙桥上一跃而下。世界上只有三个地方有这种规模的天生桥群：武隆、美国犹他、澳大利亚。',tips:['主城出发建议7:30前','全程500多级台阶（大多向下）——穿好鞋子','提前下载离线地图——峡谷里没信号'],photo_spot:'天龙桥正下方仰拍——广角镜头必备',insider:'这三座桥不是水流冲刷出来的，而是地下水在石灰岩内部掏空了整座山体后，顶部塌陷形成的。一场跨越亿年的地质大戏。',foreign:{payment:'¥125套票。支付宝/现金。不收信用卡',english:'英文极少。请通过酒店预订英文导游（约¥500/天）',best_time:'春秋最佳。避开夏季酷暑',toilets:'游客中心有混合。景区内为蹲便'}},
+  {id:'cq_baidi',group:'district',zh:'奉节白帝城',en:'Baidi City',hook:'10元人民币背面的风景！李白在这写了千古名句',hook_en:'The view on China\'s ¥10 banknote',rating:4.6,price:'¥100',hours:'08:00-17:30',desc:'掏出一张10元人民币，背面就是这里——夔门。白帝城是长江三峡的入口，瞿塘峡是三峡中最短但最险的一段。站在白帝城上，脚下是长江，对面是赤甲山和白盐山夹江而立。李白那首"朝辞白帝彩云间，千里江陵一日还"是小学一年级必背，等于中国版国民记忆。\n\n白帝城有三重身份：三国刘备托孤的军事要塞、李白杜甫白居易留下诗篇的文学圣地、长江三峡的起点。三峡大坝蓄水后，白帝城从半岛变成了孤岛——现在需要坐船上去，但这反而让它更有"孤城"的文艺气质了。',tips:['重庆出发需要2-3天——别试图当天往返','准备一张10元人民币做对比照'],photo_spot:'白帝城观景台——举起10元纸币拍同框',insider:'夔门岩壁上有国民党将领孙元良题刻的"夔门天下雄"五个大字——每个字约2米高，在江上很远就能看到。',foreign:{payment:'¥100门票。强烈建议带现金',english:'英文极少。10元人民币就是最好的沟通方式',best_time:'4-5月、10-11月',toilets:'入口处（蹲便）'}},
+  {id:'cq_wushan',group:'district',zh:'巫山小三峡',en:'Lesser Three Gorges',hook:'翡翠色江水在峡谷中蜿蜒，千年悬棺之谜',hook_en:'Jade-green water and 2,000-year-old hanging coffins',rating:4.5,price:'约¥150',hours:'08:00-17:00',desc:'大三峡名气太大，反而让大多数游客错过了小三峡。小三峡是长江支流大宁河上的一段峡谷，和大三峡的"雄伟"不同，小三峡是"秀美"——水面只有几十米宽，两岸绝壁几乎垂直，猴子在崖壁上跳来跳去。\n\n最震撼的是水色——翡翠绿，不是黄的，因为大宁河不受长江干流泥沙影响。悬棺是小三峡最大的谜：2000多年前的巴人把棺材放在距水面100多米的崖壁洞穴里，怎么放上去的？至今没有定论。BBC来这里拍过纪录片，主持人在船上说了句："这不像在地球上。"',tips:['10-11月赏红叶。4-5月温度舒适','船程约4小时——带一件薄外套（水面风大）'],photo_spot:'滴翠峡——翡翠水面+雾笼峭壁',insider:'滴翠峡的名字来自竹子。峡谷两岸长满箭竹，雨水从竹叶滑落，终年不断，整个峡谷永远笼着一层水雾。古人叫它"翠滴"。',foreign:{payment:'约¥150船票。强烈建议带现金',english:'导游说中文。景色本身就是通用语言',best_time:'10-11月红叶季。避开7-8月（炎热+蚊虫）',toilets:'船上（蹲便）。自带纸巾'}},
+  {id:'cq_taohuayuan',group:'district',zh:'酉阳桃花源',en:'Peach Blossom Spring',hook:'穿过山洞就是陶渊明笔下的世外桃源',hook_en:'The utopia a poet dreamed 1,600 years ago',rating:4.3,price:'¥100',hours:'08:00-17:30',desc:'公元421年，东晋诗人陶渊明写了一篇《桃花源记》：渔夫穿过山洞，发现了一个与世隔绝的世外桃源。1600年来，中国人一直在争论：桃花源到底在哪？酉阳人说：就在这里。\n\n酉阳的地理环境和陶渊明的描述惊人吻合——要穿过一个天然溶洞才能进入四面环山的峡谷盆地；谷里有良田美池桑竹；当地土家族人世代居住于此，民风淳朴。穿过山洞那个瞬间是最妙的：越走越暗，然后突然亮光乍现——一个被群山环抱的谷地在你面前展开。',tips:['山洞→山谷的瞬间是最大亮点——别看太多剧透照片','3-4月春花开时最美'],photo_spot:'从山洞走出、山谷在眼前展开的那个瞬间',insider:'酉阳是土家族苗族自治县。每年农历四月初八，土家族过"牛王节"——这一天耕牛放假，人们给牛洗澡、戴花、喂最好的草料。一个把感恩刻进日历的民族。',foreign:{payment:'¥100门票。建议带现金',english:'英文极少。视觉冲击本身就是通用语言',best_time:'3-4月',toilets:'入口和谷内均有'}},
+  {id:'cq_simianshan',group:'district',zh:'江津四面山',en:'Simian Mountain',hook:'208条有名有姓的瀑布，其中一条是心形的',hook_en:'208 waterfalls — one shaped like a heart',rating:4.4,price:'¥110',hours:'08:00-17:00',desc:'四面山不是一座山，是一片面积213平方公里的原始森林。它有两个世界级的身价：一是"丹霞地貌"（世界自然遗产），二是中国瀑布密度最高——208条已命名的瀑布。\n\n望乡台瀑布是头牌——高152米，宽37米，从航拍角度看恰好是一个完美的"心"形，很多情侣专门来这里求婚。更动人的是"爱情天梯"的故事：上世纪50年代，重庆青年刘国江为了大他10岁的妻子，在悬崖上用50年时间凿出了6208级石梯——每一步都是爱。',tips:['6-9月瀑布水量最大','爱情天梯很陡——务必穿登山鞋'],photo_spot:'望乡台瀑布——无人机俯拍可见心形',insider:'丹霞地貌形成于1.4亿年前的侏罗纪。雨后天晴时，红色山体配绿色森林、白色瀑布、蓝色天空——四色同框，完全不用修图。',foreign:{payment:'¥110门票。不收外卡',english:'英文极少',best_time:'6-9月瀑布季。10-11月秋色',toilets:'入口及主要景点均有'}},
+  {id:'cq_hotpot',group:'heritage',zh:'重庆火锅',en:'Chongqing Hotpot',hook:'国家级非遗！一口锅煮了一座城的灵魂',hook_en:'A city boiling in one pot — National Intangible Cultural Heritage',rating:4.7,price:'人均 ¥60-150',hours:'11:00-凌晨2:00',desc:'把火锅只当作"美食"是低估了它。它是重庆的底层叙事。19世纪末，朝天门码头的船工和挑夫们，把牛贩子扔掉的下水（牛肚、百叶、鸭肠）扔进辣椒花椒锅里涮——不是为了味道，是用重口味掩盖内脏的腥味，用高热量补充体力。火锅诞生于码头，不是厨房；是穷人的生存智慧，不是厨师的发明。\n\n九宫格暗藏玄机：中间格子最沸（涮毛肚），四角微沸（煮脑花），边上最冷（放久煮食材）。这是一套比米其林厨房早了一百年的"温度分区控制系统"。重庆火锅被列入国家级非物质文化遗产，不是因为它"好吃"，是因为它承载了中国近代史上一个阶级的生活方式。',tips:['第一次来重庆→要鸳鸯锅（一半红汤一半清汤），给自己留后路','必点：毛肚、鸭肠、耗儿鱼、嫩牛肉、贡菜','解辣三件套：唯怡豆奶、红糖冰粉、老酸奶'],photo_spot:'九宫格沸腾冒蒸汽的瞬间',insider:'重庆火锅用牛油，成都火锅用菜籽油——这是中国最激烈的美食辩论，答案取决于你问的是重庆人还是成都人。',foreign:{payment:'大部分餐厅支持支付宝。随身带¥300现金去小店',english:'打印火锅食材中英对照卡给服务员看'}}
+];
+
+const ROUTES=[{id:'r1',title:'8D魔幻都市一日',sub:'一天看遍所有名场面',hook:'一天之内，上天入地穿楼过江。这就是8D魔幻重庆。',d:1,e:'⭐⭐⭐',b:'¥200-400',f:'⭐⭐⭐⭐⭐',days:[{t:'上午 → 深夜',c:'09:00 解放碑 → 八一好吃街\n10:30 洪崖洞（日间版）\n13:30 轻轨2号线 → 李子坝看穿楼\n15:00 长江索道 → 4分钟过江\n16:00 打车至南山一棵树\n17:30-20:00 日落 → 城市亮灯\n20:30 千厮门大桥拍洪崖洞夜景\n21:00 洪崖洞11楼城市阳台'}],fn:'地铁全程英文标识。支付宝+¥300现金全覆盖。约15000步。'},{id:'r2',title:'山城烟火两日',sub:'用脚步、轻轨和火锅丈量这座城市',hook:'两天时间，Day1看繁华、Day2钻市井。',d:2,e:'⭐⭐',b:'¥500-1000',f:'⭐⭐⭐⭐',days:[{t:'第一天 — 上半城：古镇与江景',c:'09:00 磁器口古镇（趁早去！）\n14:00 轻轨1转2号线 → 李子坝\n15:30 鹅岭公园看全景\n17:30 两江夜游船\n20:30 洪崖洞夜景'},{t:'第二天 — 下半城：老重庆毛细血管',c:'09:00 山城步道（悬崖步道2小时）\n12:30 花市豌杂面（下午2点前要到！）\n14:00 长江索道（北→南）\n15:00 南滨路散步\n18:00 洞子口老火锅（防空洞里吃！）'}],fn:'Day1偏游客线，Day2偏本地人线。Day2带¥400现金。'},{id:'r3',title:'武隆喀斯特两日',sub:'世界自然遗产·走进侏罗纪梦境',hook:'变形金刚取景地 + UNESCO世界遗产。两天，走进侏罗纪。',d:2,e:'⭐⭐⭐⭐',b:'¥800-1500',f:'⭐⭐⭐',days:[{t:'第一天 — 天生三桥',c:'07:30 重庆出发（2.5小时车程/1.5小时高铁）\n10:00 天生三桥景区\n14:30 龙水峡地缝\n17:00 仙女山镇住宿'},{t:'第二天 — 高山草原',c:'08:00 仙女山国家森林公园\n09:00 高山草原+森林小火车\n10:30 通天塔观景\n12:00 返程'}],fn:'通过酒店订高铁票。英文导游约¥500/天。带¥1000+现金。海拔1800米，比市区凉，夏季也带外套。'},{id:'r4',title:'大足石刻一日',sub:'5万尊佛像·1200年时光',hook:'中国的西斯廷——一天，跨越千年。',d:1,e:'⭐',b:'¥300-600',f:'⭐⭐⭐⭐',days:[{t:'全天',c:'07:30 出发（1.5小时车程/高铁+打车）\n09:00 宝顶山 → 千手观音\n→ 圆觉洞（上午10点光影最佳！）\n→ 一定要请讲解员\n12:00 大足邮亭鲫鱼午餐\n17:00 返程（约18:30到）'}],fn:'最老外友好的5A景区。多为平地。有英文语音导览。¥135门票。'},{id:'r8',title:'主城夜景巡礼',sub:'傍晚半天·四个机位四个角度',hook:'天黑了，魔法开始了。四个机位，四个角度，一个夜晚。',d:.5,e:'⭐',b:'¥100-200',f:'⭐⭐⭐⭐⭐',days:[{t:'日落 → 深夜',c:'17:30 长江索道——日落过江\n18:30 南山一棵树——等亮灯\n20:30 南滨路——对岸看洪崖洞\n21:00 千厮门大桥——走到桥中间\n21:30 洪崖洞11楼阳台收尾'}],fn:'最老外友好。不需要语言——灯光就是通用语言。全程打车约¥150。'}];
+
+let curFilter='all';
+function filterAll(g,btn){curFilter=g;document.querySelectorAll('.filter-row button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderMasonry()}
+function switchTab(t){document.querySelectorAll('.nav-row button').forEach((b,i)=>b.classList.toggle('active',i===['points','routes'].indexOf(t)));document.getElementById('tab-points').style.display=t==='points'?'block':'none';document.getElementById('tab-routes').style.display=t==='routes'?'block':'none'}
+function gLabel(g){return g==='city'?'主城地标':g==='district'?'5A景区':'非遗文化'}
+function gBadge(g){return g==='city'?'badge-city':g==='district'?'badge-district':'badge-culture'}
+
+function renderMasonry(){
+  let pois=D.filter(p=>curFilter==='all'||p.group===curFilter),cards=[];
+  pois.forEach(p=>{
+    cards.push(`<div class="card card-hero" onclick="openArticle('${p.id}')"><span class="type-badge"><span class="badge-type ${gBadge(p.group)}">${gLabel(p.group)}</span></span><span class="rating">★ ${p.rating}</span><div class="img-placeholder">📷 ${p.zh}</div><div class="card-inner"><div class="overlay"><h3>${p.hook.split('，')[0]}</h3><div class="sub">${p.en} · ${p.zh}</div><div class="meta"><span>💰 ${p.price}</span><span>🕐 ${p.hours}</span></div></div></div></div>`);
+    cards.push(`<div class="card card-story" onclick="openArticle('${p.id}')"><div class="img-placeholder">📷 ${p.zh} 实景图</div><div class="card-inner"><span class="badge-type ${gBadge(p.group)}">${gLabel(p.group)}</span><h3>${p.hook}</h3><div class="excerpt">${(p.desc||'').split('\n\n')[0]}</div><div class="byline">⭐ ${p.rating} · ${p.price}</div></div></div>`);
+    if(p.tips&&p.tips.length) cards.push(`<div class="card card-tips" onclick="openArticle('${p.id}')"><div class="card-inner"><h3>💡 本地贴士 · ${p.zh}</h3>${p.tips.map(t=>`<div class="tip-item"><span>▸</span> ${t}</div>`).join('')}</div></div>`);
+    if(p.insider) cards.push(`<div class="card card-insider" onclick="openArticle('${p.id}')"><div class="card-inner"><div class="quote">"${p.insider}"</div><div class="attr">—— ${p.zh}</div></div></div>`);
+    if(p.photo_spot) cards.push(`<div class="card card-photo" onclick="openArticle('${p.id}')"><div class="card-inner"><h3>📸 最佳机位 · ${p.zh}</h3><p>${p.photo_spot}</p></div></div>`);
+    if(p.foreign) cards.push(`<div class="card card-foreign" onclick="openArticle('${p.id}')"><div class="card-inner"><h3>🌏 老外贴士 · ${p.zh}</h3>${p.foreign.payment?`<div class="f-item">💳 ${p.foreign.payment}</div>`:''}${p.foreign.english?`<div class="f-item">🗣️ ${p.foreign.english}</div>`:''}${p.foreign.best_time?`<div class="f-item">⏰ ${p.foreign.best_time}</div>`:''}${p.foreign.toilets?`<div class="f-item">🚻 ${p.foreign.toilets}</div>`:''}</div></div>`);
+  });
+  document.getElementById('masonry').innerHTML=cards.join('');
+  document.getElementById('timeline').innerHTML=pois.map(p=>`<div class="tl-item" onclick="openArticle('${p.id}')"><div class="tl-dot">${p.group==='city'?'🏙️':p.group==='district'?'⛰️':'🎭'}</div><div class="tl-name">${p.zh}</div><div class="tl-type">${gLabel(p.group)}</div></div>`).join('');
+}
+
+function openArticle(id){
+  let p=D.find(x=>x.id===id);if(!p)return;
+  let paras=(p.desc||'').split('\n\n').filter(x=>x.trim());
+  document.getElementById('modal-content').innerHTML=`<div class="ma-hero"><button class="ma-close" onclick="closeModal()">✕</button>📷 ${p.zh}</div><div class="ma-body"><div class="ma-cat">${gLabel(p.group)} · ${p.en}</div><h2>${p.hook}</h2><div class="subtitle">${p.hook_en}</div><div class="ma-meta"><span>💰 ${p.price}</span><span>🕐 ${p.hours}</span><span>★ ${p.rating}</span></div>${paras.map(t=>`<p class="ma-body-text">${t.trim()}</p>`).join('')}${paras.length>1?`<div class="pull-quote">${paras[1].split('。')[0].trim()}。</div>`:''}${(p.tips||[]).length?`<div class="tip-callout"><h4>💡 实用贴士</h4><ul>${p.tips.map(t=>`<li>${t}</li>`).join('')}</ul></div>`:''}${p.insider?`<p style="font-size:.82rem;color:#2e7d32;line-height:1.6;margin:12px 0">💡 ${p.insider}</p>`:''}${p.photo_spot?`<p style="font-size:.82rem;color:#1565c0;margin:8px 0">📸 ${p.photo_spot}</p>`:''}${p.foreign?`<div class="foreign-box"><h4>🌏 外国游客实用速查</h4>${p.foreign.payment?`<p>💳 ${p.foreign.payment}</p>`:''}${p.foreign.english?`<p>🗣️ ${p.foreign.english}</p>`:''}${p.foreign.best_time?`<p>⏰ ${p.foreign.best_time}</p>`:''}${p.foreign.toilets?`<p>🚻 ${p.foreign.toilets}</p>`:''}</div>`:''}</div>`;
+  document.getElementById('modal').classList.add('open');document.body.style.overflow='hidden'
+}
+function closeModal(){document.getElementById('modal').classList.remove('open');document.body.style.overflow=''}
+
+// Routes
+(function(){
+  document.getElementById('routes-container').innerHTML=ROUTES.map(r=>`<div class="route-full" onclick="this.classList.toggle('open')"><div class="rf-header"><div class="rf-img">📷 ${r.title}</div><div class="rf-intro"><div class="rf-label">${r.d}${r.d===.5?'傍晚':r.d===1?'天':'天'} · ${r.f} 老外友好</div><h3>${r.title} <span style="font-weight:400;color:var(--muted);font-size:.82rem">${r.sub}</span></h3><div class="hook">${r.hook}</div><div class="rf-meta"><span>💪 ${r.e}</span><span>💰 ${r.b}</span></div></div></div><div class="rf-body">${r.days.map(d=>`<div class="rf-day"><h4>${d.t}</h4><pre>${d.c}</pre></div>`).join('')}${r.fn?`<div class="rf-note"><b>🌏 老外贴士：</b> ${r.fn}</div>`:''}</div></div>`).join('');
+})();
+
+renderMasonry();
+</script>
+</body>
+</html>
