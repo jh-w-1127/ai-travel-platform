@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from enum import Enum
-from typing import Optional, Annotated
+from typing import Optional, List
 from datetime import datetime
 
 from pydantic import BaseModel, Field
@@ -33,12 +33,12 @@ class POI(BaseModel):
     type: POIType
     lat: float
     lng: float
-    tags: list[str] = []
+    tags: List[str] = []
     description_zh: str = ""
     description_en: str = ""
-    price_range: str = ""  # e.g. "free", "¥50-100", "¥300+"
+    price_range: str = ""
     opening_hours: str = ""
-    tips: list[str] = []
+    tips: List[str] = []
     best_photo_spot: str = ""
     track: PriceTrack = PriceTrack.both
     rating: float = 0.0
@@ -46,24 +46,24 @@ class POI(BaseModel):
 
 # ── Itinerary ────────────────────────────────────────
 
-class DayPlan(BaseModel):
-    day: int
-    date: str = ""  # e.g. "Day 1"
-    title_zh: str = ""
-    title_en: str = ""
-    items: list[ItineraryItem] = []
-
-
 class ItineraryItem(BaseModel):
-    time: str = ""  # e.g. "09:00-11:00"
+    time: str = ""
     poi_id: Optional[str] = None
     poi_name_zh: str = ""
     poi_name_en: str = ""
-    activity: str = ""  # description
-    transport: str = ""  # how to get there
-    duration: str = ""  # e.g. "2h"
+    activity: str = ""
+    transport: str = ""
+    duration: str = ""
     cost_estimate: str = ""
-    tips: list[str] = []
+    tips: List[str] = []
+
+
+class DayPlan(BaseModel):
+    day: int
+    date: str = ""
+    title_zh: str = ""
+    title_en: str = ""
+    items: List[ItineraryItem] = []
 
 
 class Itinerary(BaseModel):
@@ -72,20 +72,20 @@ class Itinerary(BaseModel):
     track: PriceTrack
     days: int = 3
     total_budget: str = ""
-    plan: list[DayPlan] = []
+    plan: List[DayPlan] = []
     created_at: datetime = Field(default_factory=datetime.now)
 
 
 # ── Chat ─────────────────────────────────────────────
 
 class ChatMessage(BaseModel):
-    role: str  # user / assistant / system / function
+    role: str
     content: str
 
 
 class ChatRequest(BaseModel):
-    messages: list[ChatMessage]
-    track: Optional[PriceTrack] = None  # user can pre-select track
+    messages: List[ChatMessage]
+    track: Optional[PriceTrack] = None
 
 
 # ── SSE Event Types ──────────────────────────────────
