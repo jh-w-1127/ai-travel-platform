@@ -3,18 +3,32 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>重庆旅行 · 景点 × 笔记</title>
+<title>重庆旅行 · 8D魔幻城市探索指南 — 一站式入境游定制平台</title>
+<meta name="description" content="AI驱动的重庆入境游一站式平台。13个景点深度攻略，9篇旅行笔记，一键定制专属行程。机票酒店门票交通全包，简单放心。">
+<meta property="og:title" content="重庆旅行 · 8D魔幻城市探索指南">
+<meta property="og:description" content="轻轨穿过居民楼，火锅沸腾在山顶上——探索中国最不可思议的旅行目的地">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#1A1A2E">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231A1A2E'/><text y='24' font-size='20'>🏔️</text></svg>">
 <style>
 :root{--red:#C0392B;--gold:#D4A017;--dark:#1A1A2E;--river:#2C3E50;--bg:#f2f0eb;--card:#fff;--ink:#1a1a2e;--muted:#7a7a7a;--border:#e3e0d8}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 
 /* HERO */
-.hero{background:var(--dark);padding:50px 24px 42px;text-align:center;position:relative;overflow:hidden}
-.hero::before{content:"";position:absolute;inset:0;opacity:.1;background:radial-gradient(circle at 30% 60%,var(--gold),transparent 50%),radial-gradient(circle at 70% 30%,var(--red),transparent 50%)}
-.hero .kicker{color:rgba(255,255,255,.45);font-size:.66rem;letter-spacing:4px;position:relative;z-index:1;margin-bottom:6px}
-.hero h1{font-size:clamp(1.4rem,3vw,1.9rem);font-weight:900;color:#fff;position:relative;z-index:1}
-.hero h1 em{font-style:normal;background:linear-gradient(135deg,#F472B6,#FB923C,#FACC15);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero{background:linear-gradient(135deg,#1a1a2e 0%,#16213e 40%,#0f3460 100%);padding:120px 24px 100px;text-align:center;position:relative;overflow:hidden;min-height:60vh;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.hero::before{content:"";position:absolute;inset:0;opacity:.35;background:url('https://images.unsplash.com/photo-1589705433982-72ab1f67b7d8?w=1920&q=80') center/cover;filter:brightness(0.5)}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(26,26,46,.4) 0%,rgba(26,26,46,.85) 100%)}
+.hero .kicker{color:rgba(255,255,255,.55);font-size:.72rem;letter-spacing:5px;text-transform:uppercase;position:relative;z-index:1;margin-bottom:10px}
+.hero h1{font-size:clamp(2rem,6vw,3.8rem);font-weight:900;color:#fff;position:relative;z-index:1;line-height:1.15;margin-bottom:8px}
+.hero h1 em{font-style:normal;background:linear-gradient(135deg,#F472B6 0%,#FB923C 50%,#FACC15 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:block;font-size:clamp(2.5rem,7vw,5rem)}
+.hero .subtitle{color:rgba(255,255,255,.6);font-size:1.05rem;max-width:580px;margin:0 auto 20px;position:relative;z-index:1;line-height:1.6}
+.hero .hero-stats{display:flex;gap:28px;position:relative;z-index:1;flex-wrap:wrap;justify-content:center}
+.hero .hero-stats span{color:rgba(255,255,255,.5);font-size:.78rem;display:flex;align-items:center;gap:5px}
+.hero .hero-stats span b{color:rgba(255,255,255,.85);font-size:1rem}
+.hero-cta{position:relative;z-index:1;margin-top:28px;padding:14px 36px;border-radius:30px;border:none;background:linear-gradient(135deg,var(--red),#ea580c);color:#fff;font-size:.95rem;font-weight:700;cursor:pointer;box-shadow:0 4px 20px rgba(192,57,43,.4);transition:all .3s;animation:ctaPulse 2.5s ease-in-out infinite}
+.hero-cta:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(192,57,43,.5);animation:none}
+@keyframes ctaPulse{0%,100%{box-shadow:0 4px 20px rgba(192,57,43,.4)}50%{box-shadow:0 6px 28px rgba(192,57,43,.6)}}
 
 .container{max-width:1140px;margin:0 auto;padding:0 20px 40px}
 .nav-bar{display:flex;gap:0;background:var(--card);border-radius:12px;padding:4px;margin:-22px auto 24px;max-width:480px;box-shadow:0 2px 12px rgba(0,0,0,.04);position:relative;z-index:2}
@@ -49,7 +63,10 @@ body{font-family:'PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg)
 
 .m-card{background:var(--card);border-radius:6px;border:1px solid var(--border);overflow:hidden;cursor:pointer;transition:transform .3s cubic-bezier(.16,1,.3,1),box-shadow .3s;animation:fadeUp .45s ease both;display:flex;flex-direction:column}
 .m-card:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(0,0,0,.07)}
-.m-card .mc-img{position:relative;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#aaa;font-size:.7rem;background:linear-gradient(135deg,#d0ccc5,#c8c4bb)}
+.m-card .mc-img{position:relative;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#aaa;font-size:.7rem;background:linear-gradient(135deg,#d0ccc5,#c8c4bb);transition:filter .4s}
+.m-card:hover .mc-img{filter:brightness(1.1)}
+.m-card .mc-img-inner-placeholder{position:absolute;inset:0;background:linear-gradient(90deg,#e0e0e0 25%,#eee 50%,#e0e0e0 75%);background-size:200% 100%;animation:shimmer 1.5s infinite}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
 .cs-2 .mc-img{height:120px}.cs-3 .mc-img{height:150px}.cs-4 .mc-img{height:260px}
 .m-card .mc-badge{position:absolute;top:10px;left:10px;padding:2px 10px;border-radius:3px;font-size:.6rem;font-weight:700;color:#fff;letter-spacing:1px;z-index:2}
 .m-card .mc-body{padding:14px 16px;flex:1;display:flex;flex-direction:column}
@@ -86,6 +103,90 @@ body{font-family:'PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg)
 .btt.visible{opacity:1;transform:translateY(0);pointer-events:auto}
 .btt:hover{transform:translateY(-2px);box-shadow:0 6px 22px rgba(26,26,46,.4)}
 
+/* PLANNER */
+.planner-card{max-width:700px;margin:0 auto;background:var(--card);border-radius:12px;padding:28px;border:1px solid var(--border)}
+.planner-form{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;align-items:center}
+.planner-chat{margin-bottom:20px}
+.planner-chat textarea{width:100%;padding:12px 14px;border-radius:8px;border:1px solid var(--border);font-size:.88rem;font-family:inherit;resize:vertical;outline:none;background:var(--bg)}
+.planner-chat textarea:focus{border-color:var(--gold)}
+.planner-form select{padding:10px 16px;border-radius:8px;border:1px solid var(--border);font-size:.9rem;background:var(--card)}
+.btn-track{padding:10px 18px;border-radius:8px;border:1px solid var(--border);cursor:pointer;font-weight:600;font-size:.85rem;background:var(--card);color:var(--muted);transition:all .2s}
+.btn-track.active{background:var(--dark);color:#fff;border-color:var(--dark)}
+.btn-generate{padding:10px 24px;border-radius:8px;border:none;cursor:pointer;font-weight:700;font-size:.9rem;background:linear-gradient(135deg,var(--red),#ea580c);color:#fff;box-shadow:0 4px 14px rgba(192,57,43,.25);transition:all .2s}
+.btn-generate:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(192,57,43,.35)}
+.spinner{width:20px;height:20px;border:2px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;display:inline-block;vertical-align:middle;margin-right:8px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Plan result */
+.plan-result-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:20px;margin-top:20px;animation:fadeUp .4s ease}
+.plan-result-card .pr-header{display:flex;justify-content:space-between;align-items:start;margin-bottom:16px;flex-wrap:wrap;gap:12px}
+.plan-result-card .pr-header h3{font-size:1.2rem}
+.plan-result-card .pr-total{text-align:right}
+.plan-result-card .pr-total .big{font-size:1.6rem;font-weight:900;color:var(--red)}
+.plan-result-card .pr-total .small{font-size:.78rem;color:var(--muted)}
+.plan-day{margin-bottom:12px}
+.plan-day .pd-header{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#f5f5f7;border-radius:8px;cursor:pointer;font-size:.88rem;font-weight:700}
+.plan-day .pd-body{display:none;padding:12px 0}
+.plan-day .pd-body.open{display:block}
+.plan-day .pd-item{display:flex;gap:12px;padding:8px 0;border-bottom:1px solid #f0f0f3;font-size:.82rem}
+.plan-day .pd-item .pd-time{width:80px;flex-shrink:0;color:var(--red);font-weight:600;font-size:.76rem}
+.plan-day .pd-item .pd-info{flex:1}.plan-day .pd-item .pd-meta{flex-shrink:0;color:var(--muted);font-size:.72rem;text-align:right}
+.plan-budget{background:#f9fafb;border-radius:8px;padding:14px;margin-top:16px}
+.plan-budget .pb-row{display:flex;justify-content:space-between;padding:3px 0;font-size:.82rem}
+.plan-budget .pb-row.total{border-top:2px solid var(--border);margin-top:6px;padding-top:8px;font-weight:800;font-size:.95rem}
+.plan-budget .pb-row.total .amt{color:var(--red)}
+.plan-cta{display:flex;justify-content:center;margin-top:16px}
+.plan-cta button{padding:12px 36px;border-radius:8px;border:none;cursor:pointer;font-weight:700;font-size:.95rem;background:var(--dark);color:#fff;box-shadow:0 4px 16px rgba(26,26,46,.25);transition:all .2s}
+.plan-cta button:hover{transform:translateY(-1px);box-shadow:0 6px 22px rgba(26,26,46,.35)}
+
+/* Example showcase cards */
+.examples-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+.example-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:0;overflow:hidden;cursor:pointer;transition:transform .3s,box-shadow .3s}
+.example-card:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(0,0,0,.08)}
+.example-card .ex-top{display:flex;justify-content:space-between;align-items:center;padding:12px 14px 8px}
+.example-card .ex-badge{padding:3px 10px;border-radius:4px;font-size:.68rem;font-weight:700;color:#fff}
+.example-card .ex-badge.budget{background:#059669}.example-card .ex-badge.premium{background:var(--gold)}
+.example-card .ex-days{font-size:.72rem;color:var(--muted);font-weight:600}
+.example-card .ex-body{padding:0 14px 10px}
+.example-card .ex-body h4{font-size:.95rem;font-weight:800;margin-bottom:4px}
+.example-card .ex-body p{font-size:.78rem;color:#555;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:8px}
+.example-card .ex-highlights{display:flex;flex-wrap:wrap;gap:4px}
+.example-card .ex-highlights span{padding:2px 8px;border-radius:4px;background:#f3f4f6;font-size:.68rem;color:var(--muted)}
+.example-card .ex-footer{display:flex;justify-content:space-between;align-items:baseline;padding:10px 14px;background:#fafafa;border-top:1px solid var(--border)}
+.example-card .ex-price{font-size:1.15rem;font-weight:900;color:var(--red)}
+.example-card .ex-usd{font-size:.72rem;color:var(--muted)}
+
+/* SUPPORT */
+.support-card{max-width:700px;margin:0 auto;background:var(--card);border-radius:12px;padding:28px;border:1px solid var(--border)}
+.chat-box{max-height:320px;overflow-y:auto;margin-bottom:14px;display:flex;flex-direction:column;gap:8px}
+.chat-msg{max-width:85%;padding:10px 14px;border-radius:10px;font-size:.84rem;line-height:1.5}
+.chat-msg.ai{align-self:flex-start;background:#f0f0f5;color:var(--ink);border-bottom-left-radius:3px}
+.chat-msg.user{align-self:flex-end;background:var(--dark);color:#fff;border-bottom-right-radius:3px}
+.quick-asks{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.quick-asks button{padding:6px 14px;border-radius:16px;border:1px solid var(--border);background:var(--card);font-size:.78rem;cursor:pointer;color:var(--muted);transition:all .2s}
+.quick-asks button:hover{background:var(--dark);color:#fff;border-color:var(--dark)}
+
+/* Floating Chat Sidebar */
+.chat-float{position:fixed;bottom:24px;right:24px;width:auto;height:50px;padding:0 20px;border-radius:28px;background:var(--dark);color:#fff;border:none;cursor:pointer;font-size:.88rem;font-weight:600;z-index:51;box-shadow:0 4px 20px rgba(26,26,46,.35);transition:all .3s;display:flex;align-items:center;gap:8px;animation:floatPulse 3s ease-in-out infinite}
+.chat-float::before{content:"";position:absolute;inset:-3px;border-radius:30px;border:2px solid var(--gold);opacity:.15;animation:floatRing 3s ease-in-out infinite}
+@keyframes floatPulse{0%,100%{box-shadow:0 4px 20px rgba(26,26,46,.35)}50%{box-shadow:0 8px 32px rgba(26,26,46,.5)}}
+@keyframes floatRing{0%,100%{opacity:.08}50%{opacity:.25}}
+.chat-float:hover{transform:scale(1.05);animation:none;box-shadow:0 8px 30px rgba(26,26,46,.45)}
+.chat-float.hidden{opacity:0;pointer-events:none;transform:translateY(16px)}
+.chat-sidebar{position:fixed;top:0;right:-380px;width:360px;height:100vh;background:var(--card);z-index:52;display:flex;flex-direction:column;box-shadow:-4px 0 24px rgba(0,0,0,.12);transition:right .35s cubic-bezier(.16,1,.3,1)}
+.chat-sidebar.open{right:0}
+.chat-sidebar-header{display:flex;justify-content:space-between;align-items:center;padding:16px 18px;border-bottom:1px solid var(--border);flex-shrink:0}
+.chat-sidebar-header h3{font-size:1rem;font-weight:800}
+.chat-sidebar-header button{width:30px;height:30px;border-radius:50%;border:none;background:#f0f0f3;cursor:pointer;font-size:.9rem;color:var(--muted)}
+.chat-sidebar-body{flex:1;overflow-y:auto;padding:14px}
+.chat-box-inner{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+.chat-sidebar-input{display:flex;gap:8px;padding:12px 14px;border-top:1px solid var(--border);flex-shrink:0}
+.chat-sidebar-input input{flex:1;padding:10px;border-radius:8px;border:1px solid var(--border);font-size:.84rem;outline:none}
+.chat-sidebar-input input:focus{border-color:var(--gold)}
+.chat-sidebar-input button{padding:10px 18px;border-radius:8px;border:none;background:var(--dark);color:#fff;font-weight:600;font-size:.84rem;cursor:pointer}
+
+@media(max-width:600px){.chat-sidebar{width:100vw;right:-100vw}.chat-float{bottom:20px;right:20px}}
+
 /* PANEL */
 .overlay{display:none;position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.5);backdrop-filter:blur(5px)}
 .overlay.open{display:flex;align-items:center;justify-content:center;padding:20px}
@@ -110,21 +211,135 @@ body{font-family:'PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg)
 /* Anims */
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 
-@media(max-width:600px){.masonry{grid-template-columns:repeat(2,1fr)}.cs-2,.cs-3,.cs-4{grid-column:span 2}.rs-2{grid-row:span 1}.cs-4 .mc-img{height:180px}.panel .pb{padding:18px 16px}.panel .ph{height:160px}}
+/* Footer */
+.site-footer{text-align:center;padding:32px 20px 24px;border-top:1px solid var(--border);margin-top:40px}
+.footer-trust{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;font-size:.78rem;color:var(--muted);font-weight:500}
+
+@media(max-width:600px){.masonry{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:10px;padding-bottom:8px;-webkit-overflow-scrolling:touch}.masonry::-webkit-scrollbar{height:3px}.masonry::-webkit-scrollbar-thumb{background:#ccc;border-radius:2px}.masonry>*{flex:0 0 85vw;scroll-snap-align:start}.m-card,.m-stat,.m-quote,.m-div{grid-column:unset!important;grid-row:unset!important}.m-div{flex:0 0 auto!important;scroll-snap-align:none}.cs-4 .mc-img{height:200px}.panel .pb{padding:18px 16px}.panel .ph{height:160px}}
 </style>
 </head>
 <body>
 
-<div class="hero"><div class="kicker">CHONGQING · EXPLORE</div><h1>景点 × 笔记 <em>双向漫游</em></h1></div>
+<div class="hero">
+  <div class="kicker">DISCOVER CHONGQING</div>
+  <h1>这不是一座城市<br><em>这是一个8D魔幻世界</em></h1>
+  <p class="subtitle">轻轨穿过居民楼，火锅沸腾在山顶上，吊脚楼挂在悬崖边 —— 探索中国最不可思议的旅行目的地</p>
+  <div class="hero-stats">
+    <span>📍 <b>13</b> 景点故事</span>
+    <span>📝 <b>12</b> 篇深度笔记</span>
+    <span>🧭 <b>一键</b> 定制行程</span>
+    <span>🤖 <b>AI</b> 随时答疑</span>
+  </div>
+  <button class="hero-cta" onclick="switchTab('planner');document.querySelector('.main-content').scrollIntoView({behavior:'smooth'})">🧭 开始定制我的重庆之旅 →</button>
+</div>
 
-<div class="container">
+<div class="container main-content">
 <div class="nav-bar">
-  <button class="active" onclick="switchTab('points')">📍 景点 (5)</button>
-  <button onclick="switchTab('notes')">📝 笔记 (9)</button>
+  <button class="active" onclick="switchTab('points')">📍 景点 (13)</button>
+  <button onclick="switchTab('notes')">📝 笔记 (12)</button>
+  <button onclick="switchTab('planner')">🧭 行程计划</button>
 </div>
 
 <div id="tab-points"><div class="feat-label">🔥 精选推荐</div><div class="h-scroll" id="h-points"></div><div class="masonry" id="m-points"></div></div>
 <div id="tab-notes" style="display:none"><div class="feat-label">🔥 热门笔记</div><div class="h-scroll" id="h-notes"></div><div class="masonry" id="m-notes"></div></div>
+<div id="tab-planner" style="display:none">
+  <div class="planner-card">
+    <h2>🧭 AI 行程定制</h2>
+    <p style="color:var(--muted);margin-bottom:16px;font-size:.9rem">用自然语言告诉AI你要什么——喜欢夜景？预算有限？带爸妈出行？AI帮你编排专属行程。<a href="#" onclick="toggleChat();return false" style="color:var(--gold);text-decoration:underline">有问题？问问AI助手 →</a></p>
+    <div class="planner-chat">
+      <textarea id="plan-desc" placeholder="例如：我想在重庆玩3天，喜欢夜景和火锅，预算中等，带女朋友一起..." rows="3"></textarea>
+      <div class="planner-form" style="margin-top:8px">
+        <select id="plan-days"><option value="2">2 天</option><option value="3" selected>3 天</option><option value="4">4 天</option><option value="5">5 天</option></select>
+        <button class="btn-track active" id="btn-budget" onclick="setTrack('budget')">💰 经济实惠</button>
+        <button class="btn-track" id="btn-premium" onclick="setTrack('premium')">✨ 高端定制</button>
+        <button class="btn-generate" onclick="generatePlan()">🤖 AI生成行程</button>
+      </div>
+    </div>
+    <!-- Examples -->
+    <div style="margin-bottom:18px">
+      <p style="font-size:.76rem;color:var(--muted);margin-bottom:10px;letter-spacing:2px">📋 精选案例</p>
+      <div class="examples-row">
+        <div class="example-card" onclick="setTrack('budget');document.getElementById('plan-days').value='3';generatePlan()">
+          <div class="ex-top">
+            <span class="ex-badge budget">💰 经济实惠</span>
+            <span class="ex-days">3天2晚</span>
+          </div>
+          <div class="ex-body">
+            <h4>背包客经典路线</h4>
+            <p>洪崖洞夜景 → 李子坝穿楼 → 长江索道 → 磁器口古镇 → 南山一棵树</p>
+            <div class="ex-highlights"><span>✈️ 机票</span><span>🏨 民宿</span><span>🎫 门票</span><span>🚇 交通</span><span>🍜 美食</span></div>
+          </div>
+          <div class="ex-footer"><span class="ex-price">¥1,386</span><span class="ex-usd">≈ $193</span></div>
+        </div>
+        <div class="example-card" onclick="setTrack('premium');document.getElementById('plan-days').value='3';generatePlan()">
+          <div class="ex-top">
+            <span class="ex-badge premium">✨ 高端定制</span>
+            <span class="ex-days">3天2晚</span>
+          </div>
+          <div class="ex-body">
+            <h4>品质尊享之旅</h4>
+            <p>来福士洲际酒店 → 两江夜游VIP → 武隆天生三桥 → 黑珍珠川菜</p>
+            <div class="ex-highlights"><span>✈️ 机票</span><span>🏨 五星</span><span>🎫 VIP票</span><span>🚗 专车</span><span>🎙️ 解说</span></div>
+          </div>
+          <div class="ex-footer"><span class="ex-price">¥6,237</span><span class="ex-usd">≈ $866</span></div>
+        </div>
+        <div class="example-card" onclick="setTrack('premium');document.getElementById('plan-days').value='5';generatePlan()">
+          <div class="ex-top">
+            <span class="ex-badge premium">✨ 高端定制</span>
+            <span class="ex-days">5天4晚</span>
+          </div>
+          <div class="ex-body">
+            <h4>深度慢游全景</h4>
+            <p>重庆主城精华 + 武隆喀斯特 + 大足石刻世界遗产全覆盖</p>
+            <div class="ex-highlights"><span>✈️ 机票</span><span>🏨 奢华</span><span>🎫 全票</span><span>🚗 全程</span><span>🎙️ 私导</span></div>
+          </div>
+          <div class="ex-footer"><span class="ex-price">¥10,395</span><span class="ex-usd">≈ $1,444</span></div>
+        </div>
+      </div>
+    </div>
+    <div id="plan-loading" style="display:none;text-align:center;padding:30px"><span class="spinner"></span> 正在生成你的专属行程...</div>
+    <div id="plan-result"></div>
+  </div>
+</div>
+<div id="tab-support" style="display:none"></div>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="footer-trust">
+    <span>🔒 安全支付</span>
+    <span>🔄 免费取消</span>
+    <span>🌐 多语言支持</span>
+    <span>📞 7×24小时客服</span>
+    <span>⭐ 4.8/5 旅客好评</span>
+  </div>
+  <p style="margin-top:10px;font-size:.72rem;color:var(--muted)">AI Travel Platform · Chongqing MVP v0.2 · 一站式入境游定制平台</p>
+</footer>
+</div>
+
+<!-- Floating AI Chat -->
+<button class="chat-float" id="chat-float" onclick="toggleChat()">💬 旅行助手</button>
+<div class="chat-sidebar" id="chat-sidebar">
+  <div class="chat-sidebar-header">
+    <h3>🤖 AI 旅行助手</h3>
+    <button onclick="toggleChat()">✕</button>
+  </div>
+  <div class="chat-sidebar-body">
+    <div class="chat-box-inner" id="chat-box">
+      <div class="chat-msg ai">你好！我是重庆旅行助手 🤖<br>可以问我：签证、付款、交通、行李、天气、行程推荐</div>
+    </div>
+    <div class="quick-asks">
+      <button onclick="askAI('重庆需要签证吗？')">🛂 签证</button>
+      <button onclick="askAI('外国人在重庆怎么付钱？')">💳 付款</button>
+      <button onclick="askAI('重庆地铁怎么坐？')">🚇 交通</button>
+      <button onclick="askAI('去重庆要带什么？')">🎒 行李</button>
+      <button onclick="askAI('推荐3天行程')">🗺️ 行程</button>
+      <button onclick="switchTab('planner');toggleChat()">🧭 去规划</button>
+    </div>
+  </div>
+  <div class="chat-sidebar-input">
+    <input type="text" id="chat-input" placeholder="输入问题..." onkeydown="if(event.key==='Enter')askAI()">
+    <button onclick="askAI()">发送</button>
+  </div>
 </div>
 
 <button class="btt" id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
@@ -156,6 +371,30 @@ const P=[
    d:'1987年建成，设计图纸来自列宁格勒。曾是重庆人的"公交车"，地铁通车后失去交通功能，却意外获得新生命——橙色车厢悬在江面上空缓缓滑行，4分钟¥20，脚下是滚滚长江。',
    price:'¥20单程',hr:'07:30-22:30',r:4.6,rn:['n_cableway_soviet'],
    quote:{text:'"苏联工程师绝对想不到，他们的公交图纸成了中国的打卡圣地。"',attr:'长江索道'}},
+  {id:'p_wushan',n:'巫山小三峡',en:'Lesser Three Gorges',t:'5A景区',bc:'b-district',c:2,r:1,
+   h:'翡翠色江水在峡谷中蜿蜒，千年悬棺之谜',fc:true,
+   d:'大三峡名气太大，反而让小三峡成了秘境。大宁河上的峡谷，水面翡翠绿不是黄的。悬棺是小三峡最大的谜：2000多年前的巴人把棺材放在百米绝壁洞穴里，怎么放上去的？至今没有定论。BBC来这里拍过纪录片，主持人说："这不像在地球上。"',price:'约¥150',hr:'08:00-17:00',r:4.5,rn:[]},
+  {id:'p_baidi',n:'奉节白帝城',en:'Baidi City',t:'5A景区',bc:'b-district',c:2,r:2,
+   h:'10元人民币背面的风景！李白在这写了千古名句',
+   d:'掏出10元人民币，背面就是夔门。白帝城有三重身份：三国刘备托孤的军事要塞、李白杜甫留下诗篇的文学圣地、长江三峡的起点。"朝辞白帝彩云间"是每个中国孩子七岁就会背的诗。三峡大坝蓄水后白帝城变成了孤岛——反而更有"孤城"的文艺气质了。',price:'¥100',hr:'08:00-17:30',r:4.6,rn:[],stat:{n:'¥10',l:'人民币背面 夔门实景'}},
+  {id:'p_jinfo',n:'南川金佛山',en:'Jinfo Mountain',t:'5A景区',bc:'b-district',c:2,r:1,
+   h:'整座山是一尊天然卧佛，世界遗产高山杜鹃花海',
+   d:'UNESCO世界自然遗产。从远处看，金佛山的轮廓恰好是一尊躺着的巨佛。山顶是一片130平方公里的高原——世界上最大的喀斯特桌山之一。4-5月50多种杜鹃同时盛开，一棵千年杜鹃王能开上万朵花。冬季还有南方罕见的雪景。',price:'¥90+¥80缆车',hr:'08:00-16:30',r:4.5,rn:[]},
+  {id:'p_taohuayuan',n:'酉阳桃花源',en:'Peach Blossom Spring',t:'5A景区',bc:'b-district',c:2,r:1,
+   h:'穿过山洞就是陶渊明笔下的世外桃源',
+   d:'公元421年陶渊明写了一个渔夫穿过山洞发现了世外桃源。1600年后酉阳人说：就在这里。要穿过一个天然溶洞才能进入四面环山的峡谷——梯田、桑竹、土家吊脚楼。从黑暗到光明的"揭示"体验是桃花源最天才的设计。',price:'¥100',hr:'08:00-17:30',r:4.3,rn:[]},
+  {id:'p_simianshan',n:'江津四面山',en:'Simian Mountain',t:'5A景区',bc:'b-district',c:2,r:1,
+   h:'208条有名有姓的瀑布，其中一条是心形的',
+   d:'213平方公里原始森林，中国瀑布密度冠军。望乡台瀑布高152米——从航拍角度看恰好是个完美的"心"形。更动人的是"爱情天梯"：上世纪50年代一个年轻人用50年时间为妻子在悬崖上凿出了6208级石梯。',price:'¥110',hr:'08:00-17:00',r:4.4,rn:[]},
+  {id:'p_opera',n:'川剧变脸',en:'Sichuan Opera Face-Changing',t:'非遗文化',bc:'b-story',c:2,r:2,
+   h:'一秒钟换一张脸，300年的川剧绝活',
+   d:'世界表演艺术史上最神秘的技艺之一。演员在你眼皮底下一张脸瞬间变成另一张——红黑白金四色切换。特制丝绸面具折叠成极薄的层叠，通过隐藏机关触发。一个合格的变脸演员需要至少10年训练。脸谱颜色有严格文化含义：红=忠勇，黑=刚正，白=奸诈，金=神灵。',price:'¥100-300',hr:'晚间演出',r:4.8,rn:[]},
+  {id:'p_hotpot_ich',n:'重庆火锅文化',en:'Hotpot Culture Heritage',t:'非遗文化',bc:'b-story',c:2,r:1,
+   h:'国家级非遗！一口锅煮了一座城的灵魂',
+   d:'火锅诞生于码头，不是厨房。19世纪朝天门船工把牛下水扔进辣椒花椒锅里——不是为了味道，是为了掩盖腥味、补充体力。九宫格是一套比米其林早了一百年的"温度分区控制系统"。重庆火锅获评国家级非遗，不是因为它好吃——是因它承载了一整个阶级的生活记忆。',price:'人均¥60-150',hr:'11:00-凌晨2:00',r:4.7,rn:[]},
+  {id:'p_dragon',n:'铜梁火龙',en:'Tongliang Fire Dragon',t:'非遗文化',bc:'b-story',c:2,r:1,
+   h:'50米长的火龙喷着火在街上游走，600年的中国狂欢节',
+   d:'联合国人类非物质文化遗产。铜梁龙舞有600多年历史：上百人扛着一条50米长的火龙在漫天飞溅的火花里奔跑跳跃，赤膊上阵，火花落在背上继续舞。最初是明代军户的军事训练，后来演变为正月十五的祭祀仪式。',price:'节庆活动',hr:'农历正月',r:4.6,rn:[]},
 ];
 
 const N=[
@@ -186,6 +425,15 @@ const N=[
   {id:'n_cableway',n:'长江索道：苏联图纸上的中国传奇',d:'电影彩蛋',bc:'b-film',c:3,r:2,
    img:'长江索道·苏联往事',s:'1987年设计图纸来自列宁格勒。苏联工程师没想到，公交图纸成了打卡圣地。',
    content:'1987年建成的长江索道是正宗苏联援助项目，设计来自列宁格勒。当年定位是"公交"——南岸居民坐索道过江上班，单程2块钱。30多年后它成了中国最著名的打卡点，电影《疯狂的石头》里黄渤那段"我顶你个肺"就在这拍的。\n\n🌉 南站（上新街）排队人少 · 💳 交通卡半价 · 🕐 避开通勤高峰',rp:['p_cableway']},
+  {id:'n_baidi_note',n:'掏出10块钱，背面就是这里',d:'打卡故事',bc:'b-story',c:3,r:1,feat:true,
+   img:'奉节·¥10同款',s:'每个中国人钱包里都有的风景——但只有站在这，才知道李白为什么写"朝辞白帝彩云间"。',
+   content:'白帝城是长江三峡的入口。掏出你的¥10纸币，背面的"夔门"就站在你面前。唐代诗人李白在这写了千古名句"朝辞白帝彩云间"——那是一个清晨，诗人从白帝城乘船出发，彩霞满天，江流如箭。\n\n千年后的今天，三峡大坝让白帝城变成了孤岛（现在坐船才能上去），但反而更有"孤城"的诗意了。刘备在这里托孤给诸葛亮、李白杜甫在这里留下诗篇——这里是中国的"文学+军事"双料地标。',rp:['p_baidi']},
+  {id:'n_wushan_note',n:'BBC说"这不像在地球上"',d:'打卡故事',bc:'b-story',c:2,r:2,
+   img:'巫山·BBC同款',s:'大三峡名气太大，让小三峡成了秘境。BBC来拍纪录片，主持人在船上说了句话。',
+   content:'小三峡的水是翡翠绿的——不受长江干流泥沙影响，水质极清。坐一叶木船划进去，水面平静如镜，峡谷倒影清晰如双胞胎。BBC来这里拍过纪录片，主持人说："这不像在地球上。"\n\n更神秘的是悬棺：2000多年前的巴人把棺材放在百米绝壁上，怎么做到的？是山顶吊下去的，还是趁水位高划船放的？至今没有定论。',rp:['p_wushan']},
+  {id:'n_opera_note',n:'亲眼看过变脸才算来过川渝',d:'电影彩蛋',bc:'b-film',c:2,r:1,
+   img:'川剧·变脸魔法',s:'一秒钟之内，一张脸变成另一张。不是特效，是300年的绝活。',
+   content:'川剧变脸是世界表演艺术中最神秘的技艺。演员用特制丝绸面具折叠成极薄层叠，通过隐藏在帽饰中的机关快速拉动——一秒换脸。一个合格的变脸演员需要至少10年训练。脸谱颜色有含义：红=忠勇、黑=刚正、白=奸诈、金=神灵。\n\n重庆湖广会馆和重庆川剧院每晚有演出，建议提前订票。部分剧场提供后台探秘——可以亲眼看看变脸机关。',rp:['p_opera']},
 ];
 
 // ══ RENDER ══
@@ -201,13 +449,13 @@ function cardHTML(item,isPoint){
   return `<div class="m-card cs-${c}${r>1?' rs-2':''}" onclick="${fn}('${id}')"><div class="mc-img"><span class="mc-badge ${bc}">${t}</span>📷 ${n}</div><div class="mc-body"><h3>${n}</h3><div class="mc-sub">${isPoint?item.en+' · ⭐ '+item.r:item.d}</div><div class="mc-excerpt">${isPoint?item.d.split('。')[0]+'。':item.s}</div>${tags?`<div class="mc-tags">${tags}</div>`:''}</div></div>`;
 }
 
-function statCard(item,isPoint){let fn=isPoint?'openPoint':'openNote';return `<div class="m-stat cs-2" onclick="${fn}('${item.id}')"><div class="s-body"><div class="s-num">${item.stat.n}</div><div class="s-label">${item.stat.l.replace(/\n/g,'<br>')}</div></div></div>`;}
-function quoteCard(item,isPoint){let fn=isPoint?'openPoint':'openNote';return `<div class="m-quote cs-2" onclick="${fn}('${item.id}')"><div class="q-body"><div class="q-text">${item.quote.text}</div><div class="q-attr">—— ${item.quote.attr}</div></div></div>`;}
+function statCard(item,isPoint){if(!item.stat)return'';let fn=isPoint?'openPoint':'openNote';return `<div class="m-stat cs-2" onclick="${fn}('${item.id}')"><div class="s-body"><div class="s-num">${item.stat.n}</div><div class="s-label">${item.stat.l.replace(/\n/g,'<br>')}</div></div></div>`;}
+function quoteCard(item,isPoint){if(!item.quote)return'';let fn=isPoint?'openPoint':'openNote';return `<div class="m-quote cs-2" onclick="${fn}('${item.id}')"><div class="q-body"><div class="q-text">${item.quote.text}</div><div class="q-attr">—— ${item.quote.attr}</div></div></div>`;}
 function divCard(l){return `<div class="m-div"><div class="d-line"></div><div class="d-label">${l}</div><div class="d-line"></div></div>`;}
 
 function renderSection(items,isPoint,hookId,masonryId){
-  // Featured horizontal scroll: only feat=true items
-  let feat=items.filter(x=>x.feat);
+  // Featured horizontal scroll: only feat=true items (max 4)
+  let feat=items.filter(x=>x.feat).slice(0,4);
   document.getElementById(hookId).innerHTML=`<div class="h-scroll">${feat.map(x=>featCard(x,isPoint)).join('')}</div>`;
 
   // Masonry: ALL items with mixed sizes + auto-generated stat/quote cards
@@ -228,10 +476,11 @@ function renderSection(items,isPoint,hookId,masonryId){
     // Interleave cards with stat/quote cards
     P.forEach((poi,i)=>{
       html.push(cardHTML(poi,isPoint));
-      if(i===0) html.push(statCard(poi,isPoint));  // after wulong: stat
-      if(i===1) html.push(quoteCard(poi,isPoint)); // after hongya: quote
-      if(i===2) html.push(statCard(poi,isPoint));  // after dazu: stat
-      if(i===4) html.push(quoteCard(poi,isPoint)); // after cableway: quote
+      if(i===0) html.push(statCard(poi,isPoint));
+      if(i===1) html.push(quoteCard(poi,isPoint));
+      if(i===2) html.push(statCard(poi,isPoint));
+      if(i===4) html.push(quoteCard(poi,isPoint));
+      if(i===6&&poi.stat) html.push(statCard(poi,isPoint)); // baidi ¥10 note stat
     });
   }
   document.getElementById(masonryId).innerHTML=html.join('');
@@ -242,13 +491,109 @@ renderSection(N,false,'h-notes','m-notes');
 
 // ══ NAV ══
 function switchTab(t){
-  document.querySelectorAll('.nav-bar button').forEach((b,i)=>b.classList.toggle('active',(t==='points'&&i===0)||(t==='notes'&&i===1)));
-  document.getElementById('tab-points').style.display=t==='points'?'block':'none';
-  document.getElementById('tab-notes').style.display=t==='notes'?'block':'none';
+  let idx={'points':0,'notes':1,'planner':2}[t];
+  document.querySelectorAll('.nav-bar button').forEach((b,i)=>b.classList.toggle('active',i===idx));
+  ['tab-points','tab-notes','tab-planner'].forEach(id=>document.getElementById(id).style.display='none');
+  document.getElementById('tab-'+t).style.display='block';
 }
 
 // ══ BACK TO TOP ══
 window.addEventListener('scroll',()=>{document.getElementById('btt').classList.toggle('visible',window.scrollY>400)});
+
+// ══ FLOATING CHAT ══
+function toggleChat(){
+  let s=document.getElementById('chat-sidebar');
+  let f=document.getElementById('chat-float');
+  s.classList.toggle('open');
+  f.classList.toggle('hidden',s.classList.contains('open'));
+  if(s.classList.contains('open')) document.getElementById('chat-input').focus();
+}
+
+// ══ TRIP PLANNER ══
+let planTrack='budget';
+function setTrack(t){planTrack=t;document.getElementById('btn-budget').classList.toggle('active',t==='budget');document.getElementById('btn-premium').classList.toggle('active',t==='premium');}
+
+async function generatePlan(){
+  let days=document.getElementById('plan-days').value;
+  let desc=document.getElementById('plan-desc').value.trim();
+  document.getElementById('plan-result').innerHTML='';
+  document.getElementById('plan-loading').style.display='block';
+  try{
+    let url=`http://localhost:8001/api/planner/itinerary/ai-plan?days=${days}&track=${planTrack}`;
+    if(desc) url+=`&preferences=${encodeURIComponent(desc)}`;
+    let r=await fetch(url,{method:'POST'});
+    let streamElt=document.getElementById('plan-loading');
+    let reader=r.body.getReader(),decoder=new TextDecoder(),buffer='';
+    while(true){
+      let{value,done}=await reader.read();if(done)break;
+      buffer+=decoder.decode(value,{stream:true});
+      let lines=buffer.split('\n');buffer=lines.pop()||'';
+      for(let line of lines){
+        if(!line.startsWith('data:'))continue;
+        try{
+          let d=JSON.parse(line.slice(5).trim());
+          if(d.type==='message') streamElt.innerHTML=`<div style="padding:20px"><span class="spinner"></span> AI正在编排行程...</div>`;
+          else if(d.type==='itinerary'||(d.type==='function_result'&&d.data&&d.data.plan)){
+            let plan=(d.type==='itinerary'?d.data:d.data);
+            document.getElementById('plan-loading').style.display='none';
+            renderItineraryResult(plan);return;
+          }
+        }catch(e){}
+      }
+    }
+    document.getElementById('plan-loading').style.display='none';
+    generatePlanFallback();
+  }catch(e){generatePlanFallback();}
+}
+async function generatePlanFallback(){
+  let days=document.getElementById('plan-days').value;
+  document.getElementById('plan-loading').style.display='block';
+  try{
+    let r=await fetch(`http://localhost:8001/api/planner/itinerary/generate?track=${planTrack}&days=${days}`);
+    let d=await r.json();document.getElementById('plan-loading').style.display='none';renderItineraryResult(d);
+  }catch(e){document.getElementById('plan-loading').style.display='none';document.getElementById('plan-result').innerHTML=`<p style="color:var(--red);text-align:center;padding:20px">⚠️ 无法连接后端API</p>`;}
+}
+function renderItineraryResult(d){
+  let label=planTrack==='premium'?'✨ 高端定制':'💰 经济实惠';
+  document.getElementById('plan-loading').style.display='none';
+  document.getElementById('plan-result').innerHTML=`<div class="plan-result-card"><div class="pr-header"><div><h3>${label} · ${d.days||''}天行程</h3><p style="color:var(--muted);font-size:.82rem">重庆 · 一站全包 简单放心</p></div>${d.budget?`<div class="pr-total"><div class="big">${d.budget.total}</div><div class="small">${d.budget.total_usd||''}</div></div>`:''}</div>${(d.plan||[]).map(day=>`<div class="plan-day"><div class="pd-header" onclick="this.nextElementSibling.classList.toggle('open')"><span style="background:var(--dark);color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:800;flex-shrink:0">${day.day}</span>${day.title_zh||day.title||'Day '+day.day} · ${(day.items||[]).length}站</div><div class="pd-body ${day.day===1?'open':''}">${(day.items||[]).map(i=>`<div class="pd-item"><div class="pd-time">${i.time}</div><div class="pd-info"><strong>${i.poi_name_zh||i.name||''}</strong><span style="color:var(--muted);font-size:.74rem"> · ${i.transport||''} · ${i.duration||''}</span></div><div class="pd-meta">${i.cost_estimate||''}</div></div>`).join('')}</div></div>`).join('')}${d.budget&&d.budget.breakdown?`<div class="plan-budget"><strong style="font-size:.85rem">💵 费用明细</strong>${Object.entries(d.budget.breakdown).map(([k,v])=>`<div class="pb-row"><span style="text-transform:capitalize;color:var(--muted)">${k.replace(/_/g,' ')}</span><span>${v}</span></div>`).join('')}${d.budget.service_fee?`<div class="pb-row"><span style="color:var(--muted)">平台服务费</span><span>${d.budget.service_fee}</span></div>`:''}<div class="pb-row total"><span>总计</span><span class="amt">${d.budget.total}</span></div></div>`:''}<div class="plan-cta"><button onclick="toggleChat();document.getElementById('chat-input').value='我想预订这个行程';document.getElementById('chat-input').focus()">📋 一键预订咨询</button></div></div>`;
+}
+
+// ══ AI客服 ══
+const KB={
+  '签证':{a:'大多数国家可享受144小时过境免签（通过重庆江北机场入境）。出发前请查看最新政策：china-entry.gov.cn。建议提前确认护照有效期超过6个月。',q:['签证','visa','免签','过境','护照']},
+  '付款':{a:'重庆支持支付宝国际版（Alipay TourPass）绑定Visa/Mastercard。现金在大部分地方通用。建议：支付宝+随身¥300-500现金。4-5星级酒店接受信用卡，小店和街边摊只收现金/扫码。',q:['付款','pay','支付宝','微信','现金','刷卡','visa','mastercard']},
+  '交通':{a:'重庆地铁非常方便，所有站点有英文标识。单程¥2-7元。建议办理交通卡（¥25押金，坐索道半价）。打车起步价¥10，建议让酒店前台写中文地址给司机看。Apple Maps在中国可用且较准。',q:['交通','地铁','打车','出行','transport','metro','taxi','地图']},
+  '行李':{a:'全年必备：舒服的平底鞋/运动鞋（重庆要爬坡！）。夏季（6-9月）：轻薄衣物+防晒霜+雨伞+小风扇。冬季（12-2月）：薄羽绒服+围巾+防滑鞋。全年：充电宝（导航耗电快）、纸巾（公厕不提供）。',q:['行李','带什么','准备','衣服','设备','pack','weather']},
+  '天气':{a:'重庆夏季（6-9月）炎热潮湿，25-38°C，阵雨频繁。冬季（12-2月）湿冷，5-12°C。最佳旅行季节：3-5月（春暖花开）和10-11月（秋高气爽），气温15-25°C。',q:['天气','气候','季节','什么时候','weather','climate','temperature']},
+  '行程':{a:'推荐3天行程：Day1 解放碑→洪崖洞→李子坝→长江索道→南山夜景；Day2 磁器口→鹅岭公园→两江夜游；Day3 大足石刻一日游。也可以去"行程计划"页签让AI帮你定制专属行程！',q:['行程','推荐','几天','安排','itinerary','plan']},
+  '安全':{a:'重庆非常安全。紧急电话：110（警察）、120（急救）。建议：保存酒店名片（有中文地址）、避免深夜独自去偏僻区域。重庆江北和睦家医院有英文服务。',q:['安全','急救','医院','报警','safe','emergency','hospital']},
+  default:{a:'关于这个问题，建议查看我们的"景点"和"笔记"页签了解更多重庆攻略。也可以试试问：签证、付款、交通、行李、天气、行程推荐。',q:[]}
+};
+
+function askAI(q){
+  let input=document.getElementById('chat-input');
+  let question=q||input.value.trim();
+  if(!question)return;
+  let box=document.getElementById('chat-box');
+  box.innerHTML+=`<div class="chat-msg user">${question}</div>`;
+  box.scrollTop=box.scrollHeight;input.value='';
+
+  // Try backend AI API
+  fetch('http://localhost:8001/api/ai/ask',{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({question:question})
+  }).then(r=>r.json()).then(data=>{
+    box.innerHTML+=`<div class="chat-msg ai">${data.answer}</div>`;
+    box.scrollTop=box.scrollHeight;
+  }).catch(()=>{
+    box.innerHTML+=`<div class="chat-msg ai">抱歉，AI服务暂时不可用。请尝试问：签证、付款、交通、行李、天气。</div>`;
+    box.scrollTop=box.scrollHeight;
+  });
+}
+
+renderSection(P,true,'h-points','m-points');
+renderSection(N,false,'h-notes','m-notes');
 
 // ══ PANEL ══
 function openPoint(id){let p=P.find(x=>x.id===id);if(!p)return;let lns=N.filter(nn=>nn.rp.includes(p.id));document.getElementById('panel').innerHTML=`<div class="ph"><button class="pclose" onclick="closePanel()">✕</button>📷 ${p.n}</div><div class="pb"><div class="bc">← 景点库</div><h2>${p.n}</h2><div class="sub">${p.en} · ⭐ ${p.r} · ${p.price}</div><div class="meta"><span>🕐 ${p.hr}</span><span>📍 ${p.t}</span></div>${p.d.split('\n\n').map(t=>`<p class="text">${t.trim()}</p>`).join('')}${lns.length?`<div class="cross"><h4>📝 ${lns.length} 篇相关旅行笔记</h4>${lns.map(n=>`<button class="citem cnote" onclick="event.stopPropagation();switchTab('notes');setTimeout(()=>openNote('${n.id}'),100)">📝 ${n.n} · ${n.d}</button>`).join('')}</div>`:''}</div>`;document.getElementById('overlay').classList.add('open');document.body.style.overflow='hidden'}

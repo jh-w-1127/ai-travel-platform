@@ -6,7 +6,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.core.config import settings
-from app.api import chat, itinerary, poi
+from app.api import chat, itinerary, poi, support
 
 
 @asynccontextmanager
@@ -33,6 +33,7 @@ app.add_middleware(
 app.include_router(chat.router, prefix="/api/planner", tags=["Chat"])
 app.include_router(itinerary.router, prefix="/api/planner", tags=["Itinerary"])
 app.include_router(poi.router, prefix="/api/planner", tags=["POI"])
+app.include_router(support.router, prefix="/api", tags=["Support"])
 
 
 @app.get("/api/health")
