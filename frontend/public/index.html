@@ -519,7 +519,7 @@ async function generatePlan(){
   document.getElementById('plan-result').innerHTML='';
   document.getElementById('plan-loading').style.display='block';
   try{
-    let url=`http://localhost:8001/api/planner/itinerary/ai-plan?days=${days}&track=${planTrack}`;
+    let url=`/api/planner/itinerary/ai-plan?days=${days}&track=${planTrack}`;
     if(desc) url+=`&preferences=${encodeURIComponent(desc)}`;
     let r=await fetch(url,{method:'POST'});
     let streamElt=document.getElementById('plan-loading');
@@ -549,7 +549,7 @@ async function generatePlanFallback(){
   let days=document.getElementById('plan-days').value;
   document.getElementById('plan-loading').style.display='block';
   try{
-    let r=await fetch(`http://localhost:8001/api/planner/itinerary/generate?track=${planTrack}&days=${days}`);
+    let r=await fetch(`/api/planner/itinerary/generate?track=${planTrack}&days=${days}`);
     let d=await r.json();document.getElementById('plan-loading').style.display='none';renderItineraryResult(d);
   }catch(e){document.getElementById('plan-loading').style.display='none';document.getElementById('plan-result').innerHTML=`<p style="color:var(--red);text-align:center;padding:20px">⚠️ 无法连接后端API</p>`;}
 }
@@ -580,7 +580,7 @@ function askAI(q){
   box.scrollTop=box.scrollHeight;input.value='';
 
   // Try backend AI API
-  fetch('http://localhost:8001/api/ai/ask',{
+  fetch('/api/ai/ask',{
     method:'POST',headers:{'Content-Type':'application/json'},
     body:JSON.stringify({question:question})
   }).then(r=>r.json()).then(data=>{
