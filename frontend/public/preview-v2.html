@@ -3,203 +3,257 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>重庆旅行 · 景点 × 笔记 新架构原型</title>
+<title>重庆旅行 · 景点 × 笔记</title>
 <style>
-:root{--red:#C0392B;--gold:#D4A017;--dark:#1A1A2E;--river:#2C3E50;--bg:#f2f0eb;--card:#fff;--ink:#1a1a2e;--muted:#7a7a7a;--border:#e3e0d8;--note-bg:#faf8f3;--note-accent:#8B7355}
+:root{--red:#C0392B;--gold:#D4A017;--dark:#1A1A2E;--river:#2C3E50;--bg:#f2f0eb;--card:#fff;--ink:#1a1a2e;--muted:#7a7a7a;--border:#e3e0d8}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--ink);line-height:1.75;-webkit-font-smoothing:antialiased}
+body{font-family:'PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 
-.hero{background:var(--dark);padding:60px 24px 50px;text-align:center;position:relative;overflow:hidden}
+/* HERO */
+.hero{background:var(--dark);padding:50px 24px 42px;text-align:center;position:relative;overflow:hidden}
 .hero::before{content:"";position:absolute;inset:0;opacity:.1;background:radial-gradient(circle at 30% 60%,var(--gold),transparent 50%),radial-gradient(circle at 70% 30%,var(--red),transparent 50%)}
-.hero .kicker{color:rgba(255,255,255,.45);font-size:.7rem;letter-spacing:4px;position:relative;z-index:1;margin-bottom:8px}
-.hero h1{font-size:clamp(1.6rem,4vw,2.4rem);font-weight:900;color:#fff;position:relative;z-index:1}
+.hero .kicker{color:rgba(255,255,255,.45);font-size:.66rem;letter-spacing:4px;position:relative;z-index:1;margin-bottom:6px}
+.hero h1{font-size:clamp(1.4rem,3vw,1.9rem);font-weight:900;color:#fff;position:relative;z-index:1}
 .hero h1 em{font-style:normal;background:linear-gradient(135deg,#F472B6,#FB923C,#FACC15);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 
-.container{max-width:1100px;margin:0 auto;padding:0 20px 40px}
-
-/* NAV TABS - clean top nav */
-.nav-bar{display:flex;gap:0;background:var(--card);border-radius:12px;padding:4px;margin:-22px auto 28px;max-width:500px;box-shadow:0 2px 12px rgba(0,0,0,.04);position:relative;z-index:2}
-.nav-bar button{flex:1;padding:10px 16px;border-radius:9px;border:none;cursor:pointer;font-weight:600;font-size:.85rem;color:var(--muted);background:transparent;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:5px}
+.container{max-width:1140px;margin:0 auto;padding:0 20px 40px}
+.nav-bar{display:flex;gap:0;background:var(--card);border-radius:12px;padding:4px;margin:-22px auto 24px;max-width:480px;box-shadow:0 2px 12px rgba(0,0,0,.04);position:relative;z-index:2}
+.nav-bar button{flex:1;padding:10px 16px;border-radius:9px;border:none;cursor:pointer;font-weight:600;font-size:.84rem;color:var(--muted);background:transparent;transition:all .25s}
 .nav-bar button.active{background:var(--dark);color:#fff;box-shadow:0 2px 8px rgba(26,26,46,.2)}
 .nav-bar button:hover:not(.active){color:var(--ink);background:#f5f5f5}
 
-/* Section header */
-.sec-hdr{display:flex;align-items:baseline;justify-content:space-between;margin:32px 0 16px;flex-wrap:wrap;gap:8px}
-.sec-hdr h2{font-size:1.3rem;font-weight:900}
-.sec-hdr .count{font-size:.78rem;color:var(--muted)}
+/* FEATURED ROW */
+.feat-label{font-size:.72rem;letter-spacing:3px;color:var(--red);margin:24px 0 10px;font-weight:600}
+.h-scroll{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding-bottom:6px}
+.h-scroll::-webkit-scrollbar{height:3px}.h-scroll::-webkit-scrollbar-thumb{background:#ccc;border-radius:2px}
+.h-card{flex:0 0 320px;scroll-snap-align:start;border-radius:8px;overflow:hidden;background:var(--card);border:1px solid var(--border);cursor:pointer;transition:transform .3s cubic-bezier(.16,1,.3,1),box-shadow .3s}
+.h-card:hover{transform:translateY(-4px);box-shadow:0 8px 30px rgba(0,0,0,.08)}
+.h-card .hc-img{height:200px;background:linear-gradient(135deg,#d0ccc5,#c8c4bb);display:flex;align-items:center;justify-content:center;color:#aaa;font-size:.76rem;position:relative}
+.h-card .hc-badge{position:absolute;top:12px;left:12px;padding:3px 12px;border-radius:3px;font-size:.62rem;font-weight:700;color:#fff;letter-spacing:1px}
+.h-card .hc-body{padding:15px 18px}
+.h-card h3{font-size:1.05rem;font-weight:800;margin-bottom:3px}
+.h-card .hc-sub{font-size:.74rem;color:var(--muted);margin-bottom:5px}
+.h-card .hc-excerpt{font-size:.78rem;color:#555;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+@media(max-width:640px){.h-card{flex:0 0 260px}.h-card .hc-img{height:150px}}
 
-/* ── POINTS GRID ── */
-.point-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
-.point-card{background:var(--card);border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;transition:transform .2s,box-shadow .2s}
-.point-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.07)}
-.point-card .img-placeholder{height:200px;background:linear-gradient(135deg,#d0ccc5,#c8c4bb);display:flex;align-items:center;justify-content:center;color:#aaa;font-size:.8rem;position:relative}
-.point-card .img-placeholder .tag{position:absolute;top:12px;left:12px;padding:3px 10px;border-radius:3px;font-size:.65rem;font-weight:700;color:#fff;background:rgba(46,125,50,.8);letter-spacing:1px}
-.point-card .body{padding:16px 18px}
-.point-card h3{font-size:1.05rem;font-weight:800;margin-bottom:4px}
-.point-card .sub{font-size:.78rem;color:var(--muted);margin-bottom:8px}
-.point-card .desc{font-size:.82rem;color:#555;line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:8px}
-.point-card .related{margin-top:10px;display:flex;flex-wrap:wrap;gap:5px}
-.point-card .related span{padding:3px 10px;border-radius:4px;background:#e8f5e9;color:#2e7d32;font-size:.7rem;font-weight:600}
+/* MASONRY */
+.masonry{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+@media(min-width:600px){.masonry{grid-template-columns:repeat(4,1fr)}}
+@media(min-width:900px){.masonry{grid-template-columns:repeat(6,1fr)}}
+@media(min-width:1100px){.masonry{grid-template-columns:repeat(8,1fr)}}
 
-/* ── NOTES GRID ── */
-.notes-list{display:flex;flex-direction:column;gap:12px}
-.note-card{background:var(--note-bg);border:1px solid #e8e4d8;border-left:4px solid var(--note-accent);border-radius:0 8px 8px 0;padding:18px 22px;cursor:pointer;transition:transform .2s,box-shadow .2s}
-.note-card:hover{transform:translateX(3px);box-shadow:0 4px 16px rgba(0,0,0,.06)}
-.note-card .note-header{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:6px}
-.note-card h3{font-size:1rem;font-weight:800;color:var(--note-accent)}
-.note-card .note-badge{font-size:.65rem;padding:2px 10px;border-radius:10px;background:#f0ebe0;color:var(--note-accent);letter-spacing:1px;font-weight:600}
-.note-card .excerpt{font-size:.85rem;color:#666;line-height:1.5}
-.note-card .note-poi{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
-.note-card .note-poi span{padding:2px 8px;border-radius:3px;background:#e3f2fd;color:#1565c0;font-size:.68rem;font-weight:600}
+/* Card size variants */
+.cs-2{grid-column:span 2}.cs-3{grid-column:span 3}.cs-4{grid-column:span 4}
+.rs-2{grid-row:span 2}
+@media(max-width:600px){.cs-2,.cs-3,.cs-4{grid-column:span 2}.rs-2{grid-row:span 1}}
 
-/* ── DETAIL PANEL (Article style) ── */
+.m-card{background:var(--card);border-radius:6px;border:1px solid var(--border);overflow:hidden;cursor:pointer;transition:transform .3s cubic-bezier(.16,1,.3,1),box-shadow .3s;animation:fadeUp .45s ease both;display:flex;flex-direction:column}
+.m-card:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(0,0,0,.07)}
+.m-card .mc-img{position:relative;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#aaa;font-size:.7rem;background:linear-gradient(135deg,#d0ccc5,#c8c4bb)}
+.cs-2 .mc-img{height:120px}.cs-3 .mc-img{height:150px}.cs-4 .mc-img{height:260px}
+.m-card .mc-badge{position:absolute;top:10px;left:10px;padding:2px 10px;border-radius:3px;font-size:.6rem;font-weight:700;color:#fff;letter-spacing:1px;z-index:2}
+.m-card .mc-body{padding:14px 16px;flex:1;display:flex;flex-direction:column}
+.m-card h3{font-weight:800;margin-bottom:3px;letter-spacing:-.3px;line-height:1.3}
+.cs-2 h3{font-size:.82rem}.cs-3 h3{font-size:.9rem}.cs-4 h3{font-size:1.15rem}
+.m-card .mc-sub{font-size:.7rem;color:var(--muted);margin-bottom:6px}.cs-4 .mc-sub{font-size:.76rem}
+.m-card .mc-excerpt{font-size:.74rem;color:#555;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;flex:1}.cs-4 .mc-excerpt{font-size:.82rem}
+.m-card .mc-tags{display:flex;flex-wrap:wrap;gap:3px;margin-top:8px}
+.m-card .mc-tags span{padding:2px 7px;border-radius:3px;font-size:.62rem;font-weight:600}
+.t-point{background:#e8f5e9;color:#2e7d32}.t-note{background:#e3f2fd;color:#1565c0}
+
+/* QUOTE / STAT cards (clickable now) */
+.m-quote{grid-column:span 2;border-radius:6px;border:1px solid #a5d6a7;cursor:pointer;display:flex;align-items:center;background:linear-gradient(135deg,#e8f5e9,#c8e6c9);transition:transform .3s,box-shadow .3s;animation:fadeUp .45s ease both}
+.m-quote:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(0,0,0,.06)}
+.m-quote .q-body{padding:18px;text-align:center;width:100%}
+.m-quote .q-text{font-size:.92rem;color:#2e7d32;line-height:1.5;margin-bottom:4px}
+.m-quote .q-attr{font-size:.66rem;color:#66bb6a;text-align:right}
+.m-stat{grid-column:span 2;border-radius:6px;border:1px solid #fde68a;cursor:pointer;display:flex;align-items:center;justify-content:center;text-align:center;background:linear-gradient(135deg,#fef9e7,#fdf5d6);transition:transform .3s,box-shadow .3s;animation:fadeUp .45s ease both}
+.m-stat:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(0,0,0,.05)}
+.m-stat .s-body{padding:16px}
+.m-stat .s-num{font-size:2rem;font-weight:900;color:var(--gold);line-height:1.1}
+.m-stat .s-label{font-size:.72rem;color:#92400e;margin-top:3px}
+
+/* Divider */
+.m-div{grid-column:1/-1;display:flex;align-items:center;gap:14px;padding:6px 0 2px}
+.m-div .d-line{flex:1;height:1px;background:var(--border)}
+.m-div .d-label{font-size:.66rem;letter-spacing:3px;color:var(--muted);font-weight:600;white-space:nowrap}
+
+/* Badges */
+.b-city{background:rgba(46,125,50,.8)}.b-district{background:rgba(212,160,23,.8)}.b-film{background:rgba(192,57,43,.8)}.b-local{background:rgba(44,62,80,.8)}.b-story{background:rgba(123,31,162,.8)}.b-hike{background:rgba(46,125,50,.8)}
+
+/* Back to top */
+.btt{position:fixed;bottom:28px;right:28px;width:44px;height:44px;border-radius:50%;background:var(--dark);color:#fff;border:none;cursor:pointer;font-size:1.2rem;opacity:0;transform:translateY(16px);pointer-events:none;transition:all .35s;z-index:50;box-shadow:0 4px 16px rgba(26,26,46,.3)}
+.btt.visible{opacity:1;transform:translateY(0);pointer-events:auto}
+.btt:hover{transform:translateY(-2px);box-shadow:0 6px 22px rgba(26,26,46,.4)}
+
+/* PANEL */
 .overlay{display:none;position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.5);backdrop-filter:blur(5px)}
 .overlay.open{display:flex;align-items:center;justify-content:center;padding:20px}
 .panel{background:var(--card);border-radius:10px;max-width:720px;width:100%;max-height:88vh;overflow-y:auto;animation:in .3s ease}
 @keyframes in{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-.panel .p-hero{height:250px;background:linear-gradient(135deg,#d0ccc5,#c0bdb5);display:flex;align-items:center;justify-content:center;color:#999;font-size:.85rem;position:relative}
-.panel .p-close{position:absolute;top:12px;right:12px;width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,.4);border:none;color:#fff;font-size:1rem;cursor:pointer}
-.panel .p-body{padding:28px 32px}
-.panel .p-body h2{font-size:1.5rem;font-weight:900;line-height:1.3;margin-bottom:4px}
-.panel .p-body .sub{font-size:.88rem;color:var(--muted);margin-bottom:12px}
-.panel .p-body .meta{display:flex;gap:12px;font-size:.78rem;color:var(--muted);padding-bottom:12px;border-bottom:1px solid var(--border);margin-bottom:16px}
-.panel .p-body .text{font-size:.92rem;line-height:1.85;color:#333;margin-bottom:14px}
-.panel .p-body .cross-block{margin-top:20px;padding:16px;border-radius:8px;background:#f5f5f7}
-.panel .p-body .cross-block h4{font-size:.8rem;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px}
-.panel .p-body .cross-item{display:inline-block;padding:6px 14px;border-radius:6px;background:var(--card);border:1px solid var(--border);font-size:.8rem;font-weight:600;color:var(--ink);cursor:pointer;margin:3px;transition:all .2s}
-.panel .p-body .cross-item:hover{background:var(--dark);color:#fff;border-color:var(--dark)}
-.point-cross{background:#e8f5e9!important;color:#2e7d32!important;border-color:#a5d6a7!important}
-.note-cross{background:var(--note-bg)!important;color:var(--note-accent)!important;border-color:#d8d0c0!important}
+.panel .ph{height:240px;display:flex;align-items:center;justify-content:center;color:#999;font-size:.8rem;position:relative;background:linear-gradient(135deg,#d0ccc5,#c0bdb5)}
+.panel .ph.note-ph{background:linear-gradient(135deg,#ddd5c8,#d0c8b8)}
+.panel .pclose{position:absolute;top:12px;right:12px;width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,.4);border:none;color:#fff;font-size:1rem;cursor:pointer}
+.panel .pb{padding:26px 30px}
+.panel .pb .bc{font-size:.7rem;color:var(--muted);margin-bottom:10px}
+.panel .pb h2{font-size:1.45rem;font-weight:900;line-height:1.3;margin-bottom:4px}
+.panel .pb .sub{font-size:.84rem;color:var(--muted);margin-bottom:10px}
+.panel .pb .meta{display:flex;gap:12px;font-size:.76rem;color:var(--muted);padding-bottom:10px;border-bottom:1px solid var(--border);margin-bottom:14px;flex-wrap:wrap}
+.panel .pb .text{font-size:.9rem;line-height:1.9;color:#333;margin-bottom:12px}
+.panel .pb .cross{background:#f5f5f7;border-radius:8px;padding:14px 16px;margin-top:18px}
+.panel .pb .cross h4{font-size:.76rem;color:var(--muted);margin-bottom:8px;letter-spacing:1px}
+.panel .pb .citem{display:inline-block;padding:6px 14px;border-radius:6px;background:var(--card);border:1px solid var(--border);font-size:.76rem;font-weight:600;cursor:pointer;margin:3px;transition:all .2s}
+.panel .pb .citem:hover{background:var(--dark);color:#fff;border-color:var(--dark)}
+.cpoint{color:#2e7d32!important;border-color:#a5d6a7!important;background:#e8f5e9!important}
+.cnote{color:#8B7355!important;border-color:#d8d0c0!important;background:#faf8f3!important}
 
-/* Badge for linking */
-.link-badge{display:inline-flex;align-items:center;gap:3px;font-size:.85rem;color:var(--gold);font-weight:600;margin-bottom:10px}
+/* Anims */
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 
-@media(max-width:640px){.point-grid{grid-template-columns:1fr}.panel .p-body{padding:20px 18px}.panel .p-hero{height:170px}}
+@media(max-width:600px){.masonry{grid-template-columns:repeat(2,1fr)}.cs-2,.cs-3,.cs-4{grid-column:span 2}.rs-2{grid-row:span 1}.cs-4 .mc-img{height:180px}.panel .pb{padding:18px 16px}.panel .ph{height:160px}}
 </style>
 </head>
 <body>
 
-<div class="hero">
-  <div class="kicker">CHONGQING · NEW ARCHITECTURE</div>
-  <h1>景点 × 笔记 <em>双向关联</em></h1>
-</div>
+<div class="hero"><div class="kicker">CHONGQING · EXPLORE</div><h1>景点 × 笔记 <em>双向漫游</em></h1></div>
 
 <div class="container">
-  <div class="nav-bar">
-    <button class="active" onclick="switchTab('points')">📍 景点</button>
-    <button onclick="switchTab('notes')">📝 旅行笔记</button>
-  </div>
-
-  <!-- POINTS -->
-  <div id="tab-points">
-    <div class="sec-hdr"><h2>🏔️ 景点库</h2><span class="count">纯粹的地点介绍 — 历史、地貌、文化</span></div>
-    <div class="point-grid" id="point-grid"></div>
-  </div>
-
-  <!-- NOTES -->
-  <div id="tab-notes" style="display:none">
-    <div class="sec-hdr"><h2>📝 旅行笔记</h2><span class="count">电影彩蛋、本地人私藏、打卡故事 — 每篇关联景点</span></div>
-    <div class="notes-list" id="notes-list"></div>
-  </div>
+<div class="nav-bar">
+  <button class="active" onclick="switchTab('points')">📍 景点 (5)</button>
+  <button onclick="switchTab('notes')">📝 笔记 (9)</button>
 </div>
 
-<!-- DETAIL PANEL -->
-<div class="overlay" id="overlay" onclick="if(event.target===this)closePanel()">
-  <div class="panel" id="panel"></div>
+<div id="tab-points"><div class="feat-label">🔥 精选推荐</div><div class="h-scroll" id="h-points"></div><div class="masonry" id="m-points"></div></div>
+<div id="tab-notes" style="display:none"><div class="feat-label">🔥 热门笔记</div><div class="h-scroll" id="h-notes"></div><div class="masonry" id="m-notes"></div></div>
 </div>
+
+<button class="btt" id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+<div class="overlay" id="overlay" onclick="if(event.target===this)closePanel()"><div class="panel" id="panel"></div></div>
 
 <script>
-// ── DATA ──
-const POINTS=[
-  {id:'p_wulong',name:'武隆天生三桥',en:'Wulong Three Bridges',type:'5A景区',
-   hook:'三座天然石桥，最高235米，擎天柱站下面都显渺小',
-   desc:'联合国世界自然遗产。三座天然石拱桥——天龙桥、青龙桥、黑龙桥——最高拱高235米（等于77层楼）。张艺谋的《满城尽带黄金甲》在这里搭建了一座唐代驿站，迈克尔·贝的《变形金刚4》在这里拍了决战场景。\n\n但它们不是水流冲刷出来的——地下水在石灰岩内部掏空了整座山体后，顶部塌陷形成了"天坑+天桥"组合。世界上只有三个地方有这种规模：武隆、美国犹他、澳大利亚。\n\n天龙桥最壮观。青龙桥最上镜——每年6月和12月正午，阳光垂直穿过桥洞，形成"青龙吐珠"光柱效应。黑龙桥最神秘——桥下暗河在洞中回荡，水声如龙吟。',
-   price:'¥125套票',hours:'08:00-17:00',rating:4.7,
-   // 关联笔记 ID
-   relatedNotes:['n_transformers','n_goldenflower','n_wulong_hike']
-  },
-  {id:'p_hongya',name:'洪崖洞',en:'Hongya Cave',type:'主城地标',
-   hook:'悬崖上的吊脚楼群，千与千寻同款夜景',
-   desc:'一整面悬崖被金色灯光点燃——十几栋木质吊脚楼层层叠叠挂在崖壁上，倒影在嘉陵江面。但洪崖洞不只是"好看"。它的根扎在重庆作为山城的生存智慧里。\n\n几百年前，码头工人和商贩开始在悬崖边用木桩撑起房屋——一半悬空一半嵌进山体。这种叫"吊脚楼"的建筑，是巴渝先民在"不可能"的地形上的答案。洪崖洞当年是重庆城门之一（洪崖门），悬崖下就是嘉陵江码头。',
-   price:'免费',hours:'全天/亮灯19:30-23:00',rating:4.5,
-   relatedNotes:['n_spirited_away','n_hongya_guide']
-  },
-  {id:'p_dazu',name:'大足石刻',en:'Dazu Rock Carvings',type:'5A景区',
-   hook:'5万尊佛像在悬崖上站了1200年，比米开朗基罗早400年',
-   desc:'这不是一座寺庙，也不是一座石窟。这是一个持续400年、跨越三个朝代的艺术工程——从9世纪晚唐到13世纪南宋，工匠们在悬崖上凿出了50000多尊佛像。\n\n最震撼的不是数量，是表情。大足石刻最独特的是"世俗化"——佛像不再是高高在上的神，他们有喜怒哀乐。吹笛女嘴角微扬，养鸡女俯身撒米。这是世界上最早的"现实主义佛教艺术"。宝顶山的千手观音有1007只手，每只手心一只眼睛。1999年被列入UNESCO世界文化遗产。',
-   price:'¥135',hours:'08:30-17:30',rating:4.8,
-   relatedNotes:['n_dazu_insider']
-  }
+// ══ DATA: Each item has a layout hint: cols, rows ══
+const P=[
+  {id:'p_wulong',n:'武隆天生三桥',en:'Wulong Three Bridges',t:'5A景区',bc:'b-district',c:4,r:2,feat:true,
+   h:'三座天然石桥最高235米，擎天柱站下面都显渺小',
+   d:'联合国世界自然遗产。三座天然石拱桥最高拱高235米（等于77层楼）。地下水在石灰岩内部掏空整座山体后顶部塌陷，形成了"天坑+天桥"组合。世界上只有三个地方有这种规模。天龙桥最壮观；青龙桥最上镜；黑龙桥最神秘（桥下暗河水声如龙吟）。',
+   price:'¥125套票',hr:'08:00-17:00',r:4.7,rn:['n_transformers','n_goldenflower','n_wulong_hike'],
+   stat:{n:'235m',l:'天龙桥拱高 ≈ 77层楼'}},
+  {id:'p_hongya',n:'洪崖洞',en:'Hongya Cave',t:'主城地标',bc:'b-city',c:3,r:1,feat:true,
+   h:'悬崖上的吊脚楼群，千与千寻同款夜景',
+   d:'一整面悬崖在夜幕下被金色灯光点燃，吊脚楼层层叠叠挂在崖壁上，倒影在嘉陵江面。这"好看"的背后是巴渝先民的生存智慧。洪崖洞当年是重庆城门之一，船工号子声与火锅香在这里交织了几个世纪。',
+   price:'免费',hr:'全天/亮灯19:30-23:00',r:4.5,rn:['n_spirited','n_hongya_guide'],
+   quote:{text:'"千与千寻的场景在现实中有原型——它叫洪崖洞，在重庆。"',attr:'Reddit 热帖'}},
+  {id:'p_dazu',n:'大足石刻',en:'Dazu Rock Carvings',t:'5A景区',bc:'b-district',c:3,r:2,feat:true,
+   h:'5万尊佛像站了1200年，比米开朗基罗早400年',
+   d:'跨越三个朝代的艺术工程：晚唐到南宋，工匠们在悬崖上凿出50000多尊佛像。最震撼的不是数量，是表情——佛像有喜怒哀乐，吹笛女嘴角微扬，养鸡女俯身撒米。这是世界上最早的"现实主义佛教艺术"。宝顶山千手观音有1007只手，1999年UNESCO世界文化遗产。',
+   price:'¥135',hr:'08:30-17:30',r:4.8,rn:['n_dazu_comic','n_dazu_tips'],
+   stat:{n:'5万+',l:'尊石刻佛像 在大足的山崖上'}},
+  {id:'p_ciqikou',n:'磁器口古镇',en:'Ciqikou Ancient Town',t:'主城地标',bc:'b-city',c:2,r:1,
+   h:'千年古镇里的陈麻花传奇，石板路上的烟火气',
+   d:'宋代重庆最重要的瓷器码头，瓷器沿嘉陵江下长江最远卖到波斯。现在的磁器口是被时光腌入味的地方——青石板路、陈麻花的焦香、毛血旺的辣味。真正的磁器口不在主街，在岔出去的小巷子里。',price:'免费',hr:'全天（店铺10-21）',r:4.4,rn:['n_ciqikou_hidden']},
+  {id:'p_cableway',n:'长江索道',en:'Yangtze River Cableway',t:'主城地标',bc:'b-city',c:2,r:1,
+   h:'万里长江第一条空中走廊，4分钟飞渡长江',
+   d:'1987年建成，设计图纸来自列宁格勒。曾是重庆人的"公交车"，地铁通车后失去交通功能，却意外获得新生命——橙色车厢悬在江面上空缓缓滑行，4分钟¥20，脚下是滚滚长江。',
+   price:'¥20单程',hr:'07:30-22:30',r:4.6,rn:['n_cableway_soviet'],
+   quote:{text:'"苏联工程师绝对想不到，他们的公交图纸成了中国的打卡圣地。"',attr:'长江索道'}},
 ];
 
-const NOTES=[
-  {id:'n_transformers',title:'我在武隆追擎天柱',badge:'电影彩蛋',
-   excerpt:'2014年，迈克尔·贝带着整个变形金刚剧组来到武隆。他站在天龙桥下仰头看了三分钟，然后说了一句话……',
-   content:'2014年，迈克尔·贝带着《变形金刚4》剧组来到武隆。据说他站在天龙桥下仰头看了整整三分钟，然后对制片人说："就在这里拍。这里不需要任何特效。"\n\n最后的成片里，擎天柱骑着机器恐龙（Grimlock）从天龙桥上一跃而下，那个场景让全世界的影迷记住了武隆这个地名。有趣的是，因为武隆的地形太复杂，剧组很多重型设备根本运不进去——最后是用人力扛进去的。\n\n现在天生三桥景区里有一块"变形金刚取景地"的牌子，很多外国游客就是为了这块牌子来的。你站在擎天柱站过的地方，抬头看同一座235米高的天龙桥——那种感觉，比看电影还震撼。\n\n🎬 彩蛋：除了《变形金刚4》，《满城尽带黄金甲》也在这里取过景。张艺谋搭的唐代驿站"天福官驿"至今还在景区里，可以进去参观。',
-   relatedPoints:['p_wulong']
-  },
-  {id:'n_goldenflower',title:'天福官驿：一座为电影而生的唐代驿站',badge:'电影彩蛋',
-   excerpt:'2005年，张艺谋要在武隆搭一座唐代驿站。没有人相信能在峡谷里盖房子。',
-   content:'2005年，张艺谋为拍《满城尽带黄金甲》在武隆天生三桥峡谷里搭建了"天福官驿"。当时很多人觉得疯了——在这么深的峡谷里盖一座仿唐建筑？\n\n但张艺谋坚持。他说这座桥（天龙桥）太震撼了，建筑必须配得上它。最后建成的天福官驿是一座青瓦灰墙的唐代风格驿站，被两座巨型石桥夹在中间，像一颗被巨人握在手心的宝石。\n\n电影拍完后，政府决定保留这座驿站。现在它成了天生三桥景区最受欢迎的打卡点之一——周杰伦的《天涯过客》MV也在这里取过景。很多游客不知道的是：这座驿站虽然看起来古色古香，其实只有19年历史。它是"先有电影，后有景点"的完美案例。\n\n🏮 周杰伦MV取景 / 🎬 张艺谋电影同款 / 🏯 仿唐建筑',
-   relatedPoints:['p_wulong']
-  },
-  {id:'n_wulong_hike',title:'武隆徒步：垂直500米的震撼',badge:'户外体验',
-   excerpt:'全程500多级台阶，几乎全是下坡——但每一步都值得。',
-   content:'去武隆天生三桥之前，有件事得知道：你会走很多路。从景区入口到谷底，垂直落差超过500米，全程500多级台阶——大部分是往下走的，膝盖不好的人慎入。\n\n但当你站在天龙桥下面的时候，你就忘了膝盖的事。抬头看一座235米高的天然石桥——它比你见过最大的建筑还要高两倍——那种尺度感完全超出日常经验。你的大脑会短暂地"当机"一下：这是什么？怎么形成的？\n\n地质学家说它们是地下水在石灰岩内部掏空了整座山体后，顶部塌陷形成的。听着很学术，但站在现场你会觉得：应该是神用凿子开的吧。\n\n👟 穿登山鞋 ⛰️ 带登山杖 📱 提前下离线地图（峡谷里没信号）',
-   relatedPoints:['p_wulong']
-  },
-  {id:'n_spirited_away',title:'洪崖洞：我们找了十年的千与千寻',badge:'打卡故事',
-   excerpt:'2001年宫崎骏画了一个悬崖上的澡堂。15年后，中国人在重庆找到了它。',
-   content:'2001年，宫崎骏的《千与千寻》上映。那座建在悬崖上、层层叠叠、夜晚灯火辉煌的汤屋，成了全世界动漫迷心中最梦幻的场景。\n\n2016年前后，有人在重庆洪崖洞拍了一张夜景照片发到网上。评论区炸了："这不就是千与千寻吗？！"从此洪崖洞的游客呈指数级增长——不是为了看古建筑，是为了找童年记忆里的那座汤屋。\n\n宫崎骏本人从未确认过洪崖洞是原型（他更多参考了台湾九份和日本道后温泉），但这不重要了。重要的是：当你站在千厮门大桥上，看着整面悬崖被金色灯光点燃的时候——那就是千与千寻。\n\n✨ 亮灯时间：夏季19:30 / 冬季18:30 📸 千厮门大桥中段最佳 🚇 1号线/6号线小什字站',
-   relatedPoints:['p_hongya']
-  },
-  {id:'n_hongya_guide',title:'洪崖洞避坑：一个本地人的真心话',badge:'本地人私藏',
-   excerpt:'别进洪崖洞。站在桥上看它，比在里面挤三小时值一万倍。',
-   content:'作为一个重庆人，我有个建议：别进洪崖洞。不是说里面不好，是里面跟外面看到的是两个完全不同的东西。外面是魔幻悬崖古城；里面是商场+小吃街+电梯排队。你花两小时在里面挤来挤去，最后发现最好看的其实是你站在桥上看到的那一面。\n\n最佳路线：18:30到达千厮门大桥（大剧院站走过来）→ 在桥上等19:30亮灯 → 拍20分钟 → 走到对岸戴家巷悬崖步道 → 另一个角度再拍20分钟 → 去解放碑吃火锅。全程不排队、不买票、不爬楼，而且照片质量秒杀90%的游客。\n\n如果你非要进去：走11楼的电梯直达城市阳台，别从1楼开始爬。从1楼上到11楼的楼梯窄到你的行李箱侧着才能过。',
-   relatedPoints:['p_hongya']
-  },
-  {id:'n_dazu_insider',title:'大足石刻：佛教版的"连环画"',badge:'文化发现',
-   excerpt:'大足石刻有一组壁画叫"地狱变相"——那是中国最早的连环画，比漫威早了800年。',
-   content:'大足石刻最让我震撼的不是千手观音（虽然它也很震撼），而是一组叫"地狱变相"的壁画——用连环画的方式画了地狱里的各种审判场景，好人大摇大摆过桥进天堂，坏人在烈火里挣扎。\n\n还有一组"戒酒图"——12个画面展示了一个人从喝酒到发疯、到打人、到被老婆赶出家门、到流落街头的完整"堕落史"。中国古代的健康教育宣传画，比你想象的要精彩得多。\n\n建议请讲解员。前面有个游客不听，自己走了一圈，出来说："就是一些老石头。"旁边请了讲解员那个说："天哪，这是佛教版的权力的游戏。"同样50块钱门票，体验天差地别。\n\n🎧 英文语音导览 📖 建议请人工讲解（约¥150） 🏛️ 宝顶山是精华核心',
-   relatedPoints:['p_dazu']
-  }
+const N=[
+  {id:'n_transformers',n:'我在武隆追擎天柱',d:'电影彩蛋',bc:'b-film',c:4,r:2,feat:true,
+   img:'武隆·变形金刚取景地',s:'2014年迈克尔·贝站在天龙桥下仰头看了三分钟：就在这里拍。不需要特效。',
+   content:'2014年迈克尔·贝带着《变形金刚4》剧组来到武隆，站在天龙桥下仰头看了整整三分钟，对制片人说："就在这里拍。这里不需要任何特效。"成片里擎天柱骑着机器恐龙从天龙桥上一跃而下。因地形太复杂，剧组重型设备运不进去——最后靠人力扛。现在景区里有一块"变形金刚取景地"牌子，你站在擎天柱站过的地方抬头看同一座235米高的天龙桥——比看电影还震撼。',rp:['p_wulong']},
+  {id:'n_goldenflower',n:'天福官驿：为电影而生的驿站',d:'电影彩蛋',bc:'b-film',c:3,r:1,
+   img:'武隆·黄金甲取景地',s:'张艺谋坚持：这座桥太震撼了，建筑必须配得上它。',
+   content:'2005年张艺谋为《满城尽带黄金甲》在武隆峡谷里搭建了"天福官驿"。青瓦灰墙的唐代风格驿站被两座巨型石桥夹在中间，像一颗被巨人握在手心的宝石。电影拍完后驿站被保留，周杰伦《天涯过客》MV也在此取景。建筑看起来古色古香，其实只有19年——"先有电影，后有景点"的完美案例。',rp:['p_wulong']},
+  {id:'n_wulong_hike',n:'武隆徒步：垂直500米的震撼',d:'户外体验',bc:'b-hike',c:2,r:2,feat:true,
+   img:'武隆·峡谷徒步',s:'全程500多级台阶几乎全是下坡。但当你站在天龙桥下，膝盖的事就忘了。',
+   content:'从景区入口到谷底垂直落差超过500米，500多级台阶大部分向下。站在天龙桥下抬头看一座235米高的天然石桥——你见过最大的建筑比它矮一半。地质学家说它们是地下水掏空山体后塌陷形成的，站在现场你会觉得：应该是神用凿子开的。\n\n👟 穿登山鞋 ⛰️ 带登山杖 📱 提前下载离线地图',rp:['p_wulong']},
+  {id:'n_spirited',n:'洪崖洞：我们找了十年的千与千寻',d:'打卡故事',bc:'b-story',c:4,r:2,feat:true,
+   img:'洪崖洞·千与千寻',s:'2016年有人拍了一张洪崖洞夜景发上网。评论区炸了："这不就是千与千寻吗？！"',
+   content:'2001年宫崎骏的《千与千寻》上映，悬崖上层层叠叠、夜晚灯火辉煌的汤屋成了全世界动漫迷最梦幻的场景。2016年前后，有人拍了一张洪崖洞夜景发上网——从此洪崖洞游客呈指数级增长，不是来看古建筑，是来找童年记忆里的那座汤屋。\n\n宫崎骏从未确认过洪崖洞是原型，但这不重要——当你站在千厮门大桥上看着整面悬崖被金色灯光点燃，那就是千与千寻。',rp:['p_hongya']},
+  {id:'n_hongya_guide',n:'洪崖洞避坑：本地人真心话',d:'本地人私藏',bc:'b-local',c:3,r:1,feat:true,
+   img:'洪崖洞·避坑指南',s:'别进洪崖洞。站在桥上看它，比在里面挤三小时值一万倍。',
+   content:'洪崖洞里面和外面是两个东西。外面是魔幻悬崖古城，里面是商场+小吃街+电梯排队。最佳路线：18:30到千厮门大桥→等19:30亮灯→拍20分钟→走到戴家巷悬崖步道→去解放碑吃火锅。全程不排队不买票不爬楼。',rp:['p_hongya']},
+  {id:'n_dazu_comic',n:'大足：佛教版"权力的游戏"',d:'文化发现',bc:'b-story',c:3,r:2,feat:true,
+   img:'大足·地狱变相',s:'大足石刻有一组"地狱变相"——中国最早的连环画，比漫威早了800年。',
+   content:'大足最震撼的不是千手观音，是一组"地狱变相"壁画——用连环画方式画地狱审判场景。还有"戒酒图"：12个画面展示从喝酒到发疯、打人、被老婆赶出门、流落街头的完整堕落史。\n\n一位游客自己走了一圈出来说"就是些老石头"，旁边请了讲解员那位说"天哪这是佛教版权力的游戏"。同样门票，体验天差地别。\n\n🎧 英文语音导览 📖 人工讲解约¥150',rp:['p_dazu']},
+  {id:'n_dazu_tips',n:'大足：外国游客最友好5A',d:'本地人私藏',bc:'b-local',c:2,r:1,
+   img:'大足·游客指南',s:'大足是重庆最老外友好的5A——多为平地，英文导览，高铁半小时。',
+   content:'宝顶山多为平地铺装路面，不用爬坡；有英文语音导览；重庆西站高铁到大足南只要30分钟。门票¥135。建议通过酒店预订英文人工讲解（约¥150）。景区门口可租讲解器。\n\n💳 支付宝/现金 🚆 高铁¥30-50 🚻 游客中心有坐便器',rp:['p_dazu']},
+  {id:'n_ciqikou_hidden',n:'磁器口：主街是给游客走的',d:'本地人私藏',bc:'b-local',c:2,r:2,
+   img:'磁器口·隐秘小巷',s:'真正的磁器口在岔出去的小巷子里——40年老茶馆、80岁茶娘、一勺糖画凤凰。',
+   content:'主街是陈麻花、酸辣粉、毛血旺的天下。真正的磁器口在侧面小巷：开了40年的茶馆，80多岁老太太用盖碗泡茶¥8一杯。糖画老人一勺糖浆能画出凤凰。民国船工名字刻满一面墙。老房子二楼推开窗看嘉陵江。\n\n建议早上10点前到，先去小巷探索，再回主街吃东西。',rp:['p_ciqikou']},
+  {id:'n_cableway',n:'长江索道：苏联图纸上的中国传奇',d:'电影彩蛋',bc:'b-film',c:3,r:2,
+   img:'长江索道·苏联往事',s:'1987年设计图纸来自列宁格勒。苏联工程师没想到，公交图纸成了打卡圣地。',
+   content:'1987年建成的长江索道是正宗苏联援助项目，设计来自列宁格勒。当年定位是"公交"——南岸居民坐索道过江上班，单程2块钱。30多年后它成了中国最著名的打卡点，电影《疯狂的石头》里黄渤那段"我顶你个肺"就在这拍的。\n\n🌉 南站（上新街）排队人少 · 💳 交通卡半价 · 🕐 避开通勤高峰',rp:['p_cableway']},
 ];
 
-// ── RENDER FUNCTIONS ──
+// ══ RENDER ══
+
+function featCard(item,isPoint){
+  let fn=isPoint?'openPoint':'openNote';
+  return `<div class="h-card" onclick="${fn}('${item.id}')"><div class="hc-img"><span class="hc-badge ${item.bc}">${item.t||item.d}</span>📷 ${item.n}</div><div class="hc-body"><h3>${item.n}</h3><div class="hc-sub">${isPoint?item.en+' · ⭐ '+item.r:item.d}</div><div class="hc-excerpt">${isPoint?item.h:item.s}</div></div></div>`;
+}
+
+function cardHTML(item,isPoint){
+  let{id,n,bc,c,r}=item,t=item.t||item.d,fn=isPoint?'openPoint':'openNote';
+  let tags=isPoint?item.rn.map(()=>'<span class="t-note">📝 笔记</span>').join(''):item.rp.map(pid=>{let p=P.find(x=>x.id===pid);return p?`<span class="t-point">📍 ${p.n}</span>`:''}).join('');
+  return `<div class="m-card cs-${c}${r>1?' rs-2':''}" onclick="${fn}('${id}')"><div class="mc-img"><span class="mc-badge ${bc}">${t}</span>📷 ${n}</div><div class="mc-body"><h3>${n}</h3><div class="mc-sub">${isPoint?item.en+' · ⭐ '+item.r:item.d}</div><div class="mc-excerpt">${isPoint?item.d.split('。')[0]+'。':item.s}</div>${tags?`<div class="mc-tags">${tags}</div>`:''}</div></div>`;
+}
+
+function statCard(item,isPoint){let fn=isPoint?'openPoint':'openNote';return `<div class="m-stat cs-2" onclick="${fn}('${item.id}')"><div class="s-body"><div class="s-num">${item.stat.n}</div><div class="s-label">${item.stat.l.replace(/\n/g,'<br>')}</div></div></div>`;}
+function quoteCard(item,isPoint){let fn=isPoint?'openPoint':'openNote';return `<div class="m-quote cs-2" onclick="${fn}('${item.id}')"><div class="q-body"><div class="q-text">${item.quote.text}</div><div class="q-attr">—— ${item.quote.attr}</div></div></div>`;}
+function divCard(l){return `<div class="m-div"><div class="d-line"></div><div class="d-label">${l}</div><div class="d-line"></div></div>`;}
+
+function renderSection(items,isPoint,hookId,masonryId){
+  // Featured horizontal scroll: only feat=true items
+  let feat=items.filter(x=>x.feat);
+  document.getElementById(hookId).innerHTML=`<div class="h-scroll">${feat.map(x=>featCard(x,isPoint)).join('')}</div>`;
+
+  // Masonry: ALL items with mixed sizes + auto-generated stat/quote cards
+  let html=[];
+  let groups={};
+  if(!isPoint){
+    // Notes: group by badge
+    items.forEach(x=>{let k=x.d;if(!groups[k])groups[k]=[];groups[k].push(x)});
+    let order=['电影彩蛋','本地人私藏','文化发现','打卡故事','户外体验'];
+    order.forEach(k=>{if(groups[k]){
+      html.push(divCard(k==='电影彩蛋'?'🎬 电影彩蛋':k==='本地人私藏'?'🗿 本地人私藏':k==='文化发现'?'✨ 文化发现':k==='打卡故事'?'📸 打卡故事':'🥾 户外体验'));
+      groups[k].forEach(x=>html.push(cardHTML(x,isPoint)));
+      // Insert a quote card after first group
+      if(k==='电影彩蛋') html.push(quoteCard(P[4],true));
+    }});
+  }else{
+    html.push(divCard('全部目的地'));
+    // Interleave cards with stat/quote cards
+    P.forEach((poi,i)=>{
+      html.push(cardHTML(poi,isPoint));
+      if(i===0) html.push(statCard(poi,isPoint));  // after wulong: stat
+      if(i===1) html.push(quoteCard(poi,isPoint)); // after hongya: quote
+      if(i===2) html.push(statCard(poi,isPoint));  // after dazu: stat
+      if(i===4) html.push(quoteCard(poi,isPoint)); // after cableway: quote
+    });
+  }
+  document.getElementById(masonryId).innerHTML=html.join('');
+}
+
+renderSection(P,true,'h-points','m-points');
+renderSection(N,false,'h-notes','m-notes');
+
+// ══ NAV ══
 function switchTab(t){
-  document.querySelectorAll('.nav-bar button').forEach((b,i)=>b.classList.toggle('active',i===['points','notes'].indexOf(t)));
+  document.querySelectorAll('.nav-bar button').forEach((b,i)=>b.classList.toggle('active',(t==='points'&&i===0)||(t==='notes'&&i===1)));
   document.getElementById('tab-points').style.display=t==='points'?'block':'none';
   document.getElementById('tab-notes').style.display=t==='notes'?'block':'none';
 }
 
-function renderPoints(){
-  document.getElementById('point-grid').innerHTML=POINTS.map(p=>`<div class="point-card" onclick="openPoint('${p.id}')"><div class="img-placeholder"><span class="tag">${p.type}</span>📷 ${p.name}</div><div class="body"><h3>${p.name}</h3><div class="sub">${p.en} · ⭐ ${p.rating} · ${p.price}</div><div class="desc">${p.desc.split('\n\n')[0]}</div><div class="related">📝 ${p.relatedNotes.length}篇相关笔记</div></div></div>`).join('');
-}
+// ══ BACK TO TOP ══
+window.addEventListener('scroll',()=>{document.getElementById('btt').classList.toggle('visible',window.scrollY>400)});
 
-function renderNotes(){
-  document.getElementById('notes-list').innerHTML=NOTES.map(n=>`<div class="note-card" onclick="openNote('${n.id}')"><div class="note-header"><h3>${n.title}</h3><span class="note-badge">${n.badge}</span></div><div class="excerpt">${n.excerpt}</div><div class="note-poi">${n.relatedPoints.map(pid=>{let p=POINTS.find(x=>x.id===pid);return p?`<span>📍 ${p.name}</span>`:''}).join('')}</div></div>`).join('');
-}
-
-// ── PANEL: POINT ❮━━━➤ NOTE ──
-function openPoint(id){
-  let p=POINTS.find(x=>x.id===id);if(!p)return;
-  let linkedNotes=NOTES.filter(n=>n.relatedPoints.includes(p.id));
-  document.getElementById('panel').innerHTML=`<div class="p-hero"><button class="p-close" onclick="closePanel()">✕</button>📷 ${p.name}</div><div class="p-body"><h2>${p.name}</h2><div class="sub">${p.en} · ⭐ ${p.rating} · ${p.price}</div><div class="meta"><span>🕐 ${p.hours}</span><span>📍 ${p.type}</span></div>${p.desc.split('\n\n').map(t=>`<p class="text">${t.trim()}</p>`).join('')}${linkedNotes.length?`<div class="cross-block"><h4>📝 ${linkedNotes.length} 篇相关旅行笔记</h4>${linkedNotes.map(n=>`<button class="cross-item note-cross" onclick="event.stopPropagation();switchTab('notes');setTimeout(()=>openNote('${n.id}'),100)">📝 ${n.title} · ${n.badge}</button>`).join('')}</div>`:''}</div>`;
-  document.getElementById('overlay').classList.add('open');document.body.style.overflow='hidden'
-}
-
-function openNote(id){
-  let n=NOTES.find(x=>x.id===id);if(!n)return;
-  let linkedPoints=POINTS.filter(p=>n.relatedPoints.includes(p.id));
-  document.getElementById('panel').innerHTML=`<div class="p-hero" style="background:linear-gradient(135deg,#e8e0d5,#ddd5c8)"><button class="p-close" onclick="closePanel()">✕</button>📝 ${n.title} · ${n.badge}</div><div class="p-body"><div class="link-badge">📝 旅行笔记 · ${n.badge}</div><h2>${n.title}</h2><div class="sub">${n.excerpt}</div>${n.content.split('\n\n').map(t=>`<p class="text">${t.trim()}</p>`).join('')}${linkedPoints.length?`<div class="cross-block"><h4>📍 关联景点</h4>${linkedPoints.map(p=>`<button class="cross-item point-cross" onclick="event.stopPropagation();switchTab('points');setTimeout(()=>openPoint('${p.id}'),100)">📍 ${p.name}</button>`).join('')}</div>`:''}</div>`;
-  document.getElementById('overlay').classList.add('open');document.body.style.overflow='hidden'
-}
-
+// ══ PANEL ══
+function openPoint(id){let p=P.find(x=>x.id===id);if(!p)return;let lns=N.filter(nn=>nn.rp.includes(p.id));document.getElementById('panel').innerHTML=`<div class="ph"><button class="pclose" onclick="closePanel()">✕</button>📷 ${p.n}</div><div class="pb"><div class="bc">← 景点库</div><h2>${p.n}</h2><div class="sub">${p.en} · ⭐ ${p.r} · ${p.price}</div><div class="meta"><span>🕐 ${p.hr}</span><span>📍 ${p.t}</span></div>${p.d.split('\n\n').map(t=>`<p class="text">${t.trim()}</p>`).join('')}${lns.length?`<div class="cross"><h4>📝 ${lns.length} 篇相关旅行笔记</h4>${lns.map(n=>`<button class="citem cnote" onclick="event.stopPropagation();switchTab('notes');setTimeout(()=>openNote('${n.id}'),100)">📝 ${n.n} · ${n.d}</button>`).join('')}</div>`:''}</div>`;document.getElementById('overlay').classList.add('open');document.body.style.overflow='hidden'}
+function openNote(id){let n=N.find(x=>x.id===id);if(!n)return;let lps=P.filter(p=>n.rp.includes(p.id));document.getElementById('panel').innerHTML=`<div class="ph note-ph"><button class="pclose" onclick="closePanel()">✕</button>📷 ${n.img}</div><div class="pb"><div class="bc">← 旅行笔记 · ${n.d}</div><h2>${n.n}</h2><div class="sub">${n.s}</div>${n.content.split('\n\n').map(t=>`<p class="text">${t.trim()}</p>`).join('')}${lps.length?`<div class="cross"><h4>📍 关联景点</h4>${lps.map(p=>`<button class="citem cpoint" onclick="event.stopPropagation();switchTab('points');setTimeout(()=>openPoint('${p.id}'),100)">📍 ${p.n}</button>`).join('')}</div>`:''}</div>`;document.getElementById('overlay').classList.add('open');document.body.style.overflow='hidden'}
 function closePanel(){document.getElementById('overlay').classList.remove('open');document.body.style.overflow=''}
-
-// INIT
-renderPoints();
-renderNotes();
 </script>
 </body>
 </html>
