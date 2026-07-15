@@ -184,6 +184,7 @@ body{font-family:'PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg)
 .chat-sidebar-input input{flex:1;padding:10px;border-radius:8px;border:1px solid var(--border);font-size:.84rem;outline:none}
 .chat-sidebar-input input:focus{border-color:var(--gold)}
 .chat-sidebar-input button{padding:10px 18px;border-radius:8px;border:none;background:var(--dark);color:#fff;font-weight:600;font-size:.84rem;cursor:pointer}
+.handoff-card{background:linear-gradient(135deg,#fef3c7,#fde68a);border:1px solid var(--gold);font-size:.82rem}
 
 @media(max-width:600px){.chat-sidebar{width:100vw;right:-100vw}.chat-float{bottom:20px;right:20px}}
 
@@ -333,6 +334,7 @@ body{font-family:'PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg)
       <button onclick="askAI('重庆地铁怎么坐？')">🚇 交通</button>
       <button onclick="askAI('去重庆要带什么？')">🎒 行李</button>
       <button onclick="askAI('推荐3天行程')">🗺️ 行程</button>
+      <button onclick="askAI('人工客服')">👤 转人工</button>
       <button onclick="switchTab('planner');toggleChat()">🧭 去规划</button>
     </div>
   </div>
@@ -559,18 +561,7 @@ function renderItineraryResult(d){
   document.getElementById('plan-result').innerHTML=`<div class="plan-result-card"><div class="pr-header"><div><h3>${label} · ${d.days||''}天行程</h3><p style="color:var(--muted);font-size:.82rem">重庆 · 一站全包 简单放心</p></div>${d.budget?`<div class="pr-total"><div class="big">${d.budget.total}</div><div class="small">${d.budget.total_usd||''}</div></div>`:''}</div>${(d.plan||[]).map(day=>`<div class="plan-day"><div class="pd-header" onclick="this.nextElementSibling.classList.toggle('open')"><span style="background:var(--dark);color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:800;flex-shrink:0">${day.day}</span>${day.title_zh||day.title||'Day '+day.day} · ${(day.items||[]).length}站</div><div class="pd-body ${day.day===1?'open':''}">${(day.items||[]).map(i=>`<div class="pd-item"><div class="pd-time">${i.time}</div><div class="pd-info"><strong>${i.poi_name_zh||i.name||''}</strong><span style="color:var(--muted);font-size:.74rem"> · ${i.transport||''} · ${i.duration||''}</span></div><div class="pd-meta">${i.cost_estimate||''}</div></div>`).join('')}</div></div>`).join('')}${d.budget&&d.budget.breakdown?`<div class="plan-budget"><strong style="font-size:.85rem">💵 费用明细</strong>${Object.entries(d.budget.breakdown).map(([k,v])=>`<div class="pb-row"><span style="text-transform:capitalize;color:var(--muted)">${k.replace(/_/g,' ')}</span><span>${v}</span></div>`).join('')}${d.budget.service_fee?`<div class="pb-row"><span style="color:var(--muted)">平台服务费</span><span>${d.budget.service_fee}</span></div>`:''}<div class="pb-row total"><span>总计</span><span class="amt">${d.budget.total}</span></div></div>`:''}<div class="plan-cta"><button onclick="toggleChat();document.getElementById('chat-input').value='我想预订这个行程';document.getElementById('chat-input').focus()">📋 一键预订咨询</button></div></div>`;
 }
 
-// ══ AI客服 ══
-const KB={
-  '签证':{a:'大多数国家可享受144小时过境免签（通过重庆江北机场入境）。出发前请查看最新政策：china-entry.gov.cn。建议提前确认护照有效期超过6个月。',q:['签证','visa','免签','过境','护照']},
-  '付款':{a:'重庆支持支付宝国际版（Alipay TourPass）绑定Visa/Mastercard。现金在大部分地方通用。建议：支付宝+随身¥300-500现金。4-5星级酒店接受信用卡，小店和街边摊只收现金/扫码。',q:['付款','pay','支付宝','微信','现金','刷卡','visa','mastercard']},
-  '交通':{a:'重庆地铁非常方便，所有站点有英文标识。单程¥2-7元。建议办理交通卡（¥25押金，坐索道半价）。打车起步价¥10，建议让酒店前台写中文地址给司机看。Apple Maps在中国可用且较准。',q:['交通','地铁','打车','出行','transport','metro','taxi','地图']},
-  '行李':{a:'全年必备：舒服的平底鞋/运动鞋（重庆要爬坡！）。夏季（6-9月）：轻薄衣物+防晒霜+雨伞+小风扇。冬季（12-2月）：薄羽绒服+围巾+防滑鞋。全年：充电宝（导航耗电快）、纸巾（公厕不提供）。',q:['行李','带什么','准备','衣服','设备','pack','weather']},
-  '天气':{a:'重庆夏季（6-9月）炎热潮湿，25-38°C，阵雨频繁。冬季（12-2月）湿冷，5-12°C。最佳旅行季节：3-5月（春暖花开）和10-11月（秋高气爽），气温15-25°C。',q:['天气','气候','季节','什么时候','weather','climate','temperature']},
-  '行程':{a:'推荐3天行程：Day1 解放碑→洪崖洞→李子坝→长江索道→南山夜景；Day2 磁器口→鹅岭公园→两江夜游；Day3 大足石刻一日游。也可以去"行程计划"页签让AI帮你定制专属行程！',q:['行程','推荐','几天','安排','itinerary','plan']},
-  '安全':{a:'重庆非常安全。紧急电话：110（警察）、120（急救）。建议：保存酒店名片（有中文地址）、避免深夜独自去偏僻区域。重庆江北和睦家医院有英文服务。',q:['安全','急救','医院','报警','safe','emergency','hospital']},
-  default:{a:'关于这个问题，建议查看我们的"景点"和"笔记"页签了解更多重庆攻略。也可以试试问：签证、付款、交通、行李、天气、行程推荐。',q:[]}
-};
-
+let convHistory=[];
 function askAI(q){
   let input=document.getElementById('chat-input');
   let question=q||input.value.trim();
@@ -579,16 +570,42 @@ function askAI(q){
   box.innerHTML+=`<div class="chat-msg user">${question}</div>`;
   box.scrollTop=box.scrollHeight;input.value='';
 
-  // Try backend AI API
   fetch('/api/ai/ask',{
     method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({question:question})
+    body:JSON.stringify({question:question,conversation_history:convHistory})
   }).then(r=>r.json()).then(data=>{
-    box.innerHTML+=`<div class="chat-msg ai">${data.answer}</div>`;
+    if(data.action==='handoff'){
+      box.innerHTML+=`<div class="chat-msg ai">${data.answer}</div>`;
+      convHistory.push({role:'assistant',content:data.answer,source:'handoff'});
+      showHandoffForm(question);
+    }else{
+      box.innerHTML+=`<div class="chat-msg ai">${data.answer}</div>`;
+      convHistory.push({role:'user',content:question},{role:'assistant',content:data.answer,source:data.source});
+    }
     box.scrollTop=box.scrollHeight;
   }).catch(()=>{
-    box.innerHTML+=`<div class="chat-msg ai">抱歉，AI服务暂时不可用。请尝试问：签证、付款、交通、行李、天气。</div>`;
+    box.innerHTML+=`<div class="chat-msg ai">抱歉，AI服务暂时不可用。回复"人工客服"联系真人。</div>`;
     box.scrollTop=box.scrollHeight;
+  });
+}
+
+function showHandoffForm(lastQuestion){
+  let box=document.getElementById('chat-box');
+  box.innerHTML+=`<div class="chat-msg ai handoff-card"><b>📋 转接人工客服</b><br>请留下联系方式，客服将在30分钟内回复。<br><input id="hf-name" placeholder="姓名" style="width:100%;padding:6px 8px;margin:4px 0;border:1px solid var(--border);border-radius:4px;font-size:.8rem"><input id="hf-email" placeholder="邮箱" style="width:100%;padding:6px 8px;margin:4px 0;border:1px solid var(--border);border-radius:4px;font-size:.8rem"><button onclick="submitHandoff()" style="padding:6px 16px;border:none;background:var(--dark);color:#fff;border-radius:4px;cursor:pointer;font-size:.8rem">提交</button></div>`;
+  box.scrollTop=box.scrollHeight;
+}
+
+function submitHandoff(){
+  let name=document.getElementById('hf-name').value.trim();
+  let email=document.getElementById('hf-email').value.trim();
+  if(!email){alert('请填写邮箱');return}
+  fetch('/api/ai/handoff',{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({name:name,email:email,question:'人工客服请求',conversation_history:convHistory})
+  }).then(()=>{
+    let box=document.getElementById('chat-box');
+    box.innerHTML+=`<div class="chat-msg ai">✅ 已收到！客服将通过 <b>${email}</b> 联系您。</div>`;
+    convHistory=[];box.scrollTop=box.scrollHeight;
   });
 }
 

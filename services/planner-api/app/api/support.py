@@ -1,6 +1,9 @@
-"""AI客服 API — knowledge-enhanced Q&A"""
+"""AI客服 API — knowledge-enhanced Q&A + human handoff"""
 
 import json
+import os
+from datetime import datetime
+
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
@@ -11,7 +14,27 @@ router = APIRouter()
 
 class AskRequest(BaseModel):
     question: str
-    context: str = ""  # optional: user's current itinerary context
+    context: str = ""
+    conversation_history: list = []  # previous messages for handoff detection
+
+
+class HandoffRequest(BaseModel):
+    name: str = ""
+    email: str = ""
+    question: str
+    conversation_history: list = []
+
+
+# Handoff trigger keywords
+HANDOFF_TRIGGERS = [
+    "人工", "客服", "转人工", "human", "agent", "real person",
+    "退款", "refund", "退订", "取消订单", "cancel", "投诉", "complaint",
+    "预订", "booking", "book", "reserve", "支付失败", "payment failed",
+    "紧急", "urgent", "emergency", "联系我", "contact me",
+]
+
+# Handoff log file
+HANDOFF_LOG = os.path.join(os.path.dirname(__file__), "..", "..", "handoff_log.jsonl")
 
 
 # Simple knowledge base for fallback (when LLM is not available)
@@ -38,16 +61,47 @@ KB = {
 @router.post("/ai/ask")
 async def ai_ask(req: AskRequest):
     """AI-powered Q&A for travel support.
-    Uses LLM if configured, falls back to keyword matching."""
+    Detects handoff triggers and routes to human agent when needed."""
     
     q = req.question.lower()
     
-    # Try keyword matching: does user question contain any KB key?
+    # Check if user triggered handoff explicitly
+    if any(trigger in q for trigger in ["人工客服", "转人工", "人工", "human agent", "real person"]):
+        return {
+            "answer": "好的，正在为您转接人工客服，请稍候...",
+            "source": "handoff",
+            "action": "handoff",
+            "reason": "用户请求人工客服"
+        }
+    
+    # Check if high-risk topic needs handoff
+    for trigger in ["退款", "refund", "退订", "取消订单", "投诉", "complaint", "支付失败"]:
+        if trigger in q:
+            return {
+                "answer": "您的问题涉及订单/退款处理，需要人工客服协助。正在为您转接...",
+                "source": "handoff",
+                "action": "handoff",
+                "reason": f"高风险话题: {trigger}"
+            }
+    
+    # Check conversation history for repeated fallbacks (2+ consecutive failures)
+    if req.conversation_history:
+        recent = [m for m in req.conversation_history[-4:] if isinstance(m, dict)]
+        fallback_count = sum(1 for m in recent if m.get("source") == "fallback")
+        if fallback_count >= 2:
+            return {
+                "answer": "我暂时无法完全解决您的问题，正在为您转接人工客服...",
+                "source": "handoff",
+                "action": "handoff",
+                "reason": "AI连续回答失败"
+            }
+    
+    # Try keyword matching
     for key, answer in KB.items():
         if key.lower() in q or q in key.lower():
             return {"answer": answer, "source": "knowledge_base"}
     
-    # Try LLM if configured
+    # Try LLM
     if settings.llm_api_key and settings.llm_api_key != "sk-placeholder":
         try:
             import httpx
@@ -76,6 +130,49 @@ async def ai_ask(req: AskRequest):
     
     # Ultimate fallback
     return {
-        "answer": "关于这个问题，建议查看我们的「景点」和「笔记」页签了解更多重庆攻略。也可以试试问：签证、付款、交通、行李、天气、行程推荐、安全。",
+        "answer": "关于这个问题，建议查看我们的「景点」和「笔记」页签了解更多重庆攻略。也可以试试问：签证、付款、交通、行李、天气、行程推荐、安全。如需人工客服，回复\"人工客服\"。",
         "source": "fallback"
     }
+
+
+@router.post("/ai/handoff")
+async def ai_handoff(req: HandoffRequest):
+    """Store handoff request and notify admin."""
+    
+    record = {
+        "timestamp": datetime.now().isoformat(),
+        "name": req.name,
+        "email": req.email,
+        "question": req.question,
+        "history": req.conversation_history[-6:] if req.conversation_history else [],
+    }
+    
+    # Append to handoff log
+    try:
+        os.makedirs(os.path.dirname(HANDOFF_LOG), exist_ok=True)
+        with open(HANDOFF_LOG, "a", encoding="utf-8") as f:
+            f.write(json.dumps(record, ensure_ascii=False) + "\n")
+    except Exception:
+        pass
+    
+    return {
+        "status": "received",
+        "message": "已收到您的请求，客服将在30分钟内通过邮件回复您。紧急情况请拨打 +86-23-xxxxxxxx。"
+    }
+
+
+@router.get("/ai/handoffs")
+async def list_handoffs():
+    """Admin: list recent handoff requests"""
+    try:
+        if not os.path.exists(HANDOFF_LOG):
+            return {"count": 0, "requests": []}
+        requests = []
+        with open(HANDOFF_LOG, "r", encoding="utf-8") as f:
+            for line in f:
+                if line.strip():
+                    requests.append(json.loads(line))
+        requests.reverse()
+        return {"count": len(requests), "requests": requests[-20:]}
+    except Exception:
+        return {"count": 0, "requests": []}

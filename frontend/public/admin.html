@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>客服管理 - 转人工请求</title>
+<style>
+:root{--dark:#1A1A2E;--gold:#D4A017;--red:#C0392B;--muted:#7a7a7a;--border:#e3e0d8;--bg:#f2f0eb}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--dark);padding:20px;max-width:900px;margin:0 auto}
+h1{font-size:1.4rem;margin-bottom:6px}
+.sub{color:var(--muted);font-size:.82rem;margin-bottom:20px}
+.card{background:#fff;border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:12px}
+.card .meta{display:flex;gap:12px;font-size:.75rem;color:var(--muted);margin-bottom:6px;flex-wrap:wrap}
+.card .meta .new{background:var(--red);color:#fff;padding:1px 8px;border-radius:3px;font-size:.65rem;font-weight:700}
+.card h3{font-size:.95rem;margin-bottom:4px}
+.card .q{color:#555;font-size:.84rem;line-height:1.5;margin-bottom:8px}
+.card .history{font-size:.72rem;color:var(--muted);background:#f5f5f7;padding:8px 10px;border-radius:4px}
+.empty{text-align:center;padding:40px;color:var(--muted)}
+.refresh-btn{padding:8px 20px;border-radius:6px;border:none;background:var(--dark);color:#fff;cursor:pointer;font-size:.82rem;margin-bottom:20px}
+.badge{display:inline-block;padding:2px 8px;border-radius:3px;font-size:.65rem;font-weight:700}
+.badge-new{background:var(--red);color:#fff}
+</style>
+</head>
+<body>
+<h1>📋 转人工请求</h1>
+<p class="sub">新请求自动显示 · <span id="count">--</span></p>
+<button class="refresh-btn" onclick="load()">🔄 刷新</button>
+<div id="list"></div>
+
+<script>
+async function load(){
+  try{
+    let r=await fetch('/api/ai/handoffs');
+    let d=await r.json();
+    document.getElementById('count').textContent=`共 ${d.count} 条`;
+    if(!d.requests.length){
+      document.getElementById('list').innerHTML='<div class="empty">暂无转人工请求</div>';
+      return;
+    }
+    document.getElementById('list').innerHTML=d.requests.map(req=>`
+      <div class="card">
+        <div class="meta">
+          <span>${req.timestamp||''}</span>
+          <span><b>${req.name||'未填写'}</b></span>
+          <span>${req.email||'未填写'}</span>
+        </div>
+        <div class="q">${req.question}</div>
+        ${req.history&&req.history.length?`<div class="history">对话记录: ${req.history.map(h=>h.content||'').join(' → ')}</div>`:''}
+      </div>`).join('');
+  }catch(e){
+    document.getElementById('list').innerHTML='<div class="empty">加载失败，请检查后端服务</div>';
+  }
+}
+load();
+setInterval(load,30000);
+</script>
+</body>
+</html>
