@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
 <title>重庆旅行 · 8D魔幻城市探索指南 — 一站式入境游定制平台</title>
 <meta name="description" content="AI驱动的重庆入境游一站式平台。13个景点深度攻略，9篇旅行笔记，一键定制专属行程。机票酒店门票交通全包，简单放心。">
 <meta property="og:title" content="重庆旅行 · 8D魔幻城市探索指南">
@@ -16,30 +17,36 @@
 body{font-family:'PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 
 /* HERO */
-.hero{background:linear-gradient(135deg,#1a1a2e 0%,#16213e 40%,#0f3460 100%);padding:120px 24px 100px;text-align:center;position:relative;overflow:hidden;min-height:60vh;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.hero::before{content:"";position:absolute;inset:0;opacity:.35;background:url('https://images.unsplash.com/photo-1589705433982-72ab1f67b7d8?w=1920&q=80') center/cover;filter:brightness(0.5)}
-.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(26,26,46,.4) 0%,rgba(26,26,46,.85) 100%)}
-.hero .kicker{color:rgba(255,255,255,.55);font-size:.72rem;letter-spacing:5px;text-transform:uppercase;position:relative;z-index:1;margin-bottom:10px}
-.hero h1{font-size:clamp(2rem,6vw,3.8rem);font-weight:900;color:#fff;position:relative;z-index:1;line-height:1.15;margin-bottom:8px}
-.hero h1 em{font-style:normal;background:linear-gradient(135deg,#F472B6 0%,#FB923C 50%,#FACC15 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:block;font-size:clamp(2.5rem,7vw,5rem)}
-.hero .subtitle{color:rgba(255,255,255,.6);font-size:1.05rem;max-width:580px;margin:0 auto 20px;position:relative;z-index:1;line-height:1.6}
-.hero .hero-stats{display:flex;gap:28px;position:relative;z-index:1;flex-wrap:wrap;justify-content:center}
-.hero .hero-stats span{color:rgba(255,255,255,.5);font-size:.78rem;display:flex;align-items:center;gap:5px}
-.hero .hero-stats span b{color:rgba(255,255,255,.85);font-size:1rem}
+.hero{background:linear-gradient(135deg,#1a1a2e 0%,#16213e 40%,#0f3460 100%);padding:120px 24px 60px;text-align:center;position:relative;overflow:hidden;min-height:55vh;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.hero::before{content:"";position:absolute;inset:0;opacity:1;background:url('picture/bg.jpg') center/cover}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.45) 0%,rgba(0,0,0,.25) 50%,rgba(26,26,46,.7) 100%)}
+.hero-fade{position:absolute;bottom:-1px;left:0;right:0;height:80px;background:linear-gradient(to bottom,transparent,var(--bg));z-index:2}
+.hero .kicker{color:rgba(255,255,255,.7);font-size:.7rem;letter-spacing:6px;text-transform:uppercase;position:relative;z-index:1;margin-bottom:10px}
+.hero h1{font-weight:900;color:#fff;position:relative;z-index:1;line-height:1;margin-bottom:12px}
+.hero h1 em{font-family:'Ma Shan Zheng',cursive;font-style:normal;background:linear-gradient(135deg,#F472B6 0%,#FB923C 50%,#FACC15 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:clamp(4.5rem,12vw,8rem);display:block;font-weight:400;letter-spacing:12px}
+.hero .subtitle{color:rgba(255,255,255,.85);font-size:1.1rem;max-width:580px;margin:0 auto 24px;position:relative;z-index:1;line-height:1.6}
+.hero .hero-stats{display:flex;gap:32px;position:relative;z-index:1;flex-wrap:wrap;justify-content:center}
+.hero .hero-stats span{color:rgba(255,255,255,.6);font-size:.78rem;display:flex;align-items:center;gap:6px;cursor:default}
+.hero .hero-stats span b{color:rgba(255,255,255,.9);font-size:.88rem}
 .hero-cta{position:relative;z-index:1;margin-top:28px;padding:14px 36px;border-radius:30px;border:none;background:linear-gradient(135deg,var(--red),#ea580c);color:#fff;font-size:.95rem;font-weight:700;cursor:pointer;box-shadow:0 4px 20px rgba(192,57,43,.4);transition:all .3s;animation:ctaPulse 2.5s ease-in-out infinite}
 .hero-cta:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(192,57,43,.5);animation:none}
 @keyframes ctaPulse{0%,100%{box-shadow:0 4px 20px rgba(192,57,43,.4)}50%{box-shadow:0 6px 28px rgba(192,57,43,.6)}}
 
 .container{max-width:1140px;margin:0 auto;padding:0 20px 40px}
-.nav-bar{display:flex;gap:0;background:var(--card);border-radius:12px;padding:4px;margin:-22px auto 24px;max-width:480px;box-shadow:0 2px 12px rgba(0,0,0,.04);position:relative;z-index:2}
-.nav-bar button{flex:1;padding:10px 16px;border-radius:9px;border:none;cursor:pointer;font-weight:600;font-size:.84rem;color:var(--muted);background:transparent;transition:all .25s}
-.nav-bar button.active{background:var(--dark);color:#fff;box-shadow:0 2px 8px rgba(26,26,46,.2)}
-.nav-bar button:hover:not(.active){color:var(--ink);background:#f5f5f5}
+.nav-bar{display:flex;gap:4px;background:var(--card);border-radius:14px;padding:6px;margin:-22px auto 24px;max-width:480px;box-shadow:0 2px 16px rgba(0,0,0,.06);position:relative;z-index:2}
+.nav-bar button{flex:1;padding:10px 14px;border-radius:10px;border:none;cursor:pointer;font-weight:600;font-size:.82rem;color:var(--muted);background:transparent;transition:all .25s;position:relative}
+.nav-bar button.active{background:linear-gradient(135deg,var(--dark),#2c3e6b);color:#fff;box-shadow:0 2px 8px rgba(26,26,46,.25)}
+.nav-bar button:hover:not(.active){color:var(--ink);background:rgba(0,0,0,.04)}
 
 /* FEATURED ROW */
 .feat-label{font-size:.72rem;letter-spacing:3px;color:var(--red);margin:24px 0 10px;font-weight:600}
-.h-scroll{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding-bottom:6px}
+.h-scroll{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding-bottom:6px;scroll-behavior:smooth}
 .h-scroll::-webkit-scrollbar{height:3px}.h-scroll::-webkit-scrollbar-thumb{background:#ccc;border-radius:2px}
+.hscroll-wrap{position:relative}
+.hs-arrow{position:absolute;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;border:1px solid var(--border);background:var(--card);color:var(--ink);font-size:1.3rem;cursor:pointer;z-index:2;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.08);transition:all .2s;line-height:1}
+.hs-arrow:hover{background:var(--dark);color:#fff;border-color:var(--dark)}
+.hs-left{left:-12px}.hs-right{right:-12px}
+@media(max-width:640px){.hs-arrow{display:none}}
 .h-card{flex:0 0 320px;scroll-snap-align:start;border-radius:8px;overflow:hidden;background:var(--card);border:1px solid var(--border);cursor:pointer;transition:transform .3s cubic-bezier(.16,1,.3,1),box-shadow .3s}
 .h-card:hover{transform:translateY(-4px);box-shadow:0 8px 30px rgba(0,0,0,.08)}
 .h-card .hc-img{height:200px;background:linear-gradient(135deg,#d0ccc5,#c8c4bb);display:flex;align-items:center;justify-content:center;color:#aaa;font-size:.76rem;position:relative;overflow:hidden}
@@ -232,15 +239,16 @@ body{font-family:'PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg)
 
 <div class="hero">
   <div class="kicker">DISCOVER CHONGQING</div>
-  <h1>这不是一座城市<br><em>这是一个8D魔幻世界</em></h1>
-  <p class="subtitle">轻轨穿过居民楼，火锅沸腾在山顶上，吊脚楼挂在悬崖边 —— 探索中国最不可思议的旅行目的地</p>
+  <h1><em>重庆</em></h1>
+  <p class="subtitle">这不是一座城市，这是一个<em style="font-style:normal;background:linear-gradient(135deg,#F472B6,#FB923C);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:700">8D魔幻世界</em></p>
   <div class="hero-stats">
-    <span>📍 <b>13</b> 景点故事</span>
-    <span>📝 <b>12</b> 篇深度笔记</span>
-    <span>🧭 <b>一键</b> 定制行程</span>
-    <span>🤖 <b>AI</b> 随时答疑</span>
+    <span>🎬 <b>《变形金刚》</b> 取景地</span>
+    <span>🪨 <b>50000</b> 尊千年佛像</span>
+    <span>🍲 <b>国家非遗</b> 火锅文化</span>
+    <span>🌉 <b>8D</b> 魔幻山城</span>
   </div>
-  <button class="hero-cta" onclick="switchTab('planner');document.querySelector('.main-content').scrollIntoView({behavior:'smooth'})">🧭 开始定制我的重庆之旅 →</button>
+  <button class="hero-cta" onclick="switchTab('planner');document.querySelector('.main-content').scrollIntoView({behavior:'smooth'})">🧭 定制我的重庆之旅 →</button>
+  <div class="hero-fade"></div>
 </div>
 
 <div class="container main-content">
@@ -474,9 +482,15 @@ function quoteCard(item,isPoint){if(!item.quote)return'';let fn=isPoint?'openPoi
 function divCard(l){return `<div class="m-div"><div class="d-line"></div><div class="d-label">${l}</div><div class="d-line"></div></div>`;}
 
 function renderSection(items,isPoint,hookId,masonryId){
-  // Featured horizontal scroll: only feat=true items (max 4)
+  // Featured horizontal scroll with arrows
   let feat=items.filter(x=>x.feat).slice(0,4);
-  document.getElementById(hookId).innerHTML=`<div class="h-scroll">${feat.map(x=>featCard(x,isPoint)).join('')}</div>`;
+  let scrollId='hs-'+hookId;
+  document.getElementById(hookId).innerHTML=`
+    <div class="hscroll-wrap">
+      <button class="hs-arrow hs-left" onclick="document.getElementById('${scrollId}').scrollBy({left:-340,behavior:'smooth'})">‹</button>
+      <div class="h-scroll" id="${scrollId}">${feat.map(x=>featCard(x,isPoint)).join('')}</div>
+      <button class="hs-arrow hs-right" onclick="document.getElementById('${scrollId}').scrollBy({left:340,behavior:'smooth'})">›</button>
+    </div>`;
 
   // Masonry: ALL items with mixed sizes + auto-generated stat/quote cards
   let html=[];
