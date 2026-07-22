@@ -42,7 +42,8 @@ body{font-family:'PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg)
 .h-scroll::-webkit-scrollbar{height:3px}.h-scroll::-webkit-scrollbar-thumb{background:#ccc;border-radius:2px}
 .h-card{flex:0 0 320px;scroll-snap-align:start;border-radius:8px;overflow:hidden;background:var(--card);border:1px solid var(--border);cursor:pointer;transition:transform .3s cubic-bezier(.16,1,.3,1),box-shadow .3s}
 .h-card:hover{transform:translateY(-4px);box-shadow:0 8px 30px rgba(0,0,0,.08)}
-.h-card .hc-img{height:200px;background:linear-gradient(135deg,#d0ccc5,#c8c4bb);display:flex;align-items:center;justify-content:center;color:#aaa;font-size:.76rem;position:relative}
+.h-card .hc-img{height:200px;background:linear-gradient(135deg,#d0ccc5,#c8c4bb);display:flex;align-items:center;justify-content:center;color:#aaa;font-size:.76rem;position:relative;overflow:hidden}
+.h-card .hc-img img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
 .h-card .hc-badge{position:absolute;top:12px;left:12px;padding:3px 12px;border-radius:3px;font-size:.62rem;font-weight:700;color:#fff;letter-spacing:1px}
 .h-card .hc-body{padding:15px 18px}
 .h-card h3{font-size:1.05rem;font-weight:800;margin-bottom:3px}
@@ -197,7 +198,12 @@ body{font-family:'PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg)
 .panel .ph{height:240px;display:flex;align-items:center;justify-content:center;color:#999;font-size:.8rem;position:relative;background:linear-gradient(135deg,#d0ccc5,#c0bdb5)}
 .panel .ph.note-ph{background:linear-gradient(135deg,#ddd5c8,#d0c8b8)}
 .panel-gallery{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:0;width:100%;height:100%}
-.panel-gallery img{flex:0 0 100%;height:100%;object-fit:cover;scroll-snap-align:start}
+.panel-gallery img{flex:0 0 100%;height:100%;object-fit:cover;scroll-snap-align:start;cursor:zoom-in}
+.panel-gallery img:hover{opacity:.9}
+/* Lightbox */
+.lightbox{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:100;display:flex;align-items:center;justify-content:center;cursor:zoom-out}
+.lightbox img{max-width:95vw;max-height:95vh;object-fit:contain}
+.lightbox .lb-close{position:absolute;top:20px;right:24px;color:#fff;font-size:2rem;cursor:pointer;background:none;border:none}
 .panel .pclose{position:absolute;top:12px;right:12px;width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,.4);border:none;color:#fff;font-size:1rem;cursor:pointer}
 .panel .pb{padding:26px 30px}
 .panel .pb .bc{font-size:.7rem;color:var(--muted);margin-bottom:10px}
@@ -359,7 +365,7 @@ const P=[
    price:'¥125套票',hr:'08:00-17:00',r:4.7,rn:['n_transformers','n_goldenflower','n_wulong_hike'],
    stat:{n:'235m',l:'天龙桥拱高 ≈ 77层楼'}},
   {id:'p_hongya',n:'洪崖洞',en:'Hongya Cave',t:'主城地标',bc:'b-city',c:3,r:1,feat:true,
-   h:'悬崖上的吊脚楼群，千与千寻同款夜景',
+   h:'11层吊脚楼挂在悬崖上，夜幕下整面山被金色点燃',
    d:'一整面悬崖在夜幕下被金色灯光点燃——11层吊脚楼层层叠叠挂在悬崖上，倒影在嘉陵江面。手机随便拍一张，朋友圈都会问"这是不是千与千寻"。白天是另一副面孔：1946年这张悬崖上住着上千户"吊脚楼人家"，木板房、竹篾墙，隔壁炒菜闻得见味道。现在变成了11层立体商业街——但建筑肌理还在。关键不在进洞里挤电梯，在站在千厮门大桥上看它。亮灯时间19:30-23:00，冬天早半小时天黑更好看。免费的。',
    imgs:['picture/洪崖洞/michael-lee-H4h42uO3C6I-unsplash.jpg','picture/洪崖洞/chawy-zyRpDgdirtk-unsplash.jpg','picture/洪崖洞/michael-lee-kiEtSUJZUvo-unsplash.jpg','picture/洪崖洞/michael-lee-nJVNGT3gHbw-unsplash.jpg'],
    price:'免费',hr:'全天/亮灯19:30-23:00',r:4.5,rn:['n_spirited','n_hongya_guide'],
@@ -446,7 +452,10 @@ const N=[
 
 function featCard(item,isPoint){
   let fn=isPoint?'openPoint':'openNote';
-  return `<div class="h-card" onclick="${fn}('${item.id}')"><div class="hc-img"><span class="hc-badge ${item.bc}">${item.t||item.d}</span>📷 ${item.n}</div><div class="hc-body"><h3>${item.n}</h3><div class="hc-sub">${isPoint?item.en+' · ⭐ '+item.r:item.d}</div><div class="hc-excerpt">${isPoint?item.h:item.s}</div></div></div>`;
+  let imgHtml=item.imgs&&item.imgs.length
+    ?`<img src="${item.imgs[0]}" alt="${item.n}" loading="lazy"><span class="hc-badge ${item.bc}">${item.t||item.d}</span>`
+    :`<span class="hc-badge ${item.bc}">${item.t||item.d}</span>📷 ${item.n}`;
+  return `<div class="h-card" onclick="${fn}('${item.id}')"><div class="hc-img">${imgHtml}</div><div class="hc-body"><h3>${item.n}</h3><div class="hc-sub">${isPoint?item.en:item.d}</div><div class="hc-excerpt">${isPoint?item.h:item.s}</div></div></div>`;
 }
 
 function cardHTML(item,isPoint){
@@ -456,7 +465,7 @@ function cardHTML(item,isPoint){
     :` <span class="mc-badge ${bc}">${t}</span>📷 ${n}`;
   let badgeHtml=item.imgs&&item.imgs.length?`<span class="mc-badge ${bc}">${t}</span>`:'';
   let tags=isPoint?item.rn.map(()=>'<span class="t-note">📝 笔记</span>').join(''):item.rp.map(pid=>{let p=P.find(x=>x.id===pid);return p?`<span class="t-point">📍 ${p.n}</span>`:''}).join('');
-  let title=isPoint?`${n}<span style="font-size:.7rem;color:var(--gold);margin-left:4px">⭐${item.r}</span>`:n;
+  let title=n;
   return `<div class="m-card cs-${c}${r>1?' rs-2':''}" onclick="${fn}('${id}')"><div class="mc-img">${badgeHtml}${imgHtml}</div><div class="mc-body"><h3>${title}</h3><div class="mc-excerpt">${isPoint?item.h:item.d}</div>${tags?`<div class="mc-tags">${tags}</div>`:''}</div></div>`;
 }
 
@@ -622,8 +631,10 @@ renderSection(P,true,'h-points','m-points');
 renderSection(N,false,'h-notes','m-notes');
 
 // ══ PANEL ══
-function openPoint(id){let p=P.find(x=>x.id===id);if(!p)return;let lns=N.filter(nn=>nn.rp.includes(p.id));let imgGal=(p.imgs&&p.imgs.length)?`<div class="panel-gallery">${p.imgs.map(img=>`<img src="${img}" alt="${p.n}">`).join('')}</div>`:'';document.getElementById('panel').innerHTML=`<div class="ph"><button class="pclose" onclick="closePanel()">✕</button>${imgGal||'📷 '+p.n}</div><div class="pb"><div class="bc">← 景点库</div><h2>${p.n}</h2><div class="sub">${p.en} · ⭐ ${p.r} · ${p.price}</div><div class="meta"><span>🕐 ${p.hr}</span><span>📍 ${p.t}</span></div>${p.d.split('\n\n').map(t=>`<p class="text">${t.trim()}</p>`).join('')}${lns.length?`<div class="cross"><h4>📝 ${lns.length} 篇相关旅行笔记</h4>${lns.map(n=>`<button class="citem cnote" onclick="event.stopPropagation();switchTab('notes');setTimeout(()=>openNote('${n.id}'),100)">📝 ${n.n} · ${n.d}</button>`).join('')}</div>`:''}</div>`;document.getElementById('overlay').classList.add('open');document.body.style.overflow='hidden'}
+function openPoint(id){let p=P.find(x=>x.id===id);if(!p)return;let lns=N.filter(nn=>nn.rp.includes(p.id));let imgGal=(p.imgs&&p.imgs.length)?`<div class="panel-gallery">${p.imgs.map(img=>`<img src="${img}" alt="${p.n}" onclick="openLightbox('${img}')">`).join('')}</div>`:'';document.getElementById('panel').innerHTML=`<div class="ph">${imgGal||'📷 '+p.n}<button class="pclose" onclick="closePanel()">✕</button></div><div class="pb"><div class="bc">← 景点库</div><h2>${p.n}</h2><div class="sub">${p.en} · ${p.price}</div><div class="meta"><span>🕐 ${p.hr}</span><span>📍 ${p.t}</span></div>${p.d.split('\n\n').map(t=>`<p class="text">${t.trim()}</p>`).join('')}${lns.length?`<div class="cross"><h4>📝 ${lns.length} 篇相关旅行笔记</h4>${lns.map(n=>`<button class="citem cnote" onclick="event.stopPropagation();switchTab('notes');setTimeout(()=>openNote('${n.id}'),100)">📝 ${n.n} · ${n.d}</button>`).join('')}</div>`:''}</div>`;document.getElementById('overlay').classList.add('open');document.body.style.overflow='hidden'}
 function openNote(id){let n=N.find(x=>x.id===id);if(!n)return;let lps=P.filter(p=>n.rp.includes(p.id));document.getElementById('panel').innerHTML=`<div class="ph note-ph"><button class="pclose" onclick="closePanel()">✕</button>📷 ${n.img}</div><div class="pb"><div class="bc">← 旅行笔记 · ${n.d}</div><h2>${n.n}</h2><div class="sub">${n.s}</div>${n.content.split('\n\n').map(t=>`<p class="text">${t.trim()}</p>`).join('')}${lps.length?`<div class="cross"><h4>📍 关联景点</h4>${lps.map(p=>`<button class="citem cpoint" onclick="event.stopPropagation();switchTab('points');setTimeout(()=>openPoint('${p.id}'),100)">📍 ${p.n}</button>`).join('')}</div>`:''}</div>`;document.getElementById('overlay').classList.add('open');document.body.style.overflow='hidden'}
+function closePanel(){document.getElementById('overlay').classList.remove('open');document.body.style.overflow=''}
+function openLightbox(src){let lb=document.createElement('div');lb.className='lightbox';lb.innerHTML=`<img src="${src}"><button class="lb-close" onclick="this.parentElement.remove()">✕</button>`;lb.onclick=function(e){if(e.target===this)this.remove()};document.body.appendChild(lb)}
 function closePanel(){document.getElementById('overlay').classList.remove('open');document.body.style.overflow=''}
 </script>
 </body>

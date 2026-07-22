@@ -10,3 +10,7 @@ requires-python = ">=3.11"
 
 [tool.hatch.build.targets.wheel]
 packages = ["services/planner-api"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["services/planner-api/tests"]
